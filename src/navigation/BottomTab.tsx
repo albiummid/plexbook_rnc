@@ -1,13 +1,10 @@
-import {View, Text, Platform, StatusBar} from 'react-native';
-import React, {FC} from 'react';
-import {RFValue} from 'react-native-responsive-fontsize';
 import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import TabIcon, {TTabRouteName} from './TabIcon';
-import {tabScreens} from './screens';
+import React from 'react';
 import {colors} from '../constants/colors';
+import {tabScreens} from './Screens';
 const Tab = createBottomTabNavigator();
 export default function BottomTab() {
   return (
@@ -20,16 +17,6 @@ export default function BottomTab() {
           tabBarInactiveTintColor: colors.inactive_tint,
           headerShadowVisible: false,
           tabBarShowLabel: false,
-          tabBarIcon: ({focused, color, size}) => {
-            return (
-              <TabIcon
-                routeName={route.name as TTabRouteName}
-                color={color}
-                focused={focused}
-                size={size}
-              />
-            );
-          },
         })}>
         <>
           {tabScreens.map((item, index) => {

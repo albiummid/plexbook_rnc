@@ -1,12 +1,12 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StyleProp,
-  TextStyle,
-} from 'react-native';
 import React, {useState} from 'react';
+import {
+  ScrollView,
+  StyleProp,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import tw from '../../lib/tailwind';
 
 export default function TabView({
@@ -38,7 +38,7 @@ export default function TabView({
             onPress={() => {
               setActive(x.name);
             }}
-            style={tw`ml-5 my-5`}
+            style={tw`ml-2 my-5`}
             key={x.name}>
             <Text
               style={[

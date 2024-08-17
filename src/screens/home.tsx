@@ -1,10 +1,9 @@
-import {View, Text, ScrollView} from 'react-native';
 import React from 'react';
+import {View} from 'react-native';
 import TabView from '../components/ui/TabView';
+import tw from '../lib/tailwind';
 import MoviesHomeScreen from './contents/movies';
 import SeriesHomeScreen from './contents/series';
-import tw from '../lib/tailwind';
-import ActorHomeScreen from './contents/actor';
 
 export default function HomeScreen() {
   return (
@@ -21,10 +20,14 @@ export default function HomeScreen() {
             name: 'Series',
             component: SeriesHomeScreen,
           },
-          {
-            name: 'Actors',
-            component: ActorHomeScreen,
-          },
+          // {
+          //   name: 'Actors',
+          //   component: ActorHomeScreen,
+          // },
+          // {
+          //   name: 'Shots',
+          //   component: ShotsHomeScreen,
+          // },
         ]}
       />
     </View>

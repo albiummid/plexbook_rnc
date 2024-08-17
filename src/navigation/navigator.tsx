@@ -1,9 +1,12 @@
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {
   CommonActions,
   createNavigationContainerRef,
   NavigationContainer,
+  ParamListBase,
   StackActions,
 } from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {PropsWithChildren} from 'react';
 
 const navigationRef = createNavigationContainerRef();
@@ -52,3 +55,10 @@ export const router = {
   replace,
   reset,
 };
+
+export type StackScreenProps<T = unknown> = PropsWithChildren<
+  NativeStackScreenProps<ParamListBase> & T
+>;
+export type TabScreenProps<T = unknown> = PropsWithChildren<
+  BottomTabScreenProps<ParamListBase> & T
+>;

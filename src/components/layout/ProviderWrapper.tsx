@@ -1,19 +1,19 @@
-import React, {PropsWithChildren} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {QueryClient} from '@tanstack/react-query';
 import {PersistQueryClientProvider} from '@tanstack/react-query-persist-client';
+import React, {PropsWithChildren} from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {clientPersister} from '../../lib/tanstack';
+import {getMS} from '../../lib/utils/helpers';
 import {NavigationProvider} from '../../navigation/navigator';
-import {clientPersister} from '../../lib/tanstack.query';
-
-export default function ProviderWrapper({children}: PropsWithChildren) {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        gcTime: 1000 * 60 * 60 * 24, // 24 hours
-      },
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: getMS.hour(5), // 24 hours
     },
-  });
+  },
+});
+export default function ProviderWrapper({children}: PropsWithChildren) {
   return (
     <NavigationProvider>
       <GestureHandlerRootView>
