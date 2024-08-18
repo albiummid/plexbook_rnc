@@ -8,6 +8,9 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
+    "releaseAPK": "cd android && ./gradlew assembleRelease",
+    "buildAndroid": "react-native build-android --mode=release",
+    "buildAndRelease": "npm run buildAndroid && npm run releaseAPK",
     "rcStart": "cd android && ./gradlew clean && react-native start --reset-cache"
   },
   "dependencies": {
