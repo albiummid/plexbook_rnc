@@ -1,7 +1,15 @@
-import {BottomTabNavigationOptions} from '@react-navigation/bottom-tabs';
-import {NativeStackNavigationOptions} from '@react-navigation/native-stack';
+import {
+  BottomTabNavigationOptions,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import {PropsWithChildren} from 'react';
 import Icons from '../components/ui/vector-icons';
+import {colors} from '../constants/colors';
 import CastListScreen from '../screens/cast';
 import MoviesHomeScreen from '../screens/contents/movies';
 import MovieDetailScreen from '../screens/contents/movies/details';
@@ -12,7 +20,6 @@ import ListScreen from '../screens/list';
 import ProfileScreen from '../screens/profile';
 import SearchScreen from '../screens/search';
 import TopicListScreen from '../screens/topic';
-import BottomTab from './BottomTab';
 
 type TTabScreenListItem = {
   name: string;
@@ -40,23 +47,23 @@ const StackScreen = (
 
 export const routes = {
   // tab
-  tab_root: 'tab/root',
-  tab_home: 'tab/home',
-  tab_movies: 'tab/movies',
-  tab_series: 'tab/series',
-  tab_search: 'tab/search',
-  tab_profile: 'tab/profile',
+  tab_root: 'tab_root',
+  tab_home: 'tab_home',
+  tab_movies: 'tab_movies',
+  tab_series: 'tab_series',
+  tab_search: 'tab_search',
+  tab_profile: 'tab_profile',
   // general
   list: 'list',
   // content
   // list -> view more ...
-  topic_list: 'topic/list',
-  cast_list: 'cast/list',
+  topic_list: 'topic_list',
+  cast_list: 'cast_list',
 
   //
-  movie_details: 'movie/details',
-  series_details: 'series/details',
-  person_details: 'person/details',
+  movie_details: 'movie_details',
+  series_details: 'series_details',
+  person_details: 'person_details',
 };
 
 export const authStack = [
@@ -95,6 +102,36 @@ export const tabScreens: TTabScreenListItem[] = [
   }),
 ];
 
+const Tab = createBottomTabNavigator();
+export function BottomTab() {
+  return (
+    <>
+      <Tab.Navigator
+        screenOptions={({route, navigation}) => ({
+          headerShown: false,
+          tabBarHideOnKeyboard: true,
+          tabBarActiveTintColor: colors.active_tint,
+          tabBarInactiveTintColor: colors.inactive_tint,
+          headerShadowVisible: false,
+          tabBarShowLabel: false,
+        })}>
+        <>
+          {tabScreens.map((item, index) => {
+            return (
+              <Tab.Screen
+                key={index}
+                name={item.name}
+                component={item.component}
+                options={item.options as BottomTabNavigationOptions}
+              />
+            );
+          })}
+        </>
+      </Tab.Navigator>
+    </>
+  );
+}
+
 export const authenticatedStack = [
   StackScreen(routes.tab_root, BottomTab),
   StackScreen(routes.list, ListScreen),
@@ -106,3 +143,53 @@ export const authenticatedStack = [
 ];
 
 export const mergedStacks = [...authStack, ...authenticatedStack];
+
+export type RootStackParamList = {
+  tab_root: undefined;
+  tab_home: undefined;
+  tab_movies: undefined;
+  tab_series: undefined;
+  tab_search: undefined;
+  tab_profile: undefined;
+  list: undefined;
+  topic_list: {
+    contentKind: 'movie' | 'tv';
+    topicKind: string;
+  };
+  cast_list: {
+    id: number;
+  };
+  movie_details: {
+    id: number;
+  };
+  series_details: {
+    id: number;
+  };
+  person_details: {
+    id: number;
+  };
+};
+
+export type ScreenProps<T extends keyof RootStackParamList> =
+  NativeStackScreenProps<RootStackParamList, T>;
+
+const RootStack = createNativeStackNavigator<RootStackParamList>();
+export function RootNavigator() {
+  return (
+    <RootStack.Navigator
+      initialRouteName={'tab_root'}
+      screenOptions={{
+        headerShown: false,
+      }}>
+      {mergedStacks.map((item: any, index: number) => {
+        return (
+          <RootStack.Screen
+            key={index}
+            name={item.name}
+            component={item.component}
+          />
+        );
+      })}
+    </RootStack.Navigator>
+  );
+}
