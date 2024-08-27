@@ -23,7 +23,7 @@ export default function Section({
   ...props
 }: SectionProps) {
   return (
-    <View style={tw`gap-2 my-4`}>
+    <View style={tw`gap-2 my-4 flex-1`}>
       <View
         style={tw.style(`flex-row items-center justify-between mx-2 mb-2 `)}>
         <Text
@@ -53,7 +53,7 @@ export default function Section({
           </>
         )}
       </View>
-      <View style={props.style}>{children}</View>
+      <View style={[tw`flex-1`, props.style]}>{children}</View>
     </View>
   );
 }
