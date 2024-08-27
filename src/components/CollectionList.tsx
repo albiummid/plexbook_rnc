@@ -21,31 +21,31 @@ export default function CollectionList({
     },
   });
 
-  if (!collection) {
-    return (
-      <Section label="Collection">{renderHorizontalSkeltonList()}</Section>
-    );
-  }
-
   return (
-    <Section label={collection?.name} labelColor="white">
-      <FlatList
-        horizontal
-        data={collection?.parts.sort((a, b) =>
-          moment(a.release_date).diff(b.release_date),
-        )}
-        showsHorizontalScrollIndicator={false}
-        renderItem={({item, index}) => {
-          return (
-            <CollectionMovieCard
-              disable={id === item.id}
-              style={tw`mx-2`}
-              data={item as TMovieListItem}
-              index={index}
-            />
-          );
-        }}
-      />
+    <Section label={collection?.name ?? 'Collection'} labelColor="white">
+      {!collection ? (
+        renderHorizontalSkeltonList()
+      ) : (
+        <FlatList
+          horizontal
+          data={collection?.parts.sort((a, b) =>
+            moment(a.release_date).diff(b.release_date),
+          )}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item, index}) => {
+            return (
+              <CollectionMovieCard
+                disable={id === item.id}
+                style={tw`mx-2 border-primary rounded-lg ${
+                  id === item.id ? 'border' : ''
+                }`}
+                data={item as TMovieListItem}
+                index={index}
+              />
+            );
+          }}
+        />
+      )}
     </Section>
   );
 }

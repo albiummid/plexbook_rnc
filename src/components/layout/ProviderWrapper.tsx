@@ -9,7 +9,7 @@ import {NavigationProvider} from '../../navigation/navigator';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      gcTime: getMS.hour(5), // 24 hours
+      gcTime: getMS.second(5), // 24 hours
     },
   },
 });

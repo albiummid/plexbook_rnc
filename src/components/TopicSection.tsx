@@ -71,8 +71,7 @@ export default function TopicSection({
           </Text>
         </TouchableOpacity>
       </View>
-      {!listReq.isSuccess ||
-        (listReq.isRefetching && renderHorizontalSkeltonList())}
+      {!listReq.isSuccess && renderHorizontalSkeltonList()}
       {listReq.isSuccess && (
         <FlatList
           // estimatedItemSize={20}

@@ -11,6 +11,12 @@ import TView from '../../ui/TView';
 export default function CastCard(
   props: PropsWithChildren<Cast & {style?: StyleProp<ViewStyle>}>,
 ) {
+  let imageURL = Image.resolveAssetSource(
+    require('../../../assets/images/avatar.webp'),
+  ).uri;
+  if (props.profile_path) {
+    imageURL = getImageURL(props.profile_path!);
+  }
   return (
     <TouchableOpacity
       style={props.style}
@@ -18,11 +24,8 @@ export default function CastCard(
       onPress={() => {
         router.navigate(routes.person_details, {...props});
       }}>
-      <TView style={tw`h-32 w-24 mx-auto`}>
-        <Image
-          style={tw`h-full w-full rounded-3xl`}
-          source={{uri: getImageURL(props.profile_path!)}}
-        />
+      <TView style={tw`h-32 w-24 mx-auto mb-2`}>
+        <Image style={tw`h-full w-full rounded-3xl`} source={{uri: imageURL}} />
       </TView>
       <TText style={tw` text-white text-xs text-center`}>
         {props.character}

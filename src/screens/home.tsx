@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import TabView from '../components/ui/TabView';
 import tw from '../lib/tailwind';
 import MoviesHomeScreen from './contents/movies';
-import SeriesHomeScreen from './contents/series';
+import SeriesHomeScreen from './series';
 
 export default function HomeScreen() {
   return (
