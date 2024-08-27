@@ -1,10 +1,9 @@
 import {FlashList} from '@shopify/flash-list';
-import React, {useState} from 'react';
+import React, {PropsWithChildren, useState} from 'react';
 import {Image, ImageBackground, Modal, TouchableOpacity} from 'react-native';
 import tw from '../lib/tailwind';
 import {getImageURL, useContentImages} from '../lib/tmdb';
 import {Poster} from '../types/contents/content.types';
-import {TViewProps} from '../types/ui.types';
 import Section from './Section';
 import Skelton from './ui/Skelton';
 import TText from './ui/TText';
@@ -12,7 +11,7 @@ import TView from './ui/TView';
 import Icons from './ui/vector-icons';
 
 export default function ContentImageList(
-  props: TViewProps<{id: number; contentKind: 'movie' | 'tv'}>,
+  props: PropsWithChildren<{id: number; contentKind: 'movie' | 'tv'}>,
 ) {
   const [list, setList] = useState<any[]>([]);
   const [active, setActive] = useState('');

@@ -54,4 +54,4 @@ export type TTextProps = TComponentProps<TextProps> & {
   color?: ColorValue;
 };
 
-export type TViewProps<T = unknown> = PropsWithChildren<ViewProps & T>;
+export type TViewProps<T = unknown> = PropsWithChildren<T & ViewProps>;

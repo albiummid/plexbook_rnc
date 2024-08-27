@@ -1,6 +1,6 @@
 import {useQuery} from '@tanstack/react-query';
 import moment from 'moment';
-import React, {PropsWithChildren} from 'react';
+import React from 'react';
 import {Image, ImageBackground} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ArtistList from '../../../components/ArtistList';
@@ -22,13 +22,13 @@ import {
   getGenreList,
   getImageURL,
 } from '../../../lib/tmdb';
-import {
-  TMovieDetails,
-  TMovieListItem,
-} from '../../../types/contents/movie.types';
+import {ScreenProps} from '../../../navigation/Screens';
+import {TMovieDetails} from '../../../types/contents/movie.types';
 
-export default function MovieDetailScreen({route}: PropsWithChildren<any>) {
-  const {id, data}: {id: number; data: TMovieListItem} = route.params;
+export default function MovieDetailScreen({
+  route,
+}: ScreenProps<'movie_details'>) {
+  const {id, data} = route.params;
   const {data: details, ...detailsReq} = useQuery({
     queryKey: ['movie-details', id],
     queryFn: async () => {
@@ -110,7 +110,7 @@ export default function MovieDetailScreen({route}: PropsWithChildren<any>) {
 
       {/* Content Info */}
 
-      <MovieInfo data={details} />
+      <MovieInfo data={details} isLoading={detailsReq.isLoading} />
 
       {/* Image list */}
       <ContentImageList id={id} contentKind={'movie'} />
