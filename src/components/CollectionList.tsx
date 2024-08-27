@@ -21,7 +21,7 @@ export default function CollectionList({
     },
   });
 
-  if (!collectionReq.isSuccess) {
+  if (!collection) {
     return (
       <Section label="Collection">{renderHorizontalSkeltonList()}</Section>
     );

@@ -8,10 +8,10 @@ import SeriesCard from '../components/content/card/series-card';
 import tw from '../lib/tailwind';
 import {getPopularContents, getTopRatedContents} from '../lib/tmdb';
 import {wp} from '../lib/utils/Scaling';
-import {StackScreenProps} from '../navigation/navigator';
+import {ScreenProps} from '../navigation/Screens';
 
-export default function TopicListScreen(props: StackScreenProps) {
-  const {topicKind, contentKind} = props.route.params as any;
+export default function TopicListScreen(props: ScreenProps<'topic_list'>) {
+  const {topicKind, contentKind} = props.route.params;
   const {data: infiniteRes, ...infiniteReq} = useQuery({
     queryKey: ['topic-list', topicKind, contentKind],
     // initialPageParam: 0,
