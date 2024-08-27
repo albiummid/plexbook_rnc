@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import ArtistList from '../../../components/ArtistList';
 import CollectionList from '../../../components/CollectionList';
 import ContentActionBar from '../../../components/content/action-bar';
+import TrailerSection from '../../../components/content/section/TrailerSection';
 import ContentImageList from '../../../components/ContentImageList';
 import {MovieInfo} from '../../../components/ContentInfo';
 import Header from '../../../components/layout/Header';
@@ -94,9 +95,12 @@ export default function MovieDetailScreen({
       {/* Story Line */}
       <Section labelColor={'white'} label="Story line">
         <TText color={'white'} mX={8} style={tw` text-gray-200  `}>
-          {data.overview}
+          {data.overview ?? details?.overview ?? ''}
         </TText>
       </Section>
+
+      {/* Trailer section */}
+      <TrailerSection contentId={id} contentKind="movie" />
 
       {/* Top Cast */}
       <ArtistList id={id} contentKind={'movie'} />

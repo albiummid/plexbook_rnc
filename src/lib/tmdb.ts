@@ -73,6 +73,7 @@ export const getVideosByContentId = async (
 ) => {
   return await tmdbGET(`/${ContentKind}/${id}/videos`);
 };
+
 export const getTopRatedContents = async (
   contentId: 'movie' | 'tv',
   pageParams: number = 1,
@@ -109,7 +110,7 @@ export const getPopularContents = async (
 
 export const useContentImages = (id: number, contentKind: 'movie' | 'tv') => {
   return useQuery({
-    queryKey: [`${contentKind}-images`, id, contentKind],
+    queryKey: [`${contentKind}-images`, id],
     queryFn: () => tmdbGET(`/${contentKind}/${id}/images`),
     select(res) {
       return res.data as TImageList;
@@ -118,7 +119,7 @@ export const useContentImages = (id: number, contentKind: 'movie' | 'tv') => {
 };
 export const useContentVideos = (id: number, contentKind: 'movie' | 'tv') => {
   return useQuery({
-    queryKey: [`${contentKind}-videos`, id, contentKind],
+    queryKey: [`${contentKind}-videos`, id],
     queryFn: () => tmdbGET(`/${contentKind}/${id}/videos`),
     select(res) {
       return res.data as TVideoList;

@@ -1,10 +1,14 @@
-import React, {PropsWithChildren} from 'react';
+import React, {forwardRef, PropsWithChildren} from 'react';
 import {ScrollView, ScrollViewProps, View} from 'react-native';
 import tw from '../../lib/tailwind';
 
-export default function TScrollView(props: PropsWithChildren<ScrollViewProps>) {
+export default forwardRef(function TScrollView(
+  props: PropsWithChildren<ScrollViewProps>,
+  ref,
+) {
   return (
     <ScrollView
+      ref={ref}
       style={props.style}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}>
@@ -12,4 +16,4 @@ export default function TScrollView(props: PropsWithChildren<ScrollViewProps>) {
       <View style={[tw`${props.horizontal ? 'ml-5' : 'mb-5'}`]} />
     </ScrollView>
   );
-}
+});

@@ -1,9 +1,9 @@
 import {useFocusEffect} from '@react-navigation/native';
 import {useQuery} from '@tanstack/react-query';
 import React, {useCallback, useRef} from 'react';
-import {ScrollView} from 'react-native';
 import {FeaturedMovieList} from '../../../components/FeaturedList';
 import TopicSection from '../../../components/TopicSection';
+import TScrollView from '../../../components/ui/TScrollView';
 import {getTrending} from '../../../lib/tmdb';
 import {TMovieListResponse} from '../../../types/contents/content.types';
 import {TMovieListItem} from '../../../types/contents/movie.types';
@@ -28,7 +28,7 @@ export default function MoviesHomeScreen() {
   );
 
   return (
-    <ScrollView ref={scrollViewRef}>
+    <TScrollView ref={scrollViewRef}>
       <FeaturedMovieList contentKind="movie" />
       <TopicSection
         contentKind="movie"
@@ -38,6 +38,6 @@ export default function MoviesHomeScreen() {
         contentKind="movie"
         topic={{name: 'Popular', kind: 'popular'}}
       />
-    </ScrollView>
+    </TScrollView>
   );
 }
