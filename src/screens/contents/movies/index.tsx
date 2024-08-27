@@ -1,13 +1,18 @@
+import {useFocusEffect} from '@react-navigation/native';
 import {useQuery} from '@tanstack/react-query';
-import React from 'react';
+import React, {useCallback, useRef} from 'react';
+import {ScrollView} from 'react-native';
 import {FeaturedMovieList} from '../../../components/FeaturedList';
 import TopicSection from '../../../components/TopicSection';
-import TScrollView from '../../../components/ui/TScrollView';
 import {getTrending} from '../../../lib/tmdb';
 import {TMovieListResponse} from '../../../types/contents/content.types';
 import {TMovieListItem} from '../../../types/contents/movie.types';
 export default function MoviesHomeScreen() {
-  const {data: trendingRes} = useQuery({
+  const {
+    data: trendingRes,
+    refetch,
+    ...trendingReq
+  } = useQuery({
     queryKey: ['movie-trending-list'],
     queryFn: async () => {
       const {data} = await getTrending('movie', 'week');
@@ -15,8 +20,15 @@ export default function MoviesHomeScreen() {
     },
   });
 
+  const scrollViewRef = useRef(null);
+  useFocusEffect(
+    useCallback(() => {
+      scrollViewRef.current?.scrollTo({y: 0});
+    }, []),
+  );
+
   return (
-    <TScrollView>
+    <ScrollView ref={scrollViewRef}>
       <FeaturedMovieList contentKind="movie" />
       <TopicSection
         contentKind="movie"
@@ -26,6 +38,6 @@ export default function MoviesHomeScreen() {
         contentKind="movie"
         topic={{name: 'Popular', kind: 'popular'}}
       />
-    </TScrollView>
+    </ScrollView>
   );
 }
