@@ -20,6 +20,7 @@ import ListScreen from '../screens/list';
 import ProfileScreen from '../screens/profile';
 import SearchScreen from '../screens/search';
 import TopicListScreen from '../screens/topic';
+import {TMovieListItem} from '../types/contents/movie.types';
 
 type TTabScreenListItem = {
   name: string;
@@ -161,6 +162,7 @@ export type RootStackParamList = {
   };
   movie_details: {
     id: number;
+    data: TMovieListItem;
   };
   series_details: {
     id: number;
