@@ -32,7 +32,7 @@ export default function TopicSection({
   style?: ViewStyle;
 }) {
   const {data: list, ...listReq} = useQuery({
-    queryKey: ['topic-list', topic.kind, contentKind],
+    queryKey: ['topic-horizontal', topic, contentKind],
     queryFn: async () => {
       let res;
       if (topic.kind === 'popular') {
@@ -78,6 +78,7 @@ export default function TopicSection({
           horizontal
           data={list}
           showsHorizontalScrollIndicator={false}
+          keyExtractor={item => item.id}
           renderItem={({item, index}) => {
             if (contentKind == 'movie') {
               return (
