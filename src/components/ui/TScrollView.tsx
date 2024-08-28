@@ -11,7 +11,8 @@ export default forwardRef(function TScrollView(
       ref={ref}
       style={props.style}
       showsHorizontalScrollIndicator={false}
-      showsVerticalScrollIndicator={false}>
+      showsVerticalScrollIndicator={false}
+      {...props}>
       {props.children}
       <View style={[tw`${props.horizontal ? 'ml-5' : 'mb-5'}`]} />
     </ScrollView>

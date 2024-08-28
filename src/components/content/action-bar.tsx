@@ -1,15 +1,14 @@
-import React, {PropsWithChildren, useState} from 'react';
-import {TouchableOpacity, View, ViewProps} from 'react-native';
+import React, {useState} from 'react';
+import {StyleProp, TouchableOpacity, View, ViewStyle} from 'react-native';
 import tw from '../../lib/tailwind';
 import {ContentKind} from '../../types/common';
 import Icons from '../ui/vector-icons';
 
-type ActionBarProps = PropsWithChildren<
-  ViewProps & {
-    contentKind: ContentKind;
-    id: number;
-  }
->;
+type ActionBarProps = {
+  contentKind: ContentKind;
+  id: number;
+  style?: StyleProp<ViewStyle>;
+};
 
 export default function ContentActionBar({
   contentKind,

@@ -5,25 +5,28 @@ import tw from '../lib/tailwind';
 import {getTrending} from '../lib/tmdb';
 import {screenWidth} from '../lib/utils/Scaling';
 import {getMS} from '../lib/utils/helpers';
-import {TMovieListResponse} from '../types/contents/content.types';
 import {TMovieListItem} from '../types/contents/movie.types';
+import {TSeriesListItem} from '../types/contents/series.types';
 import Section from './Section';
-import {FeaturedMovieCard} from './content/card/featured-card';
+import {
+  FeaturedMovieCard,
+  FeaturedSeriesCard,
+} from './content/card/featured-card';
 import Skelton from './ui/Skelton';
 
 export function FeaturedMovieList(
   props: PropsWithChildren<{contentKind: 'movie' | 'tv'}>,
 ) {
   const {data: trendingRes, ...trendingReq} = useQuery({
-    queryKey: ['movie-trending-list'],
+    queryKey: [`${props.contentKind}-featured`],
     queryFn: async () => {
       const {data} = await getTrending(props.contentKind, 'week');
-      return data as TMovieListResponse<TMovieListItem>;
+      return data;
     },
   });
 
   return (
-    <Section label="Featured movies">
+    <Section label={'Featured'}>
       {trendingReq.isSuccess ? (
         <Carousel
           width={screenWidth}
@@ -38,12 +41,21 @@ export function FeaturedMovieList(
             parallaxAdjacentItemScale: 0.7,
           }}
           data={trendingRes?.results ?? []}
-          renderItem={({item}: {item: TMovieListItem}) => {
+          renderItem={({item}) => {
             return (
-              <FeaturedMovieCard
-                style={tw`mx-auto h-88 w-64 rounded-lg`}
-                data={item}
-              />
+              <>
+                {props.contentKind === 'movie' ? (
+                  <FeaturedMovieCard
+                    style={tw`mx-auto h-88 w-64 rounded-lg`}
+                    data={item as TMovieListItem}
+                  />
+                ) : (
+                  <FeaturedSeriesCard
+                    style={tw`mx-auto h-88 w-64 rounded-lg`}
+                    data={item as TSeriesListItem}
+                  />
+                )}
+              </>
             );
           }}
         />

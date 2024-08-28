@@ -3,28 +3,24 @@ import moment from 'moment';
 import React from 'react';
 import {Image, ImageBackground} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import ArtistList from '../../../components/ArtistList';
-import CollectionList from '../../../components/CollectionList';
-import ContentActionBar from '../../../components/content/action-bar';
-import TrailerSection from '../../../components/content/section/TrailerSection';
-import ContentImageList from '../../../components/ContentImageList';
-import {MovieInfo} from '../../../components/ContentInfo';
-import Header from '../../../components/layout/Header';
-import RecommendedList from '../../../components/RecommendedList';
-import Section from '../../../components/Section';
-import TScrollView from '../../../components/ui/TScrollView';
-import TText from '../../../components/ui/TText';
-import TView from '../../../components/ui/TView';
-import Icons from '../../../components/ui/vector-icons';
-import tw from '../../../lib/tailwind';
-import {
-  getContentDetailsById,
-  getDuration,
-  getGenreList,
-  getImageURL,
-} from '../../../lib/tmdb';
-import {ScreenProps} from '../../../navigation/Screens';
-import {TMovieDetails} from '../../../types/contents/movie.types';
+import ArtistList from '../../components/ArtistList';
+import CollectionList from '../../components/CollectionList';
+import ContentActionBar from '../../components/content/action-bar';
+import GenreSection from '../../components/content/section/GenreSection';
+import TrailerSection from '../../components/content/section/TrailerSection';
+import ContentImageList from '../../components/ContentImageList';
+import {MovieInfo} from '../../components/ContentInfo';
+import Header from '../../components/layout/Header';
+import RecommendedList from '../../components/RecommendedList';
+import Section from '../../components/Section';
+import TScrollView from '../../components/ui/TScrollView';
+import TText from '../../components/ui/TText';
+import TView from '../../components/ui/TView';
+import Icons from '../../components/ui/vector-icons';
+import tw from '../../lib/tailwind';
+import {getContentDetailsById, getDuration, getImageURL} from '../../lib/tmdb';
+import {ScreenProps} from '../../navigation/Screens';
+import {TMovieDetails} from '../../types/contents/movie.types';
 
 export default function MovieDetailScreen({
   route,
@@ -42,7 +38,6 @@ export default function MovieDetailScreen({
     <TScrollView style={tw`bg-black`}>
       <ImageBackground
         blurRadius={5}
-        style={tw`h-68`}
         source={{uri: getImageURL(data.backdrop_path)}}>
         <Header textStyle={tw`text-white text-base`} />
         <LinearGradient
@@ -51,22 +46,18 @@ export default function MovieDetailScreen({
           start={{x: 0, y: 0}}
           end={{x: 0, y: 1}}
         />
-        <TView stack="hStack" alignItems="end" style={tw` mt-5 mx-2 gap-4`}>
-          <Image
-            style={tw`h-48 w-32 rounded-lg border-2 border-primary`}
-            source={{uri: getImageURL(data.poster_path)}}
-          />
-
+        <TView
+          stack="hStack"
+          alignItems="end"
+          justifyContent="around"
+          style={tw` mt-5 mx-2 gap-4 `}>
           <TView gapY={1}>
             {/* Poster side intro */}
             <TText style={tw`text-white font-bold text-xl w-60`}>
               {data.title}
             </TText>
             {/*  */}
-            <TText style={tw`text-xs text-gray-200`}>
-              {getGenreList(data.genre_ids).join('  |  ')}
-            </TText>
-            {/*  */}
+
             <TView stack="hStack" gapX={1} alignItems="center">
               <TView stack="hStack" gap={1} alignItems="center">
                 <Icons.AntDesign style={tw`text-primary`} name="star" />
@@ -89,8 +80,15 @@ export default function MovieDetailScreen({
             </TView>
             <ContentActionBar style={tw`mt-1`} contentKind={'movie'} id={id} />
           </TView>
+          <Image
+            style={tw`h-48 w-32 rounded-lg border-2 border-primary`}
+            source={{uri: getImageURL(data.poster_path)}}
+          />
         </TView>
       </ImageBackground>
+
+      {/* Genre */}
+      <GenreSection genreIds={data.genre_ids} contentKind="movie" />
 
       {/* Story Line */}
       <Section labelColor={'white'} label="Story line">

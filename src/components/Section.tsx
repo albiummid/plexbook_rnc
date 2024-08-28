@@ -23,12 +23,12 @@ export default function Section({
   ...props
 }: SectionProps) {
   return (
-    <View style={tw`gap-2 my-4 flex-1`}>
+    <View style={tw`gap-1 my-4 flex-1`}>
       <View
         style={tw.style(`flex-row items-center justify-between mx-2 mb-2 `)}>
         <Text
           style={tw`border-l-8 pl-4 border-primary text-xl  font-bold ${
-            labelColor ? `text-[${labelColor}]` : ''
+            labelColor ? `text-[${labelColor}]` : ' text-black'
           }`}>
           {label}
         </Text>

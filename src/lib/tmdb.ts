@@ -6,6 +6,8 @@ import {
   TVideoList,
 } from '../types/contents/content.types';
 import {TMovieListItem} from '../types/contents/movie.types';
+import {SeasonDetails, TSeriesListItem} from '../types/contents/series.types';
+import {ISO6391LanguageCode, Locale, TMDbTimezone} from '../types/static.types';
 
 export const tmdbGET = async (path: string) => {
   const key = process.env.TMDB_API_KEY;
@@ -18,7 +20,7 @@ export const tmdbGET = async (path: string) => {
   return await axios.get(url);
 };
 
-export const getImageURL = (path?: string = '') =>
+export const getImageURL = (path: string = '') =>
   `https://image.tmdb.org/t/p/original/${path}`;
 export const tmdbCustomImage = (path: string, sizeParam: string) =>
   `https://image.tmdb.org/t/p/${sizeParam}/${path}`;
@@ -42,12 +44,36 @@ export const genres: Record<number, string> = {
   10749: 'Romance',
   10751: 'Family',
   10752: 'War',
+  10759: 'Action & Adventure',
+  10762: 'Kids',
+  10763: 'News',
+  10764: 'Reality',
+  10765: 'Sci-Fi & Fantasy',
+  10766: 'Soap',
+  10767: 'Talk',
+  10768: 'War & Politics',
   10770: 'TV Movie',
+};
+
+// Function to get genre names from an array of genre IDs
+export const getGenreNames = (genreIds: number[]) => {
+  return genreIds.map(id => genres[id] ?? 'Unknown Genre');
 };
 // imagePath = 440x660 == w x h
 // backdropPath = 370x556 == w x h
 
-export const getGenreList = (list: number[]) => list.map(x => genres[x]);
+export const getGenreList = (list: number[]) => {
+  let gList: {id: number; name: string}[] = [];
+  list.forEach(x => {
+    if (genres[x]) {
+      gList.push({
+        id: x,
+        name: genres[x],
+      });
+    }
+  });
+  return gList;
+};
 
 // export const getImagePath = (path: string) =>
 //   `https://image.tmdb.org/t/p/w440_and_h660_face${path}`;
@@ -186,6 +212,41 @@ export const useContentRecommendationList = (
     },
   });
 };
+export const useContentRecommendation = (
+  contentKind: 'movie' | 'tv',
+  id: number,
+) => {
+  return useQuery({
+    queryKey: ['recommendation-list', contentKind, id],
+    queryFn: () => tmdbGET(`/${contentKind}/${id}/recommendations`),
+    select(data) {
+      return data.data;
+    },
+  });
+};
+export const useSeriesSeason = (id: number, season_number: number) => {
+  return useQuery({
+    queryKey: ['recommendation-list', id],
+    queryFn: () => tmdbGET(`/tv/${id}/season/${season_number}`),
+    select(data) {
+      return data.data as SeasonDetails;
+    },
+  });
+};
+export const useSeriesSeasonsEpisode = (
+  id: number,
+  season_number: number,
+  episode_number: number,
+) => {
+  return useQuery({
+    queryKey: ['recommendation-list', id],
+    queryFn: () =>
+      tmdbGET(`/tv/${id}/season/${season_number}/episode/${episode_number}`),
+    select(data) {
+      return data.data;
+    },
+  });
+};
 export const getContentRecommendationListById = async (
   contentKind: 'movie' | 'tv',
   id: number,
@@ -235,4 +296,96 @@ export const getDuration = (runtimeInMinutes: number = 0) => {
 
 export const getMoneyStr = (num: number) => {
   return `$ ${num} `;
+};
+
+export const getGenreNameById = (id: number) => genres[id];
+
+export const useDiscoverSeries = (
+  {
+    sort_by = 'popularity',
+    sort_order = 'desc',
+    air_date_gte,
+    air_date_lte,
+    first_air_date_gte,
+    first_air_date_lte,
+    first_air_date_year,
+    language = 'en-US',
+    page = 1,
+    ...params
+  }: {
+    sort_by?: keyof TSeriesListItem;
+    sort_order?: 'asc' | 'desc';
+    air_date_gte?: string;
+    air_date_lte?: string;
+    first_air_date_gte?: string;
+    first_air_date_lte?: string;
+    first_air_date_year?: number;
+    language?: Locale;
+    timezone?: TMDbTimezone;
+    page?: number;
+    with_genres?: string;
+    without_genres?: string;
+    with_runtime_gte?: number;
+    with_runtime_lte?: number;
+    with_watch_region?: string;
+    with_original_language?: ISO6391LanguageCode;
+    with_watch_providers?: string;
+    with_keywords?: string;
+    without_keywords?: string;
+    with_companies?: string;
+    watch_region?: string;
+  },
+  enabled?: boolean,
+) => {
+  let queryStrArr = [`sort_by=${sort_by}.${sort_order}`];
+
+  if (air_date_gte) {
+    queryStrArr.push(`air_date.gte=${air_date_gte}`);
+  }
+  if (air_date_lte) {
+    queryStrArr.push(`air_date.lte=${air_date_lte}`);
+  }
+  if (first_air_date_gte) {
+    queryStrArr.push(`first_air_date.gte=${first_air_date_gte}`);
+  }
+  if (first_air_date_lte) {
+    queryStrArr.push(`first_air_date.lte=${first_air_date_lte}`);
+  }
+  if (first_air_date_year) {
+    queryStrArr.push(`first_air_date_year=${first_air_date_year}`);
+  }
+  if (language) {
+    queryStrArr.push(`language=${language}`);
+  }
+  if (page) {
+    queryStrArr.push(`page=${page}`);
+  }
+  if (params.timezone) {
+    queryStrArr.push(`timezone=${params.timezone}`);
+  }
+  if (params.with_genres) {
+    queryStrArr.push(`with_genres=${params.with_genres}`);
+  }
+  if (params.without_genres) {
+    queryStrArr.push(`without_genres=${params.without_genres}`);
+  }
+
+  if (params.with_runtime_gte) {
+    queryStrArr.push(`with_runtime.gte=${params.with_runtime_gte}`);
+  }
+  if (params.with_runtime_lte) {
+    queryStrArr.push(`with_runtime.lte=${params.with_runtime_lte}`);
+  }
+
+  if (params.with_original_language) {
+    queryStrArr.push(`with_original_language=${params.with_original_language}`);
+  }
+  return useQuery({
+    queryKey: ['discover-tv', page, params.with_original_language],
+    queryFn: () => tmdbGET(`/discover/tv?` + queryStrArr.join('&')),
+    select(data) {
+      return data.data;
+    },
+    enabled,
+  });
 };

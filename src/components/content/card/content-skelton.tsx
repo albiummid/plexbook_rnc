@@ -24,8 +24,14 @@ export const renderHorizontalSkeltonList = () => {
       horizontal
       data={items}
       showsHorizontalScrollIndicator={false}
-      renderItem={({item}) => {
-        return <ContentSkelton style={tw`mx-2`} />;
+      renderItem={({item, index}) => {
+        return (
+          <ContentSkelton
+            delay={index * 1000}
+            duration={1000}
+            style={tw`mx-2`}
+          />
+        );
       }}
     />
   );

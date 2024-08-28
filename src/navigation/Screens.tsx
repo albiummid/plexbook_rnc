@@ -11,6 +11,7 @@ import {PropsWithChildren} from 'react';
 import Icons from '../components/ui/vector-icons';
 import {colors} from '../constants/colors';
 import CastListScreen from '../screens/cast';
+import GenreList from '../screens/genrelist';
 import ListScreen from '../screens/list';
 import MoviesHomeScreen from '../screens/movies';
 import MovieDetailScreen from '../screens/movies/details';
@@ -19,8 +20,10 @@ import ProfileScreen from '../screens/profile';
 import SearchScreen from '../screens/search';
 import SeriesHomeScreen from '../screens/series';
 import SeriesDetailScreen from '../screens/series/details';
+import SeasonDetails from '../screens/series/season-details';
 import TopicListScreen from '../screens/topic';
 import {TMovieListItem} from '../types/contents/movie.types';
+import {Season, TSeriesListItem} from '../types/contents/series.types';
 
 type TTabScreenListItem = {
   name: string;
@@ -60,11 +63,49 @@ export const routes = {
   // list -> view more ...
   topic_list: 'topic_list',
   cast_list: 'cast_list',
+  genre_list: 'genre_list',
 
   //
   movie_details: 'movie_details',
   series_details: 'series_details',
+  season_details: 'season_details',
   person_details: 'person_details',
+};
+
+export type RootStackParamList = {
+  tab_root: undefined;
+  tab_home: undefined;
+  tab_movies: undefined;
+  tab_series: undefined;
+  tab_search: undefined;
+  tab_profile: undefined;
+  list: undefined;
+  topic_list: {
+    contentKind: 'movie' | 'tv';
+    topicKind: string;
+  };
+  cast_list: {
+    id: number;
+  };
+  movie_details: {
+    id: number;
+    data: TMovieListItem;
+  };
+  series_details: {
+    id: number;
+    data: TSeriesListItem;
+  };
+  person_details: {
+    id: number;
+  };
+  genre_list: {
+    id: number;
+    contentKind: 'movie' | 'tv';
+  };
+  season_details: {
+    id: number;
+    data: Season;
+  };
 };
 
 export const authStack = [
@@ -138,39 +179,14 @@ export const authenticatedStack = [
   StackScreen(routes.list, ListScreen),
   StackScreen(routes.topic_list, TopicListScreen),
   StackScreen(routes.cast_list, CastListScreen),
+  StackScreen(routes.genre_list, GenreList),
   StackScreen(routes.movie_details, MovieDetailScreen),
   StackScreen(routes.series_details, SeriesDetailScreen),
+  StackScreen(routes.season_details, SeasonDetails),
   StackScreen(routes.person_details, PersonDetailScreen),
 ];
 
 export const mergedStacks = [...authStack, ...authenticatedStack];
-
-export type RootStackParamList = {
-  tab_root: undefined;
-  tab_home: undefined;
-  tab_movies: undefined;
-  tab_series: undefined;
-  tab_search: undefined;
-  tab_profile: undefined;
-  list: undefined;
-  topic_list: {
-    contentKind: 'movie' | 'tv';
-    topicKind: string;
-  };
-  cast_list: {
-    id: number;
-  };
-  movie_details: {
-    id: number;
-    data: TMovieListItem;
-  };
-  series_details: {
-    id: number;
-  };
-  person_details: {
-    id: number;
-  };
-};
 
 export type ScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;

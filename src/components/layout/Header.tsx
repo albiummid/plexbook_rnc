@@ -15,14 +15,17 @@ export default function Header({
   onBackPress?: () => void;
 }) {
   return (
-    <View style={tw`p-2 flex-row items-center justify-between `}>
+    <View
+      style={tw`p-2 flex-row items-center justify-end absolute left-0 z-10 `}>
+      {title && (
+        <View style={tw`mx-auto`}>
+          <TText style={textStyle}>{title}</TText>
+        </View>
+      )}
       <TouchableOpacity
+        style={tw`ml-auto`}
         onPress={() => {
-          if (!onBackPress) {
-            router.goBack();
-          } else {
-            onBackPress();
-          }
+          router.goBack();
         }}>
         <Icons.AntDesign
           name="left"
@@ -31,11 +34,6 @@ export default function Header({
           color="white"
         />
       </TouchableOpacity>
-      {title && (
-        <View style={tw`mx-auto`}>
-          <TText style={textStyle}>{title}</TText>
-        </View>
-      )}
     </View>
   );
 }

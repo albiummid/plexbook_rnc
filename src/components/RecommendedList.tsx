@@ -1,10 +1,10 @@
 import React, {PropsWithChildren} from 'react';
 import {FlatList, ViewProps} from 'react-native';
 import tw from '../lib/tailwind';
-import {useContentRecommendationList} from '../lib/tmdb';
-import {TMovieListItem} from '../types/contents/movie.types';
+import {useContentRecommendation} from '../lib/tmdb';
 import {renderHorizontalSkeltonList} from './content/card/content-skelton';
 import MovieCard from './content/card/movie-card';
+import SeriesCard from './content/card/series-card';
 import Section from './Section';
 
 export default function RecommendedList(
@@ -15,7 +15,7 @@ export default function RecommendedList(
     }
   >,
 ) {
-  const {data, ...listReq} = useContentRecommendationList(
+  const {data, ...listReq} = useContentRecommendation(
     props.contentKind,
     props.contentId,
   );
@@ -26,15 +26,15 @@ export default function RecommendedList(
       {listReq.isSuccess && (
         <FlatList
           horizontal
-          data={data?.pages}
+          data={data?.results}
           showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => {
-            if (props.contentKind === 'movie') {
-              return item.data.results.map((x: TMovieListItem, key: number) => (
-                <MovieCard style={tw`mx-2`} data={x} key={key} />
-              ));
-            }
-          }}
+          renderItem={({item}) =>
+            props.contentKind === 'movie' ? (
+              <MovieCard style={tw`mx-2`} data={item} />
+            ) : (
+              <SeriesCard style={tw`mx-2`} data={item} />
+            )
+          }
         />
       )}
     </Section>

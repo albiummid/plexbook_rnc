@@ -26,6 +26,11 @@ const push = (routeName: string, params?: any) => {
   navigationRef.dispatch(StackActions.push(routeName, params));
 };
 
+// const pushx = (routeName: string, params?: any) => (routes)=>{
+//   if (!navigationRef.isReady()) return;
+//   navigationRef.dispatch(StackActions.push(routeName, params));
+// };
+
 const replace = (routeName: string, params?: any) => {
   if (!navigationRef.isReady()) return;
   navigationRef.dispatch(StackActions.replace(routeName, params));
