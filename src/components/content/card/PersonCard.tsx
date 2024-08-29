@@ -1,11 +1,11 @@
-import moment from 'moment';
 import React from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import tw from '../../../lib/tailwind';
 import {getImageURL} from '../../../lib/tmdb';
 import {router} from '../../../navigation/navigator';
+import TImage from '../../ui/TImage';
 
-export default function PersonCard({...item}: any) {
+export default function PersonCard({data: item}: any) {
   const genderMap = {
     1: 'Female',
     2: 'Male',
@@ -21,12 +21,13 @@ export default function PersonCard({...item}: any) {
       onPress={() => {
         router.navigate('person_details', {id: item.id, data: item});
       }}
-      style={tw` rounded-lg mr-auto bg-slate-200 p-2 flex-row gap-5 `}>
-      <Image
+      style={tw` rounded-lg mr-auto bg-primary p-2 gap-1 `}>
+      <TImage
         style={tw` h-40 w-28 rounded-md`}
         source={{uri: getImageURL(item.profile_path)}}
       />
-      <View style={tw`px-2`}>
+      <Text style={tw` text-sm text-center`}>{item.name}</Text>
+      {/* <View style={tw`px-2`}>
         <Text style={tw` text-sm`}>Name: {item.name}</Text>
         <Text style={tw`text-sm`}>Gender : {gender[item.gender]}</Text>
         <Text style={tw`text-sm`}>
@@ -52,7 +53,7 @@ export default function PersonCard({...item}: any) {
             );
           })}
         </ScrollView>
-      </View>
+      </View> */}
     </TouchableOpacity>
   );
 }
