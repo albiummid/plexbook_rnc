@@ -66,11 +66,11 @@ export default function SearchScreen() {
             value: 'movie',
           },
           {
-            label: `Series (${result.movie.length})`,
+            label: `Series (${result.series.length})`,
             value: 'series',
           },
           {
-            label: `Person (${result.movie.length})`,
+            label: `Person (${result.person.length})`,
             value: 'person',
           },
         ]}
@@ -110,8 +110,9 @@ export default function SearchScreen() {
             : result.person
         }
         numColumns={3}
+        style={tw`mx-auto`}
         columnWrapperStyle={tw`gap-x-2 `}
-        contentContainerStyle={tw`gap-y-2 justify-center items-center `}
+        contentContainerStyle={tw`gap-y-2  items-start `}
         renderItem={({item}) => (
           <>
             {item.media_type === 'movie' ? (
