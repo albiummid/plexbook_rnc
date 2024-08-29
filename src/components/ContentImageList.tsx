@@ -34,7 +34,7 @@ export default function ContentImageList(
               blurRadius={2}
               style={tw`h-40 w-28 rounded-lg`}
               source={{
-                uri: getImageURL(images?.posters[0].file_path),
+                uri: getImageURL(images?.posters[0]?.file_path ?? ''),
               }}
             />
             <TText

@@ -21,7 +21,7 @@ export default function RecommendedList(
   );
 
   return (
-    <Section label={`Recommended ${props.contentKind}`} labelColor="white">
+    <Section label={`Recommendation`} labelColor="white">
       {!listReq.isSuccess && renderHorizontalSkeltonList()}
       {listReq.isSuccess && (
         <FlatList

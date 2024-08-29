@@ -9,6 +9,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import tw from '../../lib/tailwind';
+import TView from './TView';
 type TTabItem = {label: string; value: string};
 
 export default function TabGroupButtons({
@@ -30,36 +31,38 @@ export default function TabGroupButtons({
   onChange: (x: string) => void;
 }) {
   return (
-    <ScrollView horizontal style={[tw`gap-2`, containerStyle]}>
-      {tabItems.map(x => (
-        <TouchableOpacity
-          onPress={() => {
-            onChange(x.value);
-          }}
-          style={tw`ml-2 mr-2  mb-5`}
-          key={x.value}>
-          <Text
-            style={[
-              tw.style(
-                `text-base`,
-                `${inactiveTintColor ? `text-[${activeTintColor}]` : ''}`,
-                `  text-center ${
-                  activeItem === x.value
-                    ? `font-bold ${
-                        activeTintColor ? `text-[${activeTintColor}]` : ''
-                      }  `
-                    : ''
-                } `,
-              ),
-              textStyle,
-            ]}>
-            {x.label}
-          </Text>
-          {activeItem === x.value && (
-            <View style={tw`w-full mx-auto bg-primary h-1 rounded-lg`} />
-          )}
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+    <TView>
+      <ScrollView horizontal style={[tw`gap-2`, containerStyle]}>
+        {tabItems.map(x => (
+          <TouchableOpacity
+            onPress={() => {
+              onChange(x.value);
+            }}
+            style={tw`ml-2 mr-2  mb-5`}
+            key={x.value}>
+            <Text
+              style={[
+                tw.style(
+                  `text-base mb-1`,
+                  `${inactiveTintColor ? `text-[${activeTintColor}]` : ''}`,
+                  `  text-center ${
+                    activeItem === x.value
+                      ? `font-bold ${
+                          activeTintColor ? `text-[${activeTintColor}]` : ''
+                        }  `
+                      : ''
+                  } `,
+                ),
+                textStyle,
+              ]}>
+              {x.label}
+            </Text>
+            {activeItem === x.value && (
+              <View style={tw`w-3/4 mx-auto  bg-primary h-1 rounded-lg`} />
+            )}
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </TView>
   );
 }
