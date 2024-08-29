@@ -44,6 +44,16 @@ Make sure you have completed the [React Native - Environment Setup](https://reac
 **ENVIRONMENT_VARIABLE SETUP**
 Please create a '.env' file and add property from 'example.env' and enter your TMDB_API_KEY
 
+**PACKAGE_INSTALL**
+
+```bash
+# using npm
+npm install
+
+# OR using Yarn
+yarn
+```
+
 ### Step 1: Start the Metro Server
 
 First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
