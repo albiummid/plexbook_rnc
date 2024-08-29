@@ -35,8 +35,8 @@ export default function TopicListScreen(props: ScreenProps<'topic_list'>) {
         <FlatList
           numColumns={3}
           data={infiniteRes.data.results}
-          columnWrapperStyle={tw`gap-x-5`}
-          contentContainerStyle={tw`gap-y-5 justify-center items-center`}
+          columnWrapperStyle={tw`gap-x-2`}
+          contentContainerStyle={tw`gap-y-2 justify-center items-center`}
           renderItem={({item, index}) => {
             if (contentKind === 'movie') {
               return <MovieCard key={index} data={item} />;
@@ -50,8 +50,8 @@ export default function TopicListScreen(props: ScreenProps<'topic_list'>) {
         <FlatList
           numColumns={2}
           data={[...Array(20).keys()]}
-          columnWrapperStyle={tw`gap-x-5`}
-          contentContainerStyle={tw`gap-y-5 justify-center items-center`}
+          columnWrapperStyle={tw`gap-x-2`}
+          contentContainerStyle={tw`gap-y-2 justify-center items-center`}
           renderItem={({item}) => {
             return <ContentSkelton style={tw`h-40 w-28 rounded-lg`} />;
           }}

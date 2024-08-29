@@ -19,20 +19,19 @@ export default function SeasonDetails(props: ScreenProps<'season_details'>) {
           {details?.episodes.map(x => {
             return (
               <TouchableOpacity
+                activeOpacity={0.5}
                 style={tw`flex-row gap-2 mb-2  rounded-lg`}
                 key={x.id}>
                 <Image
-                  style={tw`h-60 w-full rounded-lg`}
+                  style={tw`h-40 w-full rounded-lg`}
                   source={{uri: getImageURL(x.still_path)}}
                 />
                 <TView
-                  style={tw` absolute p-3 bottom-0 rounded-b-lg bg-black/60 w-full mt-auto`}>
-                  <TText
-                    color={'white'}
-                    style={tw`  text-base font-bold  w-60 mb-2`}>
+                  style={tw` absolute p-2 bottom-0 rounded-b-lg flex-1 bg-black/60 w-full mt-auto`}>
+                  <TText color={'white'} style={tw` font-bold `}>
                     E{x.episode_number} - {x.name}
                   </TText>
-                  <TText style={tw`flex-1 text-white`}>{x.overview}</TText>
+                  {/* <TText style={tw`flex-1 text-white`}>{x.overview}</TText> */}
                 </TView>
               </TouchableOpacity>
             );
