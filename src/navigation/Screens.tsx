@@ -97,6 +97,7 @@ export type RootStackParamList = {
   };
   person_details: {
     id: number;
+    data: any;
   };
   genre_list: {
     id: number;

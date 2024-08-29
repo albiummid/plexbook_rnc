@@ -6,12 +6,6 @@ import {router} from '../../../navigation/navigator';
 import TImage from '../../ui/TImage';
 
 export default function PersonCard({data: item}: any) {
-  const genderMap = {
-    1: 'Female',
-    2: 'Male',
-  };
-  const gender = genderMap[item.gender as 1 | 2] ?? 'Unknown';
-
   if (!item.profile_path) {
     return null;
   }
