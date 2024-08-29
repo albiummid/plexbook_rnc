@@ -15,8 +15,7 @@ export default function Header({
   onBackPress?: () => void;
 }) {
   return (
-    <View
-      style={tw`p-2 flex-row items-center justify-end absolute left-0 z-10 `}>
+    <View style={tw`p-2 flex-row items-center justify-between z-10 `}>
       {title && (
         <View style={tw`mx-auto`}>
           <TText style={textStyle}>{title}</TText>

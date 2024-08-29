@@ -36,11 +36,14 @@ export default function TrailerSection(props: {
       <View style={tw`rounded-lg border border-primary mx-2 p-2`}>
         <YTPlayer
           onError={e => {
+            if (playlist.length == 0) {
+              return;
+            }
             let index = playlist.findIndex((x: any) => x.key === activeItem);
             if (index + 1 === playlist.length) {
-              setActiveItem(playlist[0].key);
+              setActiveItem(playlist[0]?.key);
             } else {
-              setActiveItem(playlist[index + 1].key);
+              setActiveItem(playlist[index + 1]?.key);
             }
           }}
           webViewStyle={tw`rounded-lg`}
@@ -54,6 +57,7 @@ export default function TrailerSection(props: {
         <ScrollView horizontal style={tw`mt-2 `}>
           {playlist?.map(x => (
             <TouchableOpacity
+              key={x.key}
               onPress={() => {
                 setActiveItem(x.key);
               }}>

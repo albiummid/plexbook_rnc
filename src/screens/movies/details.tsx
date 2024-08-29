@@ -41,13 +41,13 @@ export default function MovieDetailScreen({
         source={{uri: getImageURL(data.backdrop_path)}}>
         <Header textStyle={tw`text-white text-base`} />
         <LinearGradient
-          style={tw`absolute bottom-0 w-full h-40`}
+          style={tw`absolute bottom-0 w-full h-full`}
           colors={['transparent', 'black']}
           start={{x: 0, y: 0}}
           end={{x: 0, y: 1}}
         />
         <TView stack="hStack" alignItems="end" style={tw` mt-5 mx-2 gap-4 `}>
-          <TView gapY={1} style={tw`flex-1`}>
+          <TView style={tw`flex-1 gap-y-2`}>
             {/* Poster side intro */}
             <TText style={tw`text-white font-bold text-xl`}>{data.title}</TText>
             {/*  */}
@@ -72,6 +72,8 @@ export default function MovieDetailScreen({
                 {moment(data.release_date).format('DD MMMM YYYY')}
               </TText>
             </TView>
+            {/* Genre */}
+            <GenreSection genreIds={data.genre_ids} contentKind="movie" />
             <ContentActionBar style={tw`mt-1`} contentKind={'movie'} id={id} />
           </TView>
           <Image
@@ -80,9 +82,6 @@ export default function MovieDetailScreen({
           />
         </TView>
       </ImageBackground>
-
-      {/* Genre */}
-      <GenreSection genreIds={data.genre_ids} contentKind="movie" />
 
       {/* Story Line */}
       <Section labelColor={'white'} label="Story line">

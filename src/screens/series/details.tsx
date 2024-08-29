@@ -45,7 +45,11 @@ export default function SeriesDetailScreen({
           start={{x: 0, y: 0.5}}
           end={{x: 0, y: 1}}
         />
-        <TView stack="hStack" alignItems="end" style={tw` mt-5 mx-2 `}>
+        <TView
+          stack="hStack"
+          alignItems="end"
+          justifyContent="center"
+          style={tw` mt-5 mx-2 `}>
           <TView gapY={1} style={tw` flex-1`}>
             {/* Poster side intro */}
             <TText style={tw`text-white font-bold text-xl`}>{data.name}</TText>
@@ -60,6 +64,7 @@ export default function SeriesDetailScreen({
               </TView>
               {detailsReq.isSuccess && (
                 <>
+                  <Icons.Entypo name="dot-single" color={'white'} />
                   <TText style={tw`text-white text-xs`}>
                     {getDuration(details?.episode_run_time[0])}
                   </TText>
@@ -71,6 +76,8 @@ export default function SeriesDetailScreen({
               </TText>
             </TView>
             <ContentActionBar style={tw`mt-1`} contentKind={'movie'} id={id} />
+            {/* Genre */}
+            <GenreSection genreIds={data.genre_ids} contentKind="tv" />
           </TView>
           <Image
             style={tw`h-48 w-32 rounded-lg border-2 border-primary`}
@@ -78,16 +85,15 @@ export default function SeriesDetailScreen({
           />
         </TView>
       </ImageBackground>
-      {/* Genre */}
-      <GenreSection genreIds={data.genre_ids} contentKind="tv" />
-      {/* Season */}
-      <SeasonSection data={details} />
+
       {/* Story Line */}
       <Section labelColor={'white'} label="Story line">
         <TText color={'white'} mX={8} style={tw` text-gray-200  `}>
           {data.overview ?? details?.overview ?? ''}
         </TText>
       </Section>
+      {/* Season */}
+      <SeasonSection data={details} />
 
       {/* Trailer section */}
       <TrailerSection contentId={id} contentKind="tv" />
