@@ -30,8 +30,6 @@ export default function TrailerSection(props: {
     }
   }, [playlist, videoList]);
 
-  console.log(playlist);
-
   const ref = useRef(null);
   return (
     <Section labelColor="white" label="Trailers">

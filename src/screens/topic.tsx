@@ -22,10 +22,6 @@ export default function TopicListScreen(props: ScreenProps<'topic_list'>) {
     },
   });
 
-  if (topicKind === 'top_rated') {
-    console.log(infiniteRes?.data);
-  }
-
   return (
     <Section
       label={

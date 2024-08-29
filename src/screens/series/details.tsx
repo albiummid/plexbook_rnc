@@ -45,12 +45,10 @@ export default function SeriesDetailScreen({
           start={{x: 0, y: 0.5}}
           end={{x: 0, y: 1}}
         />
-        <TView stack="hStack" alignItems="end" style={tw` mt-5 mx-2 gap-4`}>
-          <TView gapY={1}>
+        <TView stack="hStack" alignItems="end" style={tw` mt-5 mx-2 `}>
+          <TView gapY={1} style={tw` flex-1`}>
             {/* Poster side intro */}
-            <TText style={tw`text-white font-bold text-xl w-60`}>
-              {data.name}
-            </TText>
+            <TText style={tw`text-white font-bold text-xl`}>{data.name}</TText>
             {/*  */}
 
             <TView stack="hStack" gapX={1} alignItems="center">
