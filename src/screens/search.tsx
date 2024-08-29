@@ -19,7 +19,7 @@ export default function SearchScreen() {
   const [keyword, setKeyword] = useState('');
   const ref = useRef<any>(null);
 
-  const {data, ...req} = useMultiSearch(keyword);
+  const {data} = useMultiSearch(keyword);
   useFocusEffect(
     useCallback(() => {
       ref.current?.focus();
@@ -27,7 +27,7 @@ export default function SearchScreen() {
   );
   const debounce = useDebouncedCallback(v => {
     setKeyword(v);
-  }, 400);
+  }, 600);
 
   const [result, setResult] = useState<{
     movie: TMultiSearchItem[];
@@ -40,6 +40,7 @@ export default function SearchScreen() {
   });
 
   useEffect(() => {
+    // Filtering different types of contents for rendering into tab
     let movie: TMultiSearchItem[] = [];
     let series: TMultiSearchItem[] = [];
     let person: TMultiSearchItem[] = [];
@@ -53,27 +54,44 @@ export default function SearchScreen() {
       }
     });
     setResult({movie, series, person});
+
+    // Calculating max result and pushing it as first tab item
+    if (movie.length > series.length) {
+      if (movie.length > person.length) {
+        setActiveTab('movie');
+      } else {
+        setActiveTab('person');
+      }
+    } else {
+      setActiveTab('series');
+    }
   }, [data?.results]);
 
   const [activeTab, setActiveTab] = useState('movie');
+  const tabItems = [
+    {
+      label: `Movie (${result.movie.length})`,
+      value: 'movie',
+      point: result.movie.length,
+    },
+    {
+      label: `Series (${result.series.length})`,
+      value: 'series',
+      point: result.series.length,
+    },
+    {
+      label: `Person (${result.person.length})`,
+      value: 'person',
+      point: result.person.length,
+    },
+  ].sort((a, b) => b.point - a.point); // Sorting tab item for render
+
+  // tab rendering functionality
   const renderTab = keyword.length > 0 && data && (
     <>
       <TabGroupButtons
         containerStyle={tw`mx-auto mt-5`}
-        tabItems={[
-          {
-            label: `Movie (${result.movie.length})`,
-            value: 'movie',
-          },
-          {
-            label: `Series (${result.series.length})`,
-            value: 'series',
-          },
-          {
-            label: `Person (${result.person.length})`,
-            value: 'person',
-          },
-        ]}
+        tabItems={tabItems.map(x => ({label: x.label, value: x.value}))}
         activeItem={activeTab}
         onChange={e => setActiveTab(e)}
       />
