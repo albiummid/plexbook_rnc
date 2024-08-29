@@ -21,9 +21,7 @@ export default function TrailerSection(props: {
   const [playlist, setPlaylist] = useState<any[]>([]);
   useEffect(() => {
     if (videoList?.results.length && playlist.length == 0) {
-      const list = videoList?.results.filter(
-        x => x.type === 'Trailer' && x.site === 'YouTube',
-      );
+      const list = videoList?.results.filter(x => x.site === 'YouTube');
 
       setActiveItem(list[0].key);
       setPlaylist(list);
@@ -31,6 +29,9 @@ export default function TrailerSection(props: {
   }, [playlist, videoList]);
 
   const ref = useRef(null);
+
+  if (videoReq.isSuccess && videoList?.results.length === 0) return null;
+
   return (
     <Section labelColor="white" label="Trailers">
       <View style={tw`rounded-lg border border-primary mx-2 p-2`}>
