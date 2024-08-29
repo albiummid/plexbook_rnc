@@ -22,6 +22,7 @@ import SeriesHomeScreen from '../screens/series';
 import SeriesDetailScreen from '../screens/series/details';
 import SeasonDetails from '../screens/series/season-details';
 import TopicListScreen from '../screens/topic';
+import {TPersonListItem} from '../types/contents/content.types';
 import {TMovieListItem} from '../types/contents/movie.types';
 import {Season, TSeriesListItem} from '../types/contents/series.types';
 
@@ -97,7 +98,7 @@ export type RootStackParamList = {
   };
   person_details: {
     id: number;
-    data: any;
+    data: TPersonListItem;
   };
   genre_list: {
     id: number;

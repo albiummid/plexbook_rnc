@@ -27,3 +27,8 @@ export const wait = (second: number) =>
       resolve(true);
     }, second * 1000);
   });
+
+export const uniqueArray = (array: any[]) =>
+  Array.from(new Set(array?.map(item => JSON.stringify(item)))).map(str =>
+    JSON.parse(str),
+  );

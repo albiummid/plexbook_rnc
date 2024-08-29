@@ -23,7 +23,7 @@ export default function Section({
   ...props
 }: SectionProps) {
   return (
-    <View style={tw`gap-1 my-4 flex-1`}>
+    <View style={tw`gap-1 mt-4 flex-1 `}>
       <View
         style={tw.style(`flex-row items-center justify-between mx-2 mb-2 `)}>
         <Text

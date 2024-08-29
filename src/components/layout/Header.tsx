@@ -16,11 +16,6 @@ export default function Header({
 }) {
   return (
     <View style={tw`p-2 flex-row items-center justify-between z-10 `}>
-      {title && (
-        <View style={tw`mx-auto`}>
-          <TText style={textStyle}>{title}</TText>
-        </View>
-      )}
       <TouchableOpacity
         style={tw`ml-auto`}
         onPress={() => {
@@ -33,6 +28,13 @@ export default function Header({
           color="white"
         />
       </TouchableOpacity>
+      {title && (
+        <View style={tw`mx-auto`}>
+          <TText style={[tw`font-bold text-black text-base`, textStyle]}>
+            {title}
+          </TText>
+        </View>
+      )}
     </View>
   );
 }

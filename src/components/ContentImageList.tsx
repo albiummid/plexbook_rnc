@@ -11,7 +11,10 @@ import TView from './ui/TView';
 import Icons from './ui/vector-icons';
 
 export default function ContentImageList(
-  props: PropsWithChildren<{id: number; contentKind: 'movie' | 'tv'}>,
+  props: PropsWithChildren<{
+    id: number;
+    contentKind: 'movie' | 'tv';
+  }>,
 ) {
   const [list, setList] = useState<any[]>([]);
   const [active, setActive] = useState('');
@@ -34,13 +37,13 @@ export default function ContentImageList(
               blurRadius={2}
               style={tw`h-40 w-28 rounded-lg`}
               source={{
-                uri: getImageURL(images?.posters[0]?.file_path ?? ''),
+                uri: getImageURL(images?.posters?.[0]?.file_path ?? ''),
               }}
             />
             <TText
               style={tw`text-white text-center absolute bottom-0 mx-auto w-full bg-black/60 p-2 `}
               color={'white'}>
-              {images?.posters.length} Poster
+              {images?.posters?.length} Poster
             </TText>
           </TouchableOpacity>
         </Skelton>
@@ -52,7 +55,7 @@ export default function ContentImageList(
           visible={req.isSuccess}>
           <TouchableOpacity
             onPress={() => {
-              setList(images!.backdrops);
+              setList(images?.backdrops);
               setActive('backdrops');
             }}
             style={tw` h-full w-full flex-1`}>
@@ -60,12 +63,12 @@ export default function ContentImageList(
               blurRadius={2}
               style={tw`h-40 w-full rounded-lg`}
               source={{
-                uri: getImageURL(images?.backdrops[0].file_path),
+                uri: getImageURL(images?.backdrops?.[0].file_path),
               }}>
               <TText
                 style={tw`text-white text-center mt-auto mx-auto w-full bg-black/60 p-2 `}
                 color={'white'}>
-                {images?.backdrops.length} Backdrops
+                {images?.backdrops?.length} Backdrops
               </TText>
             </ImageBackground>
           </TouchableOpacity>

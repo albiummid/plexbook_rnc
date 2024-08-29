@@ -12,7 +12,7 @@
 
 - [x] Movie
 - [x] TV Series
-- [ ] Person
+- [x] Person
 - [x] Multiple Search
 - [ ] Add to Favorite , Watch and Custom list
 - [ ] Authentication

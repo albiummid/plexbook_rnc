@@ -95,3 +95,66 @@ export interface TMultiSearchItem {
   first_air_date?: string;
   origin_country?: string[];
 }
+
+export interface TPersonListItem {
+  adult: boolean;
+  gender: number;
+  id: number;
+  known_for: TContentItem[];
+  known_for_department: string;
+  media_type: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+}
+
+export interface TContentItem {
+  adult: boolean;
+  backdrop_path: null | string;
+  genre_ids: number[];
+  id: number;
+  media_type: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
+export interface TPersonImageList {
+  id: number;
+  profiles: TPersonImageListItem[];
+}
+
+export interface TPersonImageListItem {
+  aspect_ratio: number;
+  file_path: string;
+  height: number;
+  iso_639_1: null;
+  vote_average: number;
+  vote_count: number;
+  width: number;
+}
+
+export interface TPersonDetails {
+  birthday: string;
+  known_for_department: string;
+  deathday: null;
+  id: number;
+  name: string;
+  also_known_as: string[];
+  gender: number;
+  biography: string;
+  popularity: number;
+  place_of_birth: string;
+  profile_path: string;
+  adult: boolean;
+  imdb_id: string;
+  homepage: null;
+}

@@ -54,18 +54,22 @@ export default function SearchScreen() {
       }
     });
     setResult({movie, series, person});
+  }, [data?.results]);
 
+  useEffect(() => {
     // Calculating max result and pushing it as first tab item
-    if (movie.length > series.length) {
-      if (movie.length > person.length) {
+    if (result.movie.length > result.series.length) {
+      if (result.movie.length > result.person.length) {
         setActiveTab('movie');
       } else {
         setActiveTab('person');
       }
-    } else {
+    } else if (result.series.length > result.person.length) {
       setActiveTab('series');
+    } else {
+      setActiveTab('person');
     }
-  }, [data?.results]);
+  }, [result]);
 
   const [activeTab, setActiveTab] = useState('movie');
   const tabItems = [
@@ -128,9 +132,9 @@ export default function SearchScreen() {
             : result.person
         }
         numColumns={3}
-        style={tw`mx-auto`}
+        // style={tw`mx-2`}
         columnWrapperStyle={tw`gap-x-2 `}
-        contentContainerStyle={tw`gap-y-2  items-start `}
+        contentContainerStyle={tw`gap-y-2  mx-auto items-start `}
         renderItem={({item}) => (
           <>
             {item.media_type === 'movie' ? (

@@ -3,7 +3,6 @@ import {Image, StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
 import tw from '../../../lib/tailwind';
 import {getImageURL} from '../../../lib/tmdb';
 import {router} from '../../../navigation/navigator';
-import {routes} from '../../../navigation/Screens';
 import {Cast} from '../../../types/contents/movie.types';
 import TText from '../../ui/TText';
 import TView from '../../ui/TView';
@@ -17,12 +16,13 @@ export default function CastCard(
   if (props.profile_path) {
     imageURL = getImageURL(props.profile_path!);
   }
+
   return (
     <TouchableOpacity
       style={props.style}
       activeOpacity={0.5}
       onPress={() => {
-        router.navigate(routes.person_details, {...props});
+        router.navigate('person_details', {id: props.id});
       }}>
       <TView style={tw`h-32 w-24 mx-auto mb-2`}>
         <Image style={tw`h-full w-full rounded-3xl`} source={{uri: imageURL}} />

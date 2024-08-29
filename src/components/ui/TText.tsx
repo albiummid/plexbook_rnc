@@ -27,5 +27,9 @@ export default function TText(props: TTextProps) {
   const utilStyles = tw.style(
     Object.values(utils).filter(Boolean).join(' ').trim(),
   );
-  return <Text style={[utilStyles, props.style]}>{props.children}</Text>;
+  return (
+    <Text style={[utilStyles, props.style]} {...props}>
+      {props.children}
+    </Text>
+  );
 }
