@@ -1,14 +1,14 @@
-## +++++++++++++++ PLEXBOOK React-Native Client +++++++++++++++
+### +++++++++++++++ PLEXBOOK React-Native Client +++++++++++++++
 
-### MOTO: Simplifying movie/series memorizing and sharing for future
+#### MOTO: Simplifying movie/series memorizing and sharing for future
 
-## Author : [ALBI UMMID TANVIR](https://linkedin.com/in/albiummid)
+#### Author : [ALBI UMMID TANVIR](https://linkedin.com/in/albiummid)
 
-## Contributors :
+#### Contributors :
 
 1. [@albiummid](https://github.com/albiummid)
 
-## ==== FEATURE TODO ====
+#### ==== FEATURE TODO ====
 
 - [x] Movie
 - [x] TV Series
