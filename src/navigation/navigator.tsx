@@ -8,6 +8,7 @@ import {
 } from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {PropsWithChildren} from 'react';
+import {RootStackParamList} from './Screens';
 
 const navigationRef = createNavigationContainerRef();
 export const NavigationProvider = ({children}: PropsWithChildren) => {
@@ -16,27 +17,25 @@ export const NavigationProvider = ({children}: PropsWithChildren) => {
   );
 };
 
-const navigate = (routeName: string, params?: any) => {
+type RouteName = keyof RootStackParamList;
+type RouteParam<T extends keyof RootStackParamList> = RootStackParamList[T];
+
+const navigate = (routeName: RouteName, params?: RouteParam<RouteName>) => {
   if (!navigationRef.isReady()) return;
   navigationRef.dispatch(CommonActions.navigate(routeName, params));
 };
 
-const push = (routeName: string, params?: any) => {
+const push = (routeName: RouteName, params?: any) => {
   if (!navigationRef.isReady()) return;
   navigationRef.dispatch(StackActions.push(routeName, params));
 };
 
-// const pushx = (routeName: string, params?: any) => (routes)=>{
-//   if (!navigationRef.isReady()) return;
-//   navigationRef.dispatch(StackActions.push(routeName, params));
-// };
-
-const replace = (routeName: string, params?: any) => {
+const replace = (routeName: RouteName, params?: any) => {
   if (!navigationRef.isReady()) return;
   navigationRef.dispatch(StackActions.replace(routeName, params));
 };
 
-const reset = (routeName: string, params?: any, path?: any, state?: any) => {
+const reset = (routeName: RouteName, params?: any, path?: any, state?: any) => {
   if (!navigationRef.isReady()) return;
   navigationRef.dispatch(
     CommonActions.reset({

@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
   TImageList,
   TMovieListResponse,
+  TMultiSearch,
   TVideoList,
 } from '../types/contents/content.types';
 import {TMovieListItem} from '../types/contents/movie.types';
@@ -389,3 +390,13 @@ export const useDiscoverSeries = (
     enabled,
   });
 };
+
+export const useMultiSearch = (query: string, page: number = 1) =>
+  useQuery({
+    queryKey: ['multi-search', query, page],
+    queryFn: () => tmdbGET(`/search/multi?query=${query}&page=${page}`),
+    select(data) {
+      return data.data as TMultiSearch;
+    },
+    // enabled: query.length > 0,
+  });

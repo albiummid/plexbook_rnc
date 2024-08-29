@@ -56,7 +56,7 @@ export default function TabGroupButtons({
             {x.label}
           </Text>
           {activeItem === x.value && (
-            <View style={tw`w-2/3 mx-auto bg-primary h-1 rounded-lg`} />
+            <View style={tw`w-full mx-auto bg-primary h-1 rounded-lg`} />
           )}
         </TouchableOpacity>
       ))}
