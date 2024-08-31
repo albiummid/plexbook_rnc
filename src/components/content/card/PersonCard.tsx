@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
-import tw from '../../../lib/tailwind';
-import {getImageURL} from '../../../lib/tmdb';
+import tw from '../../../libs/tailwind';
+import {getImageURL} from '../../../libs/tmdb';
 import {router} from '../../../navigation/navigator';
 import TImage from '../../ui/TImage';
 

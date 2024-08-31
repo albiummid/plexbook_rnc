@@ -9,10 +9,9 @@ import {
   ViewStyle,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import tw from '../../../lib/tailwind';
-import {getImageURL} from '../../../lib/tmdb';
+import tw from '../../../libs/tailwind';
+import {getImageURL} from '../../../libs/tmdb';
 import {router} from '../../../navigation/navigator';
-import {routes} from '../../../navigation/Screens';
 import {Season, TSeriesListItem} from '../../../types/contents/series.types';
 import TImage from '../../ui/TImage';
 import TText from '../../ui/TText';
@@ -31,7 +30,7 @@ export default function SeriesCard({data, style, disable}: CardProps) {
     <TouchableOpacity
       onPress={() => {
         if (!disable) {
-          router.push(routes.series_details, {
+          router.push('series_details', {
             id: data.id,
             data,
           });
@@ -86,7 +85,7 @@ export const SeasonCard = (props: Season & {seriesId: number}) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        router.push(routes.season_details, {data: props, id: props.seriesId});
+        router.push('season_details', {data: props, id: props.seriesId});
       }}
       style={tw`  ml-2 mr-2 gap-2`}>
       <TImage

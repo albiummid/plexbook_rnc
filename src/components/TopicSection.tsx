@@ -1,16 +1,15 @@
 import {useQuery} from '@tanstack/react-query';
 import React from 'react';
 import {FlatList, Text, TouchableOpacity, View, ViewStyle} from 'react-native';
-import tw from '../lib/tailwind';
+import tw from '../libs/tailwind';
 import {
   getPopularContents,
   getTopRatedContents,
   getTrending,
   getUpcomingContents,
-} from '../lib/tmdb';
-import {fisherYatesShuffle} from '../lib/utils/helpers';
+} from '../libs/tmdb';
+import {fisherYatesShuffle} from '../libs/utils/helpers';
 import {router} from '../navigation/navigator';
-import {routes} from '../navigation/Screens';
 import {TopicKind} from '../types/common';
 import {TMovieListResponse} from '../types/contents/content.types';
 import {TMovieListItem} from '../types/contents/movie.types';
@@ -59,7 +58,7 @@ export default function TopicSection({
         </Text>
         <TouchableOpacity
           onPress={() => {
-            router.navigate(routes.topic_list, {
+            router.navigate('topic_list', {
               topicKind: topic.kind,
               contentKind,
             });

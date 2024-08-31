@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, ViewProps} from 'react-native';
-import tw from '../../lib/tailwind';
+import tw from '../../libs/tailwind';
 import {TComponentProps} from '../../types/ui.types';
 
 export default function TView(props: TComponentProps<ViewProps>) {

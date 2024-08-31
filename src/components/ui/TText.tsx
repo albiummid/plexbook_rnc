@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text} from 'react-native';
-import tw from '../../lib/tailwind';
+import tw from '../../libs/tailwind';
 import {TTextProps} from '../../types/ui.types';
 
 export default function TText(props: TTextProps) {

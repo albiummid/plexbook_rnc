@@ -1,6 +1,6 @@
 import React from 'react';
 import {ColorValue, StyleProp, TextStyle, ViewStyle} from 'react-native';
-import tw from '../../../lib/tailwind';
+import tw from '../../../libs/tailwind';
 import Skelton from '../../ui/Skelton';
 import TText from '../../ui/TText';
 import TView from '../../ui/TView';

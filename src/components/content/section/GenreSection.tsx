@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleProp, ViewStyle} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import tw from '../../../lib/tailwind';
-import {getGenreList} from '../../../lib/tmdb';
+import tw from '../../../libs/tailwind';
+import {getGenreList} from '../../../libs/tmdb';
 import {router} from '../../../navigation/navigator';
 import TScrollView from '../../ui/TScrollView';
 import TText from '../../ui/TText';

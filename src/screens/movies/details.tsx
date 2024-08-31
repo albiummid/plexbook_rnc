@@ -17,8 +17,8 @@ import TScrollView from '../../components/ui/TScrollView';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
 import Icons from '../../components/ui/vector-icons';
-import tw from '../../lib/tailwind';
-import {getContentDetailsById, getDuration, getImageURL} from '../../lib/tmdb';
+import tw from '../../libs/tailwind';
+import {getContentDetailsById, getDuration, getImageURL} from '../../libs/tmdb';
 import {ScreenProps} from '../../navigation/Screens';
 import {TMovieDetails} from '../../types/contents/movie.types';
 

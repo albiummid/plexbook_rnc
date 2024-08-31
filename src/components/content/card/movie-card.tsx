@@ -9,10 +9,9 @@ import {
   ViewStyle,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import tw from '../../../lib/tailwind';
-import {getImageURL} from '../../../lib/tmdb';
+import tw from '../../../libs/tailwind';
+import {getImageURL} from '../../../libs/tmdb';
 import {router} from '../../../navigation/navigator';
-import {routes} from '../../../navigation/Screens';
 import {TMovieListItem} from '../../../types/contents/movie.types';
 import Icons from '../../ui/vector-icons';
 
@@ -29,7 +28,7 @@ export default function MovieCard({data, style, disable}: CardProps) {
     <TouchableOpacity
       onPress={() => {
         if (!disable) {
-          router.push(routes.movie_details, {
+          router.push('movie_details', {
             id: data.id,
             data,
           });

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleProp, TextStyle, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import tw from '../../lib/tailwind';
+import tw from '../../libs/tailwind';
 import {router} from '../../navigation/navigator';
 import TText from '../ui/TText';
 import Icons from '../ui/vector-icons';

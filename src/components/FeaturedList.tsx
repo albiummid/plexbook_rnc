@@ -1,10 +1,10 @@
 import {useQuery} from '@tanstack/react-query';
 import React, {PropsWithChildren} from 'react';
 import Carousel from 'react-native-reanimated-carousel';
-import tw from '../lib/tailwind';
-import {getTrending} from '../lib/tmdb';
-import {screenWidth} from '../lib/utils/Scaling';
-import {getMS} from '../lib/utils/helpers';
+import tw from '../libs/tailwind';
+import {getTrending} from '../libs/tmdb';
+import {screenWidth} from '../libs/utils/Scaling';
+import {getMS} from '../libs/utils/helpers';
 import {TMovieListItem} from '../types/contents/movie.types';
 import {TSeriesListItem} from '../types/contents/series.types';
 import Section from './Section';

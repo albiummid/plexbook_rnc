@@ -1,10 +1,11 @@
 import {QueryClient} from '@tanstack/react-query';
 import {PersistQueryClientProvider} from '@tanstack/react-query-persist-client';
 import React, {PropsWithChildren} from 'react';
+import {SheetProvider} from 'react-native-actions-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {clientPersister} from '../../lib/tanstack';
-import {getMS} from '../../lib/utils/helpers';
+import {clientPersister} from '../../libs/tanstack';
+import {getMS} from '../../libs/utils/helpers';
 import {NavigationProvider} from '../../navigation/navigator';
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,7 +21,9 @@ export default function ProviderWrapper({children}: PropsWithChildren) {
         <PersistQueryClientProvider
           client={queryClient}
           persistOptions={{persister: clientPersister}}>
-          <SafeAreaView style={{flex: 1}}>{children}</SafeAreaView>
+          <SheetProvider>
+            <SafeAreaView style={{flex: 1}}>{children}</SafeAreaView>
+          </SheetProvider>
         </PersistQueryClientProvider>
       </GestureHandlerRootView>
     </NavigationProvider>

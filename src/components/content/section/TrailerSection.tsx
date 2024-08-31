@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import YTPlayer, {PLAYER_STATES} from 'react-native-youtube-iframe';
-import tw from '../../../lib/tailwind';
-import {useContentVideos} from '../../../lib/tmdb';
-import {wp} from '../../../lib/utils/Scaling';
+import tw from '../../../libs/tailwind';
+import {useContentVideos} from '../../../libs/tmdb';
+import {wp} from '../../../libs/utils/Scaling';
 import Section from '../../Section';
 import TText from '../../ui/TText';
 

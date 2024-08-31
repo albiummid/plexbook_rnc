@@ -10,15 +10,16 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {PropsWithChildren} from 'react';
 import {RootStackParamList} from './Screens';
 
-const navigationRef = createNavigationContainerRef();
+export const navigationRef = createNavigationContainerRef();
 export const NavigationProvider = ({children}: PropsWithChildren) => {
   return (
     <NavigationContainer ref={navigationRef}>{children}</NavigationContainer>
   );
 };
 
-type RouteName = keyof RootStackParamList;
-type RouteParam<T extends keyof RootStackParamList> = RootStackParamList[T];
+export type RouteName = keyof RootStackParamList;
+export type RouteParam<T extends keyof RootStackParamList> =
+  RootStackParamList[T];
 
 const navigate = (routeName: RouteName, params?: RouteParam<RouteName>) => {
   if (!navigationRef.isReady()) return;

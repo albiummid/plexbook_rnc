@@ -1,7 +1,7 @@
 import React, {PropsWithChildren} from 'react';
 import {FlatList} from 'react-native';
 import {ShimmerPlaceholderProps} from 'react-native-shimmer-placeholder';
-import tw from '../../../lib/tailwind';
+import tw from '../../../libs/tailwind';
 import Skelton from '../../ui/Skelton';
 
 export default function ContentSkelton({

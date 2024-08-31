@@ -7,8 +7,8 @@ import Section from '../../components/Section';
 import TScrollView from '../../components/ui/TScrollView';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
-import tw from '../../lib/tailwind';
-import {getImageURL, useContentImages, usePersonDetails} from '../../lib/tmdb';
+import tw from '../../libs/tailwind';
+import {getImageURL, useContentImages, usePersonDetails} from '../../libs/tmdb';
 import {ScreenProps} from '../../navigation/Screens';
 import {TPersonImageList} from '../../types/contents/content.types';
 

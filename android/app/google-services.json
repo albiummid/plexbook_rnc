@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "308361640597",
+    "project_id": "bytecraftlab24",
+    "storage_bucket": "bytecraftlab24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308361640597:android:896cc5a30d1866591fb99c",
+        "android_client_info": {
+          "package_name": "com.plexbook_rnc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308361640597-l0ods39u48k8pe0sf7ed9doot60qc129.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.plexbook_rnc",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "308361640597-jbusqmmorbk1k1ldgav99ce2oa647g0r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkUI4f4iILsFHjNPPAfrRak33T_Y7dE6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308361640597-jbusqmmorbk1k1ldgav99ce2oa647g0r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,8 +5,8 @@ import Header from '../../components/layout/Header';
 import TScrollView from '../../components/ui/TScrollView';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
-import tw from '../../lib/tailwind';
-import {getImageURL, useSeriesSeason} from '../../lib/tmdb';
+import tw from '../../libs/tailwind';
+import {getImageURL, useSeriesSeason} from '../../libs/tmdb';
 import {ScreenProps} from '../../navigation/Screens';
 
 export default function SeasonDetails(props: ScreenProps<'season_details'>) {

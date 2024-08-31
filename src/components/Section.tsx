@@ -1,6 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 import {Text, TouchableOpacity, View, ViewProps} from 'react-native';
-import tw from '../lib/tailwind';
+import tw from '../libs/tailwind';
 
 type SectionProps = PropsWithChildren<
   ViewProps & {

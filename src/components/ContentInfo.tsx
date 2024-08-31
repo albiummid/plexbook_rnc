@@ -1,6 +1,6 @@
 import React, {PropsWithChildren} from 'react';
-import tw from '../lib/tailwind';
-import {getDuration, getMoneyStr} from '../lib/tmdb';
+import tw from '../libs/tailwind';
+import {getDuration, getMoneyStr} from '../libs/tmdb';
 import {TMovieDetails} from '../types/contents/movie.types';
 import InfoCard from './content/card/info-card';
 import Section from './Section';

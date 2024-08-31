@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import ProviderWrapper from './components/layout/ProviderWrapper';
+import './components/ui/ActionSheet';
+import {deviceInfo} from './libs/device';
+import {localDB} from './libs/localDB';
 import {RootNavigator} from './navigation/Screens';
-import SplashScreen from './screens/splash';
 
 export default function InitApp() {
-  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    setIsLoading(false);
+    deviceInfo().then(v => {
+      localDB.set('deviceInfo', JSON.stringify(v));
+    });
   }, []);
-  if (isLoading) return <SplashScreen />;
   return (
     <ProviderWrapper>
       <RootNavigator />

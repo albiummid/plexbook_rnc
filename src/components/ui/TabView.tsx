@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import tw from '../../lib/tailwind';
+import tw from '../../libs/tailwind';
 
 export default function TabView({
   tabItems,

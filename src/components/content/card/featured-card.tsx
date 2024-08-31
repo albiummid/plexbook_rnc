@@ -1,9 +1,8 @@
 import React, {PropsWithChildren} from 'react';
 import {Image, Pressable, ViewProps} from 'react-native';
-import tw from '../../../lib/tailwind';
-import {getImageURL} from '../../../lib/tmdb';
+import tw from '../../../libs/tailwind';
+import {getImageURL} from '../../../libs/tmdb';
 import {router} from '../../../navigation/navigator';
-import {routes} from '../../../navigation/Screens';
 import {TMovieListItem} from '../../../types/contents/movie.types';
 import {TSeriesListItem} from '../../../types/contents/series.types';
 
@@ -13,7 +12,7 @@ export function FeaturedMovieCard(
   return (
     <Pressable
       onPress={() => {
-        router.navigate(routes.movie_details, {
+        router.navigate('movie_details', {
           id: props.data.id,
           data: props.data,
         });
@@ -33,7 +32,7 @@ export function FeaturedSeriesCard(
   return (
     <Pressable
       onPress={() => {
-        router.navigate(routes.series_details, {
+        router.navigate('series_details', {
           id: props.data.id,
           data: props.data,
         });

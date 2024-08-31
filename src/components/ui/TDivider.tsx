@@ -1,6 +1,6 @@
 import React from 'react';
 import {ColorValue, View} from 'react-native';
-import tw from '../../lib/tailwind';
+import tw from '../../libs/tailwind';
 import {TViewProps} from '../../types/ui.types';
 
 export default function TDivider(

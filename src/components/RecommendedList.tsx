@@ -1,7 +1,7 @@
 import React, {PropsWithChildren} from 'react';
 import {FlatList, ViewProps} from 'react-native';
-import tw from '../lib/tailwind';
-import {useContentRecommendation} from '../lib/tmdb';
+import tw from '../libs/tailwind';
+import {useContentRecommendation} from '../libs/tmdb';
 import {renderHorizontalSkeltonList} from './content/card/content-skelton';
 import MovieCard from './content/card/movie-card';
 import SeriesCard from './content/card/series-card';

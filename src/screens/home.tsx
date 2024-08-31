@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import TabView from '../components/ui/TabView';
-import tw from '../lib/tailwind';
+import tw from '../libs/tailwind';
 import MoviesHomeScreen from './contents/movies';
 import SeriesHomeScreen from './series';
 

@@ -1,10 +1,9 @@
 import {useQuery} from '@tanstack/react-query';
 import React, {PropsWithChildren} from 'react';
 import {FlatList} from 'react-native';
-import tw from '../lib/tailwind';
-import {getContentCastListById} from '../lib/tmdb';
+import tw from '../libs/tailwind';
+import {getContentCastListById} from '../libs/tmdb';
 import {router} from '../navigation/navigator';
-import {routes} from '../navigation/Screens';
 import {MovieCastList} from '../types/contents/movie.types';
 import CastCard from './content/card/cast-card';
 import {renderHorizontalSkeltonList} from './content/card/content-skelton';
@@ -27,10 +26,8 @@ export default function ArtistList({
         label="Artists"
         rightButtonTitle="View All"
         onRightButtonPress={() => {
-          router.navigate(routes.cast_list, {
+          router.navigate('cast_list', {
             id,
-            cast: data.cast,
-            crew: data.crew,
           });
         }}>
         {listReq.isLoading ? (

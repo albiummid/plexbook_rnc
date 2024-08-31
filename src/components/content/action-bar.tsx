@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {StyleProp, TouchableOpacity, View, ViewStyle} from 'react-native';
-import tw from '../../lib/tailwind';
+import ActionSheet from 'react-native-actions-sheet';
+import tw from '../../libs/tailwind';
 import {ContentKind} from '../../types/common';
+import TText from '../ui/TText';
 import Icons from '../ui/vector-icons';
 
 type ActionBarProps = {
@@ -17,6 +19,7 @@ export default function ContentActionBar({
 }: ActionBarProps) {
   const [watched, setWatched] = useState(false);
   const [saved, setSaved] = useState(false);
+  const sheetRef = useRef(null);
   //   const checkStatus = () => {
   //     setWatched(
   //       isExistInList(DefaultListKind.WatchedList, content.id, content_kind),
@@ -35,11 +38,11 @@ export default function ContentActionBar({
           setSaved(v => !v);
         }}>
         <Icons.Feather
-          name="bookmark"
+          name="heart"
           size={20}
           style={tw.style(
             ` mr-auto p-2 rounded-full`,
-            saved ? 'bg-cyan-400 text-white' : 'text-cyan-400 bg-white',
+            saved ? 'bg-primary text-white' : 'text-primary bg-white',
           )}
         />
       </TouchableOpacity>
@@ -49,23 +52,29 @@ export default function ContentActionBar({
           setWatched(v => !v);
         }}>
         <Icons.Feather
-          name="check"
+          name={watched ? 'eye' : 'eye-off'}
           size={20}
           style={tw.style(
             ` mr-auto p-2 rounded-full`,
-            watched ? 'bg-pink-400 text-white' : 'text-pink-400 bg-white',
+            watched ? 'bg-primary text-white' : 'text-primary bg-white',
           )}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity
+        onPress={async () => {
+          sheetRef.current?.show();
+        }}>
         <Icons.MaterialIcons
           name="playlist-add"
           size={20}
-          style={tw.style(
-            ` mr-auto p-2 rounded-full bg-purple-400 text-white  `,
-          )}
+          style={tw.style(` mr-auto p-2 rounded-full bg-primary text-white  `)}
         />
       </TouchableOpacity>
+
+      {/* <ActionS */}
+      <ActionSheet ref={sheetRef}>
+        <TText>HELLO WORLD</TText>
+      </ActionSheet>
     </View>
   );
 }

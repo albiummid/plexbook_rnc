@@ -8,7 +8,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import tw from '../../lib/tailwind';
+import tw from '../../libs/tailwind';
 import TView from './TView';
 type TTabItem = {label: string; value: string};
 
