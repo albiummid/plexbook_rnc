@@ -78,6 +78,7 @@ android {
     namespace "com.plexbook_rnc"
     defaultConfig {
         applicationId "com.plexbook_rnc"
+        multiDexEnabled true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -125,6 +126,7 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation('androidx.multidex:multidex:2.0.1') 
 // implementation platform('com.google.firebase:firebase-bom:33.2.0')
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
