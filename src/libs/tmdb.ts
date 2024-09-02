@@ -308,11 +308,6 @@ export const useDiscoverSeries = (
   {
     sort_by = 'popularity',
     sort_order = 'desc',
-    air_date_gte,
-    air_date_lte,
-    first_air_date_gte,
-    first_air_date_lte,
-    first_air_date_year,
     language = 'en-US',
     page = 1,
     ...params
@@ -327,7 +322,7 @@ export const useDiscoverSeries = (
     language?: Locale;
     timezone?: TMDbTimezone;
     page?: number;
-    with_genres?: string;
+    with_genres?: number;
     without_genres?: string;
     with_runtime_gte?: number;
     with_runtime_lte?: number;
@@ -343,20 +338,20 @@ export const useDiscoverSeries = (
 ) => {
   let queryStrArr = [`sort_by=${sort_by}.${sort_order}`];
 
-  if (air_date_gte) {
-    queryStrArr.push(`air_date.gte=${air_date_gte}`);
+  if (params.air_date_gte) {
+    queryStrArr.push(`air_date.gte=${params.air_date_gte}`);
   }
-  if (air_date_lte) {
-    queryStrArr.push(`air_date.lte=${air_date_lte}`);
+  if (params.air_date_lte) {
+    queryStrArr.push(`air_date.lte=${params.air_date_lte}`);
   }
-  if (first_air_date_gte) {
-    queryStrArr.push(`first_air_date.gte=${first_air_date_gte}`);
+  if (params.first_air_date_gte) {
+    queryStrArr.push(`first_air_date.gte=${params.first_air_date_gte}`);
   }
-  if (first_air_date_lte) {
-    queryStrArr.push(`first_air_date.lte=${first_air_date_lte}`);
+  if (params.first_air_date_lte) {
+    queryStrArr.push(`first_air_date.lte=${params.first_air_date_lte}`);
   }
-  if (first_air_date_year) {
-    queryStrArr.push(`first_air_date_year=${first_air_date_year}`);
+  if (params.first_air_date_year) {
+    queryStrArr.push(`first_air_date_year=${params.first_air_date_year}`);
   }
   if (language) {
     queryStrArr.push(`language=${language}`);
@@ -385,7 +380,111 @@ export const useDiscoverSeries = (
     queryStrArr.push(`with_original_language=${params.with_original_language}`);
   }
   return useQuery({
-    queryKey: ['discover-tv', page, params.with_original_language],
+    queryKey: ['discover-tv', page, {params, sort_by, sort_order, language}],
+    queryFn: () => tmdbGET(`/discover/tv?` + queryStrArr.join('&')),
+    select(data) {
+      return data.data;
+    },
+    enabled,
+  });
+};
+export const useDiscoverMovie = (
+  {
+    sort_by = 'popularity',
+    sort_order = 'desc',
+    language = 'en-US',
+    page = 1,
+    ...params
+  }: {
+    sort_by?: keyof TMovieListItem;
+    sort_order?: 'asc' | 'desc';
+    release_date_gte?: string;
+    release_date_lte?: string;
+    primary_release_date_gte?: string;
+    primary_release_date_lte?: string;
+    primary_release_date_year?: number;
+    language?: Locale;
+    timezone?: TMDbTimezone;
+    page?: number;
+    with_genres?: number;
+    without_genres?: string;
+    with_runtime_gte?: number;
+    with_runtime_lte?: number;
+    with_watch_region?: string;
+    with_original_language?: ISO6391LanguageCode;
+    with_watch_providers?: string;
+    with_keywords?: string;
+    without_keywords?: string;
+    with_companies?: string;
+    with_cast?: string;
+    with_crew?: string;
+    with_people?: string;
+    watch_region?: string;
+  },
+  enabled?: boolean,
+) => {
+  let queryStrArr = [`sort_by=${sort_by}.${sort_order}`];
+
+  if (params.release_date_gte) {
+    queryStrArr.push(`release_date.gte=${params.release_date_gte}`);
+  }
+  if (params.release_date_lte) {
+    queryStrArr.push(`release_date.lte=${params.release_date_lte}`);
+  }
+  if (params.primary_release_date_gte) {
+    queryStrArr.push(
+      `primary_release_date.gte=${params.primary_release_date_gte}`,
+    );
+  }
+  if (params.primary_release_date_lte) {
+    queryStrArr.push(
+      `primary_release_date.lte=${params.primary_release_date_lte}`,
+    );
+  }
+  if (params.primary_release_date_year) {
+    queryStrArr.push(
+      `primary_release_date_year=${params.primary_release_date_year}`,
+    );
+  }
+  if (language) {
+    queryStrArr.push(`language=${language}`);
+  }
+  if (page) {
+    queryStrArr.push(`page=${page}`);
+  }
+  if (params.timezone) {
+    queryStrArr.push(`timezone=${params.timezone}`);
+  }
+  if (params.with_genres) {
+    queryStrArr.push(`with_genres=${params.with_genres}`);
+  }
+  if (params.without_genres) {
+    queryStrArr.push(`without_genres=${params.without_genres}`);
+  }
+
+  if (params.with_runtime_gte) {
+    queryStrArr.push(`with_runtime.gte=${params.with_runtime_gte}`);
+  }
+  if (params.with_runtime_lte) {
+    queryStrArr.push(`with_runtime.lte=${params.with_runtime_lte}`);
+  }
+
+  if (params.with_original_language) {
+    queryStrArr.push(`with_original_language=${params.with_original_language}`);
+  }
+
+  if (params.with_cast) {
+    queryStrArr.push(`with_cast=${params.with_cast}`);
+  }
+
+  if (params.with_crew) {
+    queryStrArr.push(`with_crew=${params.with_crew}`);
+  }
+  if (params.with_people) {
+    queryStrArr.push(`with_people=${params.with_people}`);
+  }
+  return useQuery({
+    queryKey: ['discover-movie', {params, page, sort_by, sort_by, language}],
     queryFn: () => tmdbGET(`/discover/tv?` + queryStrArr.join('&')),
     select(data) {
       return data.data;

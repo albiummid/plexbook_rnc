@@ -1,16 +1,30 @@
 import React, {useEffect} from 'react';
 import ProviderWrapper from './components/layout/ProviderWrapper';
 import './components/ui/ActionSheet';
-import {deviceInfo} from './libs/device';
-import {localDB} from './libs/localDB';
+import {api} from './libs/api';
+import {useFirebaseAuth} from './libs/firebase';
+import {useAppConfig} from './libs/zustand';
 import {RootNavigator} from './navigation/Screens';
 
 export default function InitApp() {
+  const {user} = useFirebaseAuth();
+  console.log(user);
+  const {ENV, setENV} = useAppConfig();
+  // console.log(user.uid);
   useEffect(() => {
-    deviceInfo().then(v => {
-      localDB.set('deviceInfo', JSON.stringify(v));
-    });
-  }, []);
+    (async () => {
+      //
+
+      // console.log(GoogleSignin.revokeAccess());
+      try {
+        const a = await api.get('/auth/health-check');
+        console.log(a.data, 'albi');
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, [user]);
+
   return (
     <ProviderWrapper>
       <RootNavigator />

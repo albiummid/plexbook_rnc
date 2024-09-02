@@ -74,6 +74,7 @@ export default function TopicSection({
       {listReq.isSuccess && (
         <FlatList
           // estimatedItemSize={20}
+          disableIntervalMomentum
           horizontal
           data={list}
           showsHorizontalScrollIndicator={false}

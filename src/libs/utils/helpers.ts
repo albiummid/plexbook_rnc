@@ -21,14 +21,22 @@ export function fisherYatesShuffle(array: any[]) {
   return clone;
 }
 
-export const wait = (second: number) =>
+export const wait = (ms: number) =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(true);
-    }, second * 1000);
+    }, ms);
   });
 
 export const uniqueArray = (array: any[]) =>
   Array.from(new Set(array?.map(item => JSON.stringify(item)))).map(str =>
     JSON.parse(str),
   );
+
+export function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = crypto.getRandomValues(new Uint8Array(1))[0] % 16;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {
   ScrollView,
   StyleProp,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import tw from '../../libs/tailwind';
 import TView from './TView';
-type TTabItem = {label: string; value: string};
+type TTabItem = {label: string | ReactNode; value: string};
 
 export default function TabGroupButtons({
   tabItems,
@@ -32,7 +32,10 @@ export default function TabGroupButtons({
 }) {
   return (
     <TView>
-      <ScrollView horizontal style={[tw`gap-2`, containerStyle]}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={[tw`gap-2`, containerStyle]}>
         {tabItems.map(x => (
           <TouchableOpacity
             onPress={() => {
@@ -40,23 +43,27 @@ export default function TabGroupButtons({
             }}
             style={tw`ml-2 mr-2  mb-5`}
             key={x.value}>
-            <Text
-              style={[
-                tw.style(
-                  `text-base mb-1`,
-                  `${inactiveTintColor ? `text-[${activeTintColor}]` : ''}`,
-                  `  text-center ${
-                    activeItem === x.value
-                      ? `font-bold ${
-                          activeTintColor ? `text-[${activeTintColor}]` : ''
-                        }  `
-                      : ''
-                  } `,
-                ),
-                textStyle,
-              ]}>
-              {x.label}
-            </Text>
+            {typeof x.label === 'string' ? (
+              <Text
+                style={[
+                  tw.style(
+                    `text-base mb-1`,
+                    `${inactiveTintColor ? `text-[${activeTintColor}]` : ''}`,
+                    `  text-center ${
+                      activeItem === x.value
+                        ? `font-bold ${
+                            activeTintColor ? `text-[${activeTintColor}]` : ''
+                          }  `
+                        : ''
+                    } `,
+                  ),
+                  textStyle,
+                ]}>
+                {x.label}
+              </Text>
+            ) : (
+              <TView>{x.label}</TView>
+            )}
             {activeItem === x.value && (
               <View style={tw`w-3/4 mx-auto  bg-primary h-1 rounded-lg`} />
             )}

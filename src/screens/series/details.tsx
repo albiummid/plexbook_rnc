@@ -75,7 +75,12 @@ export default function SeriesDetailScreen({
                 {moment(data.first_air_date).format('DD MMMM YYYY')}
               </TText>
             </TView>
-            <ContentActionBar style={tw`mt-1`} contentKind={'movie'} id={id} />
+            <ContentActionBar
+              data={data}
+              style={tw`mt-1`}
+              contentKind={'movie'}
+              id={id}
+            />
             {/* Genre */}
             <GenreSection genreIds={data.genre_ids} contentKind="tv" />
           </TView>

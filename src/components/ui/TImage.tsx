@@ -1,7 +1,21 @@
-import React, {PropsWithChildren} from 'react';
+import React, {PropsWithChildren, useState} from 'react';
 import {Image, ImageProps} from 'react-native';
-import tw from '../../libs/tailwind';
+import Skelton from './Skelton';
 
 export default function TImage(props: PropsWithChildren<ImageProps>) {
-  return <Image style={[tw`h-full w-full`, props.style]} {...props} />;
+  const [isLoading, setIsLoading] = useState(true);
+  return (
+    <>
+      {/* <Image style={[props.style]} {...props} /> */}
+      <Skelton style={props.style} visible={!isLoading}>
+        <Image
+          onLoadEnd={() => {
+            setIsLoading(false);
+          }}
+          style={[props.style]}
+          {...props}
+        />
+      </Skelton>
+    </>
+  );
 }

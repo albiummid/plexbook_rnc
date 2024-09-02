@@ -14,17 +14,17 @@
 - [x] TV Series
 - [x] Person
 - [x] Multiple Search
-- [ ] Add to Favorite , Watch and Custom list
-- [ ] Authentication
-- [ ] User Log
-- [ ] Profile - with content interest
+- [x] Add to Favorite , Watch and Custom list
+- [x] Authentication
+- [x] User Log
+- [x] Profile - with content interest
 - [ ] Comment in Movie/Series/Person Screen
 - [ ] Review Post for Movie/Series "@" keyword support for tagging movie/series/person
-- [ ] Language , Genre , Person chips in onboarding screen to get preference of the user.
+- [x] Language , Genre , Person chips in onboarding screen to get preference of the user.
 - [ ] Local FTP Server Support
 - [ ] Cloud server support
 - [ ] Dark Theme
-- [ ] Mobile Info capture and save in DB for unique user identification
+- [x] Mobile Info capture and save in DB for unique user identification
 - [ ] Export / Import support for List
 
 #### ==== ISSUES ====

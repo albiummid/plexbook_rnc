@@ -1,18 +1,12 @@
 import moment from 'moment';
 import React, {PropsWithChildren} from 'react';
-import {
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewProps,
-  ViewStyle,
-} from 'react-native';
+import {Text, TouchableOpacity, View, ViewProps, ViewStyle} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import tw from '../../../libs/tailwind';
 import {getImageURL} from '../../../libs/tmdb';
 import {router} from '../../../navigation/navigator';
 import {TMovieListItem} from '../../../types/contents/movie.types';
+import TImage from '../../ui/TImage';
 import Icons from '../../ui/vector-icons';
 
 type CardProps = PropsWithChildren<
@@ -36,7 +30,7 @@ export default function MovieCard({data, style, disable}: CardProps) {
       }}
       activeOpacity={0.5}
       style={[tw`h-40 w-28 rounded-lg`, style]}>
-      <Image
+      <TImage
         style={tw`h-full w-full rounded-lg`}
         source={{uri: getImageURL(data.poster_path)}}
       />

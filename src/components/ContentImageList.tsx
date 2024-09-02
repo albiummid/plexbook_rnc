@@ -63,7 +63,7 @@ export default function ContentImageList(
               blurRadius={2}
               style={tw`h-40 w-full rounded-lg`}
               source={{
-                uri: getImageURL(images?.backdrops?.[0].file_path),
+                uri: getImageURL(images?.backdrops?.[0]?.file_path ?? ''),
               }}>
               <TText
                 style={tw`text-white text-center mt-auto mx-auto w-full bg-black/60 p-2 `}

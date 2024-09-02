@@ -74,7 +74,12 @@ export default function MovieDetailScreen({
             </TView>
             {/* Genre */}
             <GenreSection genreIds={data.genre_ids} contentKind="movie" />
-            <ContentActionBar style={tw`mt-1`} contentKind={'movie'} id={id} />
+            <ContentActionBar
+              data={data}
+              style={tw`mt-1`}
+              contentKind={'movie'}
+              id={id}
+            />
           </TView>
           <Image
             style={tw`h-48 w-32 rounded-lg border-2 border-primary`}
@@ -85,7 +90,7 @@ export default function MovieDetailScreen({
 
       {/* Story Line */}
       <Section labelColor={'white'} label="Story line">
-        <TText color={'white'} mX={8} style={tw` text-gray-200  `}>
+        <TText color={'white'} style={tw` text-gray-200 mx-2  `}>
           {data.overview ?? details?.overview ?? ''}
         </TText>
       </Section>

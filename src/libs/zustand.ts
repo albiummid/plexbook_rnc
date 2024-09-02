@@ -1,6 +1,6 @@
 import {MMKV} from 'react-native-mmkv';
 import {create} from 'zustand';
-import {StateStorage, createJSONStorage, persist} from 'zustand/middleware';
+import {createJSONStorage, persist, StateStorage} from 'zustand/middleware';
 
 const storage = new MMKV();
 
@@ -22,9 +22,17 @@ type OnboardingState = {
   doneEnabled: boolean;
   nextEnabled: boolean;
   pageIndex: number;
-  selectedItems: any[];
+  selectedLanguage: any[];
   selectedGenre: any[];
-  setSelectedItem: (v: any) => void;
+  userDetails: null | {
+    _id: string;
+    userInfo: object;
+    userPreference: object;
+    uid: string;
+    deviceInfo: object;
+  };
+  setUserDetails: (v: any) => void;
+  setSelectedLanguage: (v: any) => void;
   setSelectedGenre: (v: any) => void;
   setPageIndex: (v: number) => void;
   setDoneEnabled: (v: boolean) => void;
@@ -32,28 +40,52 @@ type OnboardingState = {
   enableScrolling: () => void;
 };
 
-export const useOnboarding = create(
-  persist<OnboardingState>(
+export const useOnboarding = create<OnboardingState>(set => ({
+  scrollEnabled: true,
+  doneEnabled: true,
+  nextEnabled: true,
+  pageIndex: 0,
+  selectedLanguage: [],
+  selectedGenre: [],
+  userDetails: null,
+  setUserDetails(v) {
+    set({userDetails: v});
+  },
+  setDoneEnabled(v) {
+    set({doneEnabled: v});
+  },
+  setPageIndex: v => set({pageIndex: v}),
+  setSelectedLanguage: v => set({selectedLanguage: v}),
+  setSelectedGenre: v => set({selectedGenre: v}),
+  disableScrolling: () =>
+    set({scrollEnabled: false, doneEnabled: false, nextEnabled: false}),
+  enableScrolling: () =>
+    set({scrollEnabled: true, doneEnabled: true, nextEnabled: true}),
+}));
+
+type TAppConfig = {
+  ENV: 'dev' | 'prod';
+  BASE_URL: string;
+  setENV: (v: 'dev' | 'prod') => void;
+};
+
+export const useAppConfig = create(
+  persist<TAppConfig>(
     set => ({
-      scrollEnabled: true,
-      doneEnabled: true,
-      nextEnabled: true,
-      pageIndex: 0,
-      selectedItems: [],
-      selectedGenre: [],
-      setDoneEnabled(v) {
-        set({doneEnabled: v});
+      ENV: 'dev',
+      BASE_URL: 'https://cinespire-server.vercel.app/api/v1',
+      setENV: (v: 'dev' | 'prod') => {
+        if (v == 'dev') {
+          set({BASE_URL: 'http://:192.168.0.106:9999/api/v1'});
+        } else {
+          set({BASE_URL: 'https://cinespire-server.vercel.app/api/v1'});
+        }
+        set({ENV: v});
       },
-      setPageIndex: v => set({pageIndex: v}),
-      setSelectedItem: v => set({selectedItems: v}),
-      setSelectedGenre: v => set({selectedGenre: v}),
-      disableScrolling: () =>
-        set({scrollEnabled: false, doneEnabled: false, nextEnabled: false}),
-      enableScrolling: () =>
-        set({scrollEnabled: true, doneEnabled: true, nextEnabled: true}),
+      // setBASE_URL: (v: string) => set({BASE_URL: v}),
     }),
     {
-      name: 'onboarding_storage',
+      name: 'app-config',
       storage: createJSONStorage(() => zustandStorage),
     },
   ),

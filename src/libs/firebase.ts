@@ -22,10 +22,10 @@ export const signInWithGoogle = async () => {
 };
 
 export const signOut = async () => {
-  console.log(auth().currentUser);
   return await auth()
     .signOut()
     .then(async () => {
+      GoogleSignin.revokeAccess();
       console.log('User signed out!');
     });
 };
@@ -35,6 +35,7 @@ export const useFirebaseAuth = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // console.log(user);
 
   // Handle user state changes
   useEffect(() => {
@@ -152,3 +153,7 @@ export const useFirebaseAuth = () => {
 //   // Sign-in the user with the credential
 //   return auth().signInWithCredential(facebookCredential);
 // };
+
+// Firebase db
+import database from '@react-native-firebase/database';
+export const userDB = (userId: string) => database().ref(`/users/${userId}`);

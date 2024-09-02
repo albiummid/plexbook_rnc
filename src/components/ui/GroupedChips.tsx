@@ -59,7 +59,7 @@ export default function GroupedChips({
   return (
     <View style={[tw`flex-row gap-2 flex-wrap`, style]}>
       {itemList.map((x, i) => {
-        const selectedIndex = selectedList.findIndex(y => x.label === y.label);
+        const selectedIndex = selectedList?.findIndex(y => x.label === y.label);
         const selected = selectedIndex > -1;
 
         return (
