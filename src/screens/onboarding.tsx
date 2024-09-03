@@ -14,7 +14,7 @@ import TView from '../components/ui/TView';
 import {genresList, languageList} from '../constants/emums';
 import {api} from '../libs/api';
 import {deviceInfo} from '../libs/device';
-import {signInWithGoogle, signOut, useFirebaseAuth} from '../libs/firebase';
+import {signInWithGoogle, useFirebaseAuth} from '../libs/firebase';
 import {localDB} from '../libs/localDB';
 import tw from '../libs/tailwind';
 import {hp, wp} from '../libs/utils/Scaling';
@@ -232,12 +232,6 @@ const SecondScreen = () => {
             {user?.displayName}
           </TText>
           <TText>logged in with {user?.email}</TText>
-          <TText
-            onPress={() => {
-              signOut();
-            }}>
-            Signout
-          </TText>
         </TView>
       )}
     </TView>
