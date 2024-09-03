@@ -12,7 +12,6 @@ import {ScreenProps} from '../../navigation/Screens';
 export default function SeasonDetails(props: ScreenProps<'season_details'>) {
   const {data, id} = props.route.params;
   const {data: details, ...req} = useSeriesSeason(id, data.season_number);
-  console.log(details?.name);
   return (
     <TView style={tw`flex-1 bg-black`}>
       <Header />

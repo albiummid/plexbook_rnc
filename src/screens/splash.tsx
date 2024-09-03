@@ -10,7 +10,6 @@ import {router} from '../navigation/navigator';
 export default function SplashScreen() {
   const {isAuthenticated, isLoading} = useFirebaseAuth();
 
-  console.log(isAuthenticated);
   useEffect(() => {
     if (!isLoading) {
       wait(getMS.second(4)).then(() => {

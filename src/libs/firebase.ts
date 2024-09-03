@@ -26,7 +26,7 @@ export const signOut = async () => {
     .signOut()
     .then(async () => {
       GoogleSignin.revokeAccess();
-      console.log('User signed out!');
+      ToastAndroid.show('You are SignOut !', 1000);
     });
 };
 
@@ -156,4 +156,5 @@ export const useFirebaseAuth = () => {
 
 // Firebase db
 import database from '@react-native-firebase/database';
+import {ToastAndroid} from 'react-native';
 export const userDB = (userId: string) => database().ref(`/users/${userId}`);

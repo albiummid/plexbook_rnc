@@ -1,4 +1,5 @@
 import {CommonActions} from '@react-navigation/native';
+import {ToastAndroid} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {ldbKeys} from '../constants/keys';
 import {dispatch} from '../navigators/RootNavigation';
@@ -27,10 +28,8 @@ export const deviceInit = async () => {
       ldb.set(ldbKeys.device_token, device.device_token);
       ldb.set(ldbKeys.device_initialized, true);
     } catch (err) {
-      console.log(err);
+      ToastAndroid.show(String(err), 200);
     }
-  } else {
-    console.log('REGISTERED_DEVICE__');
   }
 };
 export const logout = async () => {

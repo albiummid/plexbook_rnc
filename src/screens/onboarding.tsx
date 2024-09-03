@@ -244,12 +244,7 @@ const ThirdScreen = () => {
     setSelectedLanguage,
     setSelectedGenre,
     selectedGenre,
-    userDetails,
   } = useOnboarding();
-
-  useEffect(() => {
-    console.log(userDetails);
-  }, [userDetails]);
 
   const genreChipList = useMemo(
     () =>

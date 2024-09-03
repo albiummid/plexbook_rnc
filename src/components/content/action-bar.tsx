@@ -122,7 +122,7 @@ export default function ContentActionBar({
 
         queryList.refetch();
       } catch (err) {
-        console.log(err);
+        ToastAndroid.show(String(err), 2000);
       }
     },
     [queryList],

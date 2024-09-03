@@ -21,7 +21,6 @@ declare module 'react-native-actions-sheet' {
 
 function BookmarkSheet() {
   const ref = useRef(null);
-  console.log();
   return (
     <ActionSheet
       closable={false}
