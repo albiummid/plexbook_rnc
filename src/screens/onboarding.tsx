@@ -16,10 +16,10 @@ import {api} from '../libs/api';
 import {deviceInfo} from '../libs/device';
 import {signInWithGoogle, useFirebaseAuth} from '../libs/firebase';
 import {localDB} from '../libs/localDB';
+import {router} from '../libs/navigation/navigator';
 import tw from '../libs/tailwind';
 import {hp, wp} from '../libs/utils/Scaling';
 import {useOnboarding} from '../libs/zustand';
-import {router} from '../navigation/navigator';
 
 export default function OnboardingScreen() {
   const halfPage = {height: wp(80), width: wp(100)};

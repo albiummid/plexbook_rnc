@@ -4,9 +4,9 @@ import React, {PropsWithChildren} from 'react';
 import {SheetProvider} from 'react-native-actions-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {NavigationProvider} from '../../libs/navigation/navigator';
 import {clientPersister} from '../../libs/tanstack';
 import {getMS} from '../../libs/utils/helpers';
-import {NavigationProvider} from '../../navigation/navigator';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

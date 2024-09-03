@@ -12,14 +12,14 @@ import ContentImageList from '../../components/ContentImageList';
 import {MovieInfo} from '../../components/ContentInfo';
 import Header from '../../components/layout/Header';
 import RecommendedList from '../../components/RecommendedList';
-import Section from '../../components/Section';
+import StoryLine from '../../components/StoryLine';
 import TScrollView from '../../components/ui/TScrollView';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
 import Icons from '../../components/ui/vector-icons';
+import {ScreenProps} from '../../libs/navigation/Screens';
 import tw from '../../libs/tailwind';
 import {getContentDetailsById, getDuration, getImageURL} from '../../libs/tmdb';
-import {ScreenProps} from '../../navigation/Screens';
 import {TMovieDetails} from '../../types/contents/movie.types';
 
 export default function MovieDetailScreen({
@@ -89,11 +89,7 @@ export default function MovieDetailScreen({
       </ImageBackground>
 
       {/* Story Line */}
-      <Section labelColor={'white'} label="Story line">
-        <TText color={'white'} style={tw` text-gray-200 mx-2  `}>
-          {data.overview ?? details?.overview ?? ''}
-        </TText>
-      </Section>
+      <StoryLine story={details?.overview ?? data.overview} />
 
       {/* Trailer section */}
       <TrailerSection contentId={id} contentKind="movie" />

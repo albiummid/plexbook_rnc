@@ -1,6 +1,7 @@
 import {useQuery} from '@tanstack/react-query';
 import React from 'react';
-import {FlatList, Text, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {FlatList, View, ViewStyle} from 'react-native';
+import {router} from '../libs/navigation/navigator';
 import tw from '../libs/tailwind';
 import {
   getPopularContents,
@@ -9,7 +10,6 @@ import {
   getUpcomingContents,
 } from '../libs/tmdb';
 import {fisherYatesShuffle} from '../libs/utils/helpers';
-import {router} from '../navigation/navigator';
 import {TopicKind} from '../types/common';
 import {TMovieListResponse} from '../types/contents/content.types';
 import {TMovieListItem} from '../types/contents/movie.types';
@@ -17,6 +17,7 @@ import {TSeriesListItem} from '../types/contents/series.types';
 import {renderHorizontalSkeltonList} from './content/card/content-skelton';
 import MovieCard from './content/card/movie-card';
 import SeriesCard from './content/card/series-card';
+import Section from './Section';
 
 export default function TopicSection({
   topic,
@@ -51,47 +52,39 @@ export default function TopicSection({
   });
 
   return (
-    <View style={tw.style('mt-5 gap-2', style)}>
-      <View style={tw.style(`flex-row items-center justify-between mx-2`)}>
-        <Text style={tw`border-l-8 pl-4 border-primary text-lg`}>
-          {topic.name}
-        </Text>
-        <TouchableOpacity
-          onPress={() => {
-            router.navigate('topic_list', {
-              topicKind: topic.kind,
-              contentKind,
-            });
-          }}
-          activeOpacity={0.5}>
-          <Text
-            style={tw` border border-orange-400 text-primary bg-orange-50 px-3 py-1 rounded-lg `}>
-            View All
-          </Text>
-        </TouchableOpacity>
+    <Section
+      label={topic.name}
+      rightButtonTitle="View All"
+      onRightButtonPress={() => {
+        router.navigate('topic_list', {
+          topicKind: topic.kind,
+          contentKind,
+        });
+      }}>
+      <View style={tw.style('mt-5 gap-2', style)}>
+        {!listReq.isSuccess && renderHorizontalSkeltonList()}
+        {listReq.isSuccess && (
+          <FlatList
+            // estimatedItemSize={20}
+            disableIntervalMomentum
+            horizontal
+            data={list}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.id}
+            renderItem={({item, index}) => {
+              if (contentKind == 'movie') {
+                return (
+                  <MovieCard style={tw`mx-2`} data={item as TMovieListItem} />
+                );
+              } else {
+                return (
+                  <SeriesCard style={tw`mx-2`} data={item as TSeriesListItem} />
+                );
+              }
+            }}
+          />
+        )}
       </View>
-      {!listReq.isSuccess && renderHorizontalSkeltonList()}
-      {listReq.isSuccess && (
-        <FlatList
-          // estimatedItemSize={20}
-          disableIntervalMomentum
-          horizontal
-          data={list}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.id}
-          renderItem={({item, index}) => {
-            if (contentKind == 'movie') {
-              return (
-                <MovieCard style={tw`mx-2`} data={item as TMovieListItem} />
-              );
-            } else {
-              return (
-                <SeriesCard style={tw`mx-2`} data={item as TSeriesListItem} />
-              );
-            }
-          }}
-        />
-      )}
-    </View>
+    </Section>
   );
 }

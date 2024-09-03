@@ -8,26 +8,27 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import {PropsWithChildren} from 'react';
-import Icons from '../components/ui/vector-icons';
-import {colors} from '../constants/colors';
-import CastListScreen from '../screens/cast';
-import GenreList from '../screens/genrelist';
-import ListScreen from '../screens/list';
-import LoginScreen from '../screens/login';
-import MoviesHomeScreen from '../screens/movies';
-import MovieDetailScreen from '../screens/movies/details';
-import Onboarding from '../screens/onboarding';
-import PersonDetailScreen from '../screens/person/details';
-import ProfileScreen from '../screens/profile';
-import SearchScreen from '../screens/search';
-import SeriesHomeScreen from '../screens/series';
-import SeriesDetailScreen from '../screens/series/details';
-import SeasonDetails from '../screens/series/season-details';
-import SplashScreen from '../screens/splash';
-import TopicListScreen from '../screens/topic';
-import {TPersonListItem} from '../types/contents/content.types';
-import {TMovieListItem} from '../types/contents/movie.types';
-import {Season, TSeriesListItem} from '../types/contents/series.types';
+import Icons from '../../components/ui/vector-icons';
+import {colors} from '../../constants/colors';
+import CastListScreen from '../../screens/cast';
+import GenreList from '../../screens/genrelist';
+import ListScreen from '../../screens/list';
+import LoginScreen from '../../screens/login';
+import MoviesHomeScreen from '../../screens/movies';
+import MovieDetailScreen from '../../screens/movies/details';
+import Onboarding from '../../screens/onboarding';
+import PersonDetailScreen from '../../screens/person/details';
+import ProfileScreen from '../../screens/profile';
+import SearchScreen from '../../screens/search';
+import SeriesHomeScreen from '../../screens/series';
+import SeriesDetailScreen from '../../screens/series/details';
+import SeasonDetails from '../../screens/series/season-details';
+import SplashScreen from '../../screens/splash';
+import TopicListScreen from '../../screens/topic';
+import {TPersonListItem} from '../../types/contents/content.types';
+import {TMovieListItem} from '../../types/contents/movie.types';
+import {Season, TSeriesListItem} from '../../types/contents/series.types';
+import tw from '../tailwind';
 import {RouteName} from './navigator';
 
 type TTabScreenListItem = {
@@ -136,6 +137,7 @@ export function BottomTab() {
           tabBarInactiveTintColor: colors.inactive_tint,
           headerShadowVisible: false,
           tabBarShowLabel: false,
+          tabBarStyle: tw`bg-black`,
         })}>
         <>
           {tabScreens.map((item, index) => {

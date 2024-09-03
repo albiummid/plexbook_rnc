@@ -1,4 +1,4 @@
-import React, {PropsWithChildren} from 'react';
+import React, {PropsWithChildren, ReactNode} from 'react';
 import {Text, TouchableOpacity, View, ViewProps} from 'react-native';
 import tw from '../libs/tailwind';
 
@@ -6,7 +6,7 @@ type SectionProps = PropsWithChildren<
   ViewProps & {
     label: string;
     labelColor?: string;
-    rightSection?: () => JSX.Element;
+    rightSection?: ReactNode;
   } & {
     rightButtonTitle?: string;
     onRightButtonPress?: () => void;
@@ -23,17 +23,17 @@ export default function Section({
   ...props
 }: SectionProps) {
   return (
-    <View style={tw`gap-1 mt-4 flex-1 `}>
+    <View style={[tw`gap-1 pt-4 flex-1  `, props.style]}>
       <View
         style={tw.style(`flex-row items-center justify-between mx-2 mb-2 `)}>
         <Text
-          style={tw`border-l-8 pl-4 border-primary text-xl  font-bold ${
-            labelColor ? `text-[${labelColor}]` : ' text-black'
+          style={tw`border-l-8 pl-4 border-primary text-white text-xl  font-bold ${
+            labelColor ? `text-[${labelColor}]` : ' '
           }`}>
           {label}
         </Text>
         {rightSection ? (
-          <>{rightSection}</>
+          <View>{rightSection}</View>
         ) : (
           <>
             {rightButtonTitle && (

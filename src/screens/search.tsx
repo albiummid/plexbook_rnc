@@ -1,115 +1,93 @@
-import {useFocusEffect} from '@react-navigation/native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {FlatList, TextInput, TouchableOpacity} from 'react-native';
+import React, {useMemo, useRef, useState} from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import {useDebouncedCallback} from 'use-debounce';
 import MovieCard from '../components/content/card/movie-card';
 import PersonCard from '../components/content/card/PersonCard';
 import SeriesCard from '../components/content/card/series-card';
 import Section from '../components/Section';
 import TabGroupButtons from '../components/ui/TabGroupButtons';
+import TText from '../components/ui/TText';
 import TView from '../components/ui/TView';
 import Icons from '../components/ui/vector-icons';
 import tw from '../libs/tailwind';
-import {useMultiSearch} from '../libs/tmdb';
-import {TMultiSearchItem} from '../types/contents/content.types';
+import {useContentSearch} from '../libs/tmdb';
 import {TMovieListItem} from '../types/contents/movie.types';
 import {TSeriesListItem} from '../types/contents/series.types';
 
 export default function SearchScreen() {
   const [keyword, setKeyword] = useState('');
+  const [textInput, setTextInput] = useState('');
   const ref = useRef<any>(null);
 
-  const {data} = useMultiSearch(keyword);
-  useFocusEffect(
-    useCallback(() => {
-      ref.current?.focus();
-    }, []),
+  const [activeTab, setActiveTab] = useState<'movie' | 'tv' | 'person'>(
+    'movie',
   );
+
+  const {data: iData, ...iReq} = useContentSearch({
+    contentKind: activeTab,
+    query: keyword,
+  });
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     ref.current?.focus();
+  //   }, []),
+  // );
   const debounce = useDebouncedCallback(v => {
     setKeyword(v);
   }, 600);
 
-  const [result, setResult] = useState<{
-    movie: TMultiSearchItem[];
-    series: TMultiSearchItem[];
-    person: TMultiSearchItem[];
-  }>({
-    movie: [],
-    series: [],
-    person: [],
-  });
-
-  useEffect(() => {
-    // Filtering different types of contents for rendering into tab
-    let movie: TMultiSearchItem[] = [];
-    let series: TMultiSearchItem[] = [];
-    let person: TMultiSearchItem[] = [];
-    data?.results?.forEach(x => {
-      if (x.media_type === 'movie') {
-        movie.push(x);
-      } else if (x.media_type === 'tv') {
-        series.push(x);
-      } else {
-        person.push(x);
-      }
-    });
-    setResult({movie, series, person});
-  }, [data?.results]);
-
-  useEffect(() => {
-    // Calculating max result and pushing it as first tab item
-    if (result.movie.length > result.series.length) {
-      if (result.movie.length > result.person.length) {
-        setActiveTab('movie');
-      } else {
-        setActiveTab('person');
-      }
-    } else if (result.series.length > result.person.length) {
-      setActiveTab('series');
-    } else {
-      setActiveTab('person');
-    }
-  }, [result]);
-
-  const [activeTab, setActiveTab] = useState('movie');
-  const tabItems = [
-    {
-      label: `Movie (${result.movie.length})`,
-      value: 'movie',
-      point: result.movie.length,
-    },
-    {
-      label: `Series (${result.series.length})`,
-      value: 'series',
-      point: result.series.length,
-    },
-    {
-      label: `Person (${result.person.length})`,
-      value: 'person',
-      point: result.person.length,
-    },
-  ].sort((a, b) => b.point - a.point); // Sorting tab item for render
-
-  // tab rendering functionality
-  const renderTab = keyword.length > 0 && data && (
-    <>
-      <TabGroupButtons
-        containerStyle={tw`mx-auto mt-5`}
-        tabItems={tabItems.map(x => ({label: x.label, value: x.value}))}
-        activeItem={activeTab}
-        onChange={e => setActiveTab(e)}
-      />
-    </>
+  const tabItems = useMemo(
+    () => [
+      {
+        label: `Movie`,
+        value: 'movie',
+      },
+      {
+        label: `Series`,
+        value: 'tv',
+      },
+      {
+        label: `Person`,
+        value: 'person',
+      },
+    ],
+    [],
   );
+  const loadMore = () => {
+    iReq.fetchNextPage();
+    if (iReq.hasNextPage) {
+    }
+  };
+
   return (
-    <Section label="Search">
+    <Section
+      label="Search"
+      style={tw`bg-black`}
+      rightSection={
+        <TabGroupButtons
+          containerStyle={tw`mx-auto `}
+          textStyle={tw`text-white`}
+          tabItems={tabItems.map(x => ({label: x.label, value: x.value}))}
+          activeItem={activeTab}
+          onChange={e => setActiveTab(e)}
+        />
+      }>
       <TView style={tw`relative border border-primary rounded-lg m-2`}>
         <TextInput
-          onChangeText={t => debounce(t)}
+          onChangeText={t => {
+            debounce(t);
+            setTextInput(t);
+          }}
           ref={ref}
-          autoFocus
-          style={tw`    py-2 px-4`}
-          placeholder=" Movie / Series / Artist , Search anything..."
+          value={textInput}
+          style={tw` py-2 px-4`}
+          placeholderTextColor={'white'}
+          placeholder={`Type any ${activeTab} name`}
         />
         {keyword.length > 0 && (
           <TouchableOpacity
@@ -122,30 +100,47 @@ export default function SearchScreen() {
           </TouchableOpacity>
         )}
       </TView>
-      <>{renderTab}</>
+      {keyword.length === 0 && (
+        <TText style={tw`text-center mt-10 text-white`}>
+          You haven't search anything yet !
+        </TText>
+      )}
+      {iReq.isSuccess && keyword.length > 0 && iData?.length === 0 && (
+        <TText style={tw`text-center mt-10 text-white`}>
+          Nothing found with this keyword...
+        </TText>
+      )}
       <FlatList
-        data={
-          activeTab === 'movie'
-            ? result.movie
-            : activeTab === 'series'
-            ? result.series
-            : result.person
-        }
+        data={iData}
         numColumns={3}
-        // style={tw`mx-2`}
-        columnWrapperStyle={tw`gap-x-2 `}
-        contentContainerStyle={tw`gap-y-2  mx-auto items-start `}
-        renderItem={({item}) => (
-          <>
-            {item.media_type === 'movie' ? (
-              <MovieCard data={item as TMovieListItem} />
-            ) : item.media_type === 'tv' ? (
-              <SeriesCard data={item as TSeriesListItem} />
-            ) : (
-              <PersonCard data={item} />
-            )}
-          </>
-        )}
+        style={tw`mx-2`}
+        onEndReachedThreshold={0.1}
+        // columnWrapperStyle={tw`gap-x-5 `}
+        contentContainerStyle={tw`gap-y-5 `}
+        renderItem={({item, index}) => {
+          return (
+            <>
+              {activeTab === 'movie' ? (
+                <MovieCard style={tw` m-auto`} data={item as TMovieListItem} />
+              ) : activeTab === 'tv' ? (
+                <SeriesCard style={tw`flex-1`} data={item as TSeriesListItem} />
+              ) : (
+                <PersonCard data={item} />
+              )}
+            </>
+          );
+        }}
+        // onEndReachedThreshold={0.5}
+        onEndReached={() => {
+          console.log('END_REACHED');
+          loadMore();
+        }}
+        ListFooterComponent={() => {
+          if (iReq.isRefetching) {
+            return <ActivityIndicator size={30} />;
+          }
+          return null;
+        }}
       />
     </Section>
   );

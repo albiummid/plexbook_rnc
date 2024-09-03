@@ -3,9 +3,9 @@ import {Image} from 'react-native';
 import TText from '../components/ui/TText';
 import TView from '../components/ui/TView';
 import {useFirebaseAuth} from '../libs/firebase';
+import {router} from '../libs/navigation/navigator';
 import tw from '../libs/tailwind';
 import {getMS, wait} from '../libs/utils/helpers';
-import {router} from '../navigation/navigator';
 
 export default function SplashScreen() {
   const {isAuthenticated, isLoading} = useFirebaseAuth();
@@ -20,7 +20,7 @@ export default function SplashScreen() {
         }
       });
     }
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated, isLoading, router]);
 
   return (
     <TView

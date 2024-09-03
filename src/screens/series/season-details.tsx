@@ -5,9 +5,9 @@ import Header from '../../components/layout/Header';
 import TScrollView from '../../components/ui/TScrollView';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
+import {ScreenProps} from '../../libs/navigation/Screens';
 import tw from '../../libs/tailwind';
 import {getImageURL, useSeriesSeason} from '../../libs/tmdb';
-import {ScreenProps} from '../../navigation/Screens';
 
 export default function SeasonDetails(props: ScreenProps<'season_details'>) {
   const {data, id} = props.route.params;
@@ -35,12 +35,12 @@ export default function SeasonDetails(props: ScreenProps<'season_details'>) {
             </TText>
           </TView>
         </TView>
-        <TScrollView horizontal>
+        <TScrollView>
           {details?.episodes.map(x => {
             return (
               <TouchableOpacity
                 activeOpacity={0.5}
-                style={tw`flex-row gap-2 mr-2  w-60  rounded-lg`}
+                style={tw`flex-row gap-2 flex-1 my-2 rounded-lg`}
                 key={x.id}>
                 <Image
                   style={tw`h-40 w-full rounded-lg`}

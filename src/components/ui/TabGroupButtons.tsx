@@ -31,43 +31,45 @@ export default function TabGroupButtons({
   onChange: (x: string) => void;
 }) {
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={[tw`gap-2`, containerStyle]}>
-      {tabItems.map(x => (
-        <TouchableOpacity
-          onPress={() => {
-            onChange(x.value);
-          }}
-          style={tw`ml-2 mr-2`}
-          key={x.value}>
-          {typeof x.label === 'string' ? (
-            <Text
-              style={[
-                tw.style(
-                  `text-base mb-1`,
-                  `${inactiveTintColor ? `text-[${activeTintColor}]` : ''}`,
-                  `  text-center ${
-                    activeItem === x.value
-                      ? `font-bold ${
-                          activeTintColor ? `text-[${activeTintColor}]` : ''
-                        }  `
-                      : ''
-                  } `,
-                ),
-                textStyle,
-              ]}>
-              {x.label}
-            </Text>
-          ) : (
-            <TView>{x.label}</TView>
-          )}
-          {activeItem === x.value && (
-            <View style={tw`w-3/4 mx-auto  bg-primary h-1 rounded-lg`} />
-          )}
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+    <View style={[containerStyle]}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={[tw`gap-2 `]}>
+        {tabItems.map(x => (
+          <TouchableOpacity
+            onPress={() => {
+              onChange(x.value);
+            }}
+            style={tw`mx-2 `}
+            key={x.value}>
+            {typeof x.label === 'string' ? (
+              <Text
+                style={[
+                  tw.style(
+                    `text-base`,
+                    `${inactiveTintColor ? `text-[${activeTintColor}]` : ''}`,
+                    `  text-center ${
+                      activeItem === x.value
+                        ? `font-bold ${
+                            activeTintColor ? `text-[${activeTintColor}]` : ''
+                          }  `
+                        : ''
+                    } `,
+                  ),
+                  textStyle,
+                ]}>
+                {x.label}
+              </Text>
+            ) : (
+              <TView>{x.label}</TView>
+            )}
+            {activeItem === x.value && (
+              <View style={tw`w-3/4 mx-auto   bg-primary h-1 rounded-lg`} />
+            )}
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </View>
   );
 }

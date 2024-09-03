@@ -1,8 +1,8 @@
 import React from 'react';
 import {Image, TouchableOpacity, View} from 'react-native';
 import {useFirebaseAuth} from '../libs/firebase';
+import {router} from '../libs/navigation/navigator';
 import tw from '../libs/tailwind';
-import {router} from '../navigation/navigator';
 import TText from './ui/TText';
 
 export default function HomeHeader() {
@@ -10,10 +10,10 @@ export default function HomeHeader() {
   if (!user) return;
 
   return (
-    <View style={tw`flex-row justify-between m-2`}>
+    <View style={tw`flex-row justify-between m-2  `}>
       <View>
-        <TText style={tw`text-xl font-bold`}>Plex | Book</TText>
-        <TText style={tw`text-sm`}>Hi, {user?.displayName}</TText>
+        <TText style={tw`text-2xl text-white font-bold`}>Plex | Book</TText>
+        <TText style={tw`text-sm text-white`}>Hi, {user?.displayName}</TText>
       </View>
 
       <TouchableOpacity

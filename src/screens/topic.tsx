@@ -5,9 +5,9 @@ import Section from '../components/Section';
 import ContentSkelton from '../components/content/card/content-skelton';
 import MovieCard from '../components/content/card/movie-card';
 import SeriesCard from '../components/content/card/series-card';
+import {ScreenProps} from '../libs/navigation/Screens';
 import tw from '../libs/tailwind';
 import {getPopularContents, getTopRatedContents} from '../libs/tmdb';
-import {ScreenProps} from '../navigation/Screens';
 
 export default function TopicListScreen(props: ScreenProps<'topic_list'>) {
   const {topicKind, contentKind} = props.route.params;

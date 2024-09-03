@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleProp, TextStyle, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {router} from '../../libs/navigation/navigator';
 import tw from '../../libs/tailwind';
-import {router} from '../../navigation/navigator';
 import TText from '../ui/TText';
 import Icons from '../ui/vector-icons';
 export default function Header({

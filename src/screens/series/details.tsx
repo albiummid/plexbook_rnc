@@ -11,14 +11,14 @@ import TrailerSection from '../../components/content/section/TrailerSection';
 import ContentImageList from '../../components/ContentImageList';
 import Header from '../../components/layout/Header';
 import RecommendedList from '../../components/RecommendedList';
-import Section from '../../components/Section';
+import StoryLine from '../../components/StoryLine';
 import TScrollView from '../../components/ui/TScrollView';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
 import Icons from '../../components/ui/vector-icons';
+import {ScreenProps} from '../../libs/navigation/Screens';
 import tw from '../../libs/tailwind';
 import {getContentDetailsById, getDuration, getImageURL} from '../../libs/tmdb';
-import {ScreenProps} from '../../navigation/Screens';
 import {TSeriesDetails} from '../../types/contents/series.types';
 
 export default function SeriesDetailScreen({
@@ -92,11 +92,8 @@ export default function SeriesDetailScreen({
       </ImageBackground>
 
       {/* Story Line */}
-      <Section labelColor={'white'} label="Story line">
-        <TText color={'white'} mX={8} style={tw` text-gray-200  `}>
-          {data.overview ?? details?.overview ?? ''}
-        </TText>
-      </Section>
+      <StoryLine story={details?.overview ?? data.overview} />
+
       {/* Season */}
       <SeasonSection data={details} />
 

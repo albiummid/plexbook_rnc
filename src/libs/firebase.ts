@@ -7,7 +7,6 @@ import {
 // import dynamicLinks from '@react-native-firebase/dynamic-links';
 // import messaging from '@react-native-firebase/messaging';
 import {useEffect, useState} from 'react';
-import {router} from '../navigation/navigator';
 export const codes = statusCodes;
 GoogleSignin.configure({
   webClientId:
@@ -157,4 +156,5 @@ export const useFirebaseAuth = () => {
 // Firebase db
 import database from '@react-native-firebase/database';
 import {ToastAndroid} from 'react-native';
+import {router} from './navigation/navigator';
 export const userDB = (userId: string) => database().ref(`/users/${userId}`);

@@ -12,10 +12,9 @@ import Icons from '../components/ui/vector-icons';
 import {api} from '../libs/api';
 import {signOut, useFirebaseAuth} from '../libs/firebase';
 import {ldbValues} from '../libs/localDB';
+import {router} from '../libs/navigation/navigator';
 import tw from '../libs/tailwind';
 import {getMS} from '../libs/utils/helpers';
-import {router} from '../navigation/navigator';
-
 export default function ProfileScreen() {
   const {user} = useFirebaseAuth();
   const userId = ldbValues.getUserId();
@@ -78,14 +77,8 @@ export default function ProfileScreen() {
             {x.name === 'Watched' && (
               <Icons.Feather size={30} color={'white'} name={'eye'} />
             )}
-            {x.items.length >= 0 && (
-              <TView
-                style={tw` m-auto h-5 w-5 absolute left-10 bottom-8 bg-rose-400 rounded-full  justify-center items-center `}>
-                <TText style={tw`text-white `}>{x?.items?.length}</TText>
-              </TView>
-            )}
           </TView>
-          <TText>{x.name}</TText>
+          <TText style={tw`mt-2 text-white`}>{x.name}</TText>
         </TouchableOpacity>
       );
     },
@@ -118,9 +111,9 @@ export default function ProfileScreen() {
   // rendering
   if (!user) return;
   return (
-    <View style={tw`mx-2 flex-1`}>
+    <View style={tw`px-2 flex-1 bg-black`}>
       <TView style={tw`justify-between flex-row items-center mb-5`}>
-        <TText style={tw`text-black font-bold text-xl`}>My Profile</TText>
+        <TText style={tw`text-white font-bold text-xl`}>My Profile</TText>
         <Icons.Feather
           onPress={() => {
             Alert.alert(
@@ -160,22 +153,24 @@ export default function ProfileScreen() {
           style={tw`h-28 w-24 rounded-3xl`}
         />
         <TView>
-          <TText style={tw`text-lg font-bold`}>{user.displayName}</TText>
-          <TText style={tw`text-base`}>{user.email}</TText>
-          <TText style={tw`text-base`}>{user.emailVerified}</TText>
+          <TText style={tw`text-lg font-bold text-white`}>
+            {user.displayName}
+          </TText>
+          <TText style={tw`text-base text-white`}>{user.email}</TText>
         </TView>
       </TView>
 
       {bookmarkReq.status === 'success' && (
-        <TView style={tw`mt-5 flex-1`}>
+        <TView style={tw`mt-5 flex-1 `}>
           <TView style={tw`flex-row flex-wrap  justify-center gap-10`}>
             {data.result.list.map(categoryItemRender)}
           </TView>
 
           <TabGroupButtons
-            containerStyle={tw`mx-auto mt-5`}
+            containerStyle={tw`mx-auto mt-5 `}
             tabItems={subTabItems}
             activeItem={activeSubTab}
+            textStyle={tw`text-white`}
             onChange={v => {
               setActiveSubTab(v);
             }}
@@ -189,8 +184,9 @@ export default function ProfileScreen() {
                 : []
             }
             numColumns={3}
-            contentContainerStyle={tw`gap-2`}
-            columnWrapperStyle={tw`gap-2 justify-center`}
+            style={tw`mt-5`}
+            contentContainerStyle={tw`gap-5`}
+            columnWrapperStyle={tw`gap-5  `}
             renderItem={
               activeSubTab === 'movie'
                 ? renderMovie

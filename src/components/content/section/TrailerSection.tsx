@@ -42,7 +42,7 @@ export default function TrailerSection(props: {
             }
             let index = playlist.findIndex((x: any) => x.key === activeItem);
             if (index + 1 === playlist.length) {
-              setActiveItem(playlist[0]?.key);
+              return;
             } else {
               setActiveItem(playlist[index + 1]?.key);
             }

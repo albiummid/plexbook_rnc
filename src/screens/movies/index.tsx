@@ -4,6 +4,7 @@ import {FeaturedMovieList} from '../../components/FeaturedList';
 import HomeHeader from '../../components/HomeHeader';
 import TopicSection from '../../components/TopicSection';
 import TScrollView from '../../components/ui/TScrollView';
+import tw from '../../libs/tailwind';
 export default function MoviesHomeScreen() {
   const scrollViewRef = useRef(null);
   useFocusEffect(
@@ -13,7 +14,7 @@ export default function MoviesHomeScreen() {
   );
 
   return (
-    <TScrollView ref={scrollViewRef}>
+    <TScrollView ref={scrollViewRef} style={tw`bg-black`}>
       <HomeHeader />
       <FeaturedMovieList contentKind="movie" />
       <TopicSection

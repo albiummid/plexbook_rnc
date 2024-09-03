@@ -1,8 +1,8 @@
 import React, {PropsWithChildren} from 'react';
 import {Image, Pressable, ViewProps} from 'react-native';
+import {router} from '../../../libs/navigation/navigator';
 import tw from '../../../libs/tailwind';
 import {getImageURL} from '../../../libs/tmdb';
-import {router} from '../../../navigation/navigator';
 import {TMovieListItem} from '../../../types/contents/movie.types';
 import {TSeriesListItem} from '../../../types/contents/series.types';
 

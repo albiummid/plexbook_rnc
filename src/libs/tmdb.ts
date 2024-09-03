@@ -611,3 +611,31 @@ export const useContentImages = (
     },
   });
 };
+
+export const useContentSearch = (props: {
+  contentKind: 'movie' | 'tv' | 'person';
+  query: string;
+}) => {
+  let queryStrList = [`query=${props.query}`];
+  return useInfiniteQuery({
+    queryKey: [{props}, 'search'],
+    queryFn: ({pageParam}) => {
+      console.log(pageParam);
+      return tmdbGET(
+        `/search/${props.contentKind}?page=${pageParam}&${queryStrList.join(
+          '&',
+        )}`,
+      );
+    },
+    select(data) {
+      return data.pages.map(x => x.data.results).flat();
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages, lastPageParams) => {
+      if (lastPage.data.total_pages > lastPageParams) {
+        return Number(lastPageParams) + 1;
+      }
+      return undefined;
+    },
+  });
+};

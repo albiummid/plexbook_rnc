@@ -49,7 +49,7 @@ export default function GenreList(props: ScreenProps<'genre_list'>) {
   return (
     <Section label={getGenreNameById(id)}>
       <TabGroupButtons
-        containerStyle={tw` mx-auto `}
+        containerStyle={tw` mx-auto mb-5`}
         activeItem={activeLanguage}
         onChange={v => setActiveLanguage(v as ISO6391LanguageCode)}
         tabItems={tabListItem}

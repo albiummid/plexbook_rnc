@@ -3,7 +3,6 @@ import React, {PropsWithChildren} from 'react';
 import {FlatList} from 'react-native';
 import tw from '../libs/tailwind';
 import {getContentCastListById} from '../libs/tmdb';
-import {router} from '../navigation/navigator';
 import {MovieCastList} from '../types/contents/movie.types';
 import CastCard from './content/card/cast-card';
 import {renderHorizontalSkeltonList} from './content/card/content-skelton';
@@ -24,12 +23,13 @@ export default function ArtistList({
       <Section
         labelColor={'white'}
         label="Artists"
-        rightButtonTitle="View All"
-        onRightButtonPress={() => {
-          router.navigate('cast_list', {
-            id,
-          });
-        }}>
+        // rightButtonTitle="View All"
+        // onRightButtonPress={() => {
+        //   router.navigate('cast_list', {
+        //     id,
+        //   });
+        // }}
+      >
         {listReq.isLoading ? (
           renderHorizontalSkeltonList()
         ) : (

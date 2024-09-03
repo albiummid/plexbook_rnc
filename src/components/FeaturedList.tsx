@@ -26,7 +26,7 @@ export function FeaturedMovieList(
   });
 
   return (
-    <Section label={'Featured'}>
+    <Section labelColor="white" label={'Featured'}>
       {trendingReq.isSuccess ? (
         <Carousel
           width={screenWidth}

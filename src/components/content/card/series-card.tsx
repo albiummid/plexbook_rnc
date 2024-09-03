@@ -9,9 +9,9 @@ import {
   ViewStyle,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {router} from '../../../libs/navigation/navigator';
 import tw from '../../../libs/tailwind';
 import {getImageURL} from '../../../libs/tmdb';
-import {router} from '../../../navigation/navigator';
 import {Season, TSeriesListItem} from '../../../types/contents/series.types';
 import TImage from '../../ui/TImage';
 import TText from '../../ui/TText';

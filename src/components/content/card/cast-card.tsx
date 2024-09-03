@@ -1,8 +1,8 @@
 import React, {PropsWithChildren} from 'react';
 import {Image, StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
+import {router} from '../../../libs/navigation/navigator';
 import tw from '../../../libs/tailwind';
 import {getImageURL} from '../../../libs/tmdb';
-import {router} from '../../../navigation/navigator';
 import {Cast} from '../../../types/contents/movie.types';
 import TText from '../../ui/TText';
 import TView from '../../ui/TView';
