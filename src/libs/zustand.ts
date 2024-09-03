@@ -38,9 +38,10 @@ type OnboardingState = {
   setDoneEnabled: (v: boolean) => void;
   disableScrolling: () => void;
   enableScrolling: () => void;
+  reset: () => void;
 };
 
-export const useOnboarding = create<OnboardingState>(set => ({
+const onboardingIS = {
   scrollEnabled: true,
   doneEnabled: true,
   nextEnabled: true,
@@ -48,6 +49,10 @@ export const useOnboarding = create<OnboardingState>(set => ({
   selectedLanguage: [],
   selectedGenre: [],
   userDetails: null,
+};
+
+export const useOnboarding = create<OnboardingState>(set => ({
+  ...onboardingIS,
   setUserDetails(v) {
     set({userDetails: v});
   },
@@ -61,6 +66,7 @@ export const useOnboarding = create<OnboardingState>(set => ({
     set({scrollEnabled: false, doneEnabled: false, nextEnabled: false}),
   enableScrolling: () =>
     set({scrollEnabled: true, doneEnabled: true, nextEnabled: true}),
+  reset: () => set(onboardingIS),
 }));
 
 type TAppConfig = {

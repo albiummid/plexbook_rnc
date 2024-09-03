@@ -87,8 +87,8 @@ export default function ContentActionBar({
         contentId: id,
       });
       ToastAndroid.show(
-        `"${data?.title ?? data?.name}" is added in '${bookmarkName}' list`,
-        500,
+        `"${data?.title ?? data?.name}" is added in ${bookmarkName} list`,
+        ToastAndroid.SHORT,
       );
     },
     [id, data, contentKind, userId],
@@ -101,7 +101,7 @@ export default function ContentActionBar({
         contentId: id,
       });
       ToastAndroid.show(
-        `"${data?.title ?? data?.name}" is removed from "${bookmarkName}" list`,
+        `"${data?.title ?? data?.name}" is removed from ${bookmarkName} list`,
         500,
       );
     },
@@ -122,7 +122,7 @@ export default function ContentActionBar({
 
         queryList.refetch();
       } catch (err) {
-        ToastAndroid.show(String(err), 2000);
+        ToastAndroid.show(String(err), 1000);
       }
     },
     [queryList],

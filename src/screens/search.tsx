@@ -85,7 +85,7 @@ export default function SearchScreen() {
           }}
           ref={ref}
           value={textInput}
-          style={tw` py-2 px-4`}
+          style={tw` py-2 px-4 text-white`}
           placeholderTextColor={'white'}
           placeholder={`Type any ${activeTab} name`}
         />
@@ -123,9 +123,12 @@ export default function SearchScreen() {
               {activeTab === 'movie' ? (
                 <MovieCard style={tw` m-auto`} data={item as TMovieListItem} />
               ) : activeTab === 'tv' ? (
-                <SeriesCard style={tw`flex-1`} data={item as TSeriesListItem} />
+                <SeriesCard
+                  style={tw` m-auto`}
+                  data={item as TSeriesListItem}
+                />
               ) : (
-                <PersonCard data={item} />
+                <PersonCard style={tw` m-auto`} data={item} />
               )}
             </>
           );

@@ -9,6 +9,7 @@ import TImage from '../components/ui/TImage';
 import TText from '../components/ui/TText';
 import TView from '../components/ui/TView';
 import Icons from '../components/ui/vector-icons';
+import {colors} from '../constants/colors';
 import {api} from '../libs/api';
 import {signOut, useFirebaseAuth} from '../libs/firebase';
 import {ldbValues} from '../libs/localDB';
@@ -67,15 +68,15 @@ export default function ProfileScreen() {
             selected === x.name && ` border-b-4 pb-1 border-primary `,
           )}
           key={x._id}>
-          <TView style={tw`mx-auto bg-primary rounded-full p-2`}>
+          <TView style={tw`mx-auto border-2 border-primary rounded-full p-2`}>
             {x.name === 'Favorite' && (
-              <Icons.Feather size={30} color={'white'} name={'heart'} />
+              <Icons.Feather size={30} color={colors.primary} name={'heart'} />
             )}
             {x.name === 'Watch Later' && (
-              <Icons.Feather size={30} color={'white'} name={'watch'} />
+              <Icons.Feather size={30} color={colors.primary} name={'watch'} />
             )}
             {x.name === 'Watched' && (
-              <Icons.Feather size={30} color={'white'} name={'eye'} />
+              <Icons.Feather size={30} color={colors.primary} name={'eye'} />
             )}
           </TView>
           <TText style={tw`mt-2 text-white`}>{x.name}</TText>

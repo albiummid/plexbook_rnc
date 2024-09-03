@@ -30,7 +30,7 @@ export default function Header({
       </TouchableOpacity>
       {title && (
         <View style={tw`mx-auto`}>
-          <TText style={[tw`font-bold text-black text-base`, textStyle]}>
+          <TText style={[tw`font-bold text-black text-lg`, textStyle]}>
             {title}
           </TText>
         </View>

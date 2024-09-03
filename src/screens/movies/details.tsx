@@ -69,7 +69,7 @@ export default function MovieDetailScreen({
                 </>
               )}
               <TText style={tw`text-white text-xs`}>
-                {moment(data.release_date).format('DD MMMM YYYY')}
+                {moment(data.release_date).format('YYYY')}
               </TText>
             </TView>
             {/* Genre */}

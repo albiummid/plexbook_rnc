@@ -46,7 +46,6 @@ export const useFirebaseAuth = () => {
         if (!e) {
           setIsAuthenticated(false);
           setUser(null);
-          router.navigate('onboarding');
         } else {
           setUser(e);
           setIsAuthenticated(true);
@@ -156,5 +155,4 @@ export const useFirebaseAuth = () => {
 // Firebase db
 import database from '@react-native-firebase/database';
 import {ToastAndroid} from 'react-native';
-import {router} from './navigation/navigator';
 export const userDB = (userId: string) => database().ref(`/users/${userId}`);

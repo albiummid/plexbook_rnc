@@ -30,39 +30,39 @@ export default function PersonDetailScreen(
     }, []),
   );
   return (
-    <TScrollView ref={scrollViewRef}>
-      <Header title="Person Details" />
+    <TScrollView style={tw`bg-black`} ref={scrollViewRef}>
+      <Header title="Person Details" textStyle={tw`text-white `} />
       <TView style={tw`mx-2 flex-row gap-2`}>
         <Image
           style={tw`h-48 w-30 rounded-lg`}
           source={{uri: getImageURL(data?.profile_path)}}
         />
         <TView style={tw`flex-1`}>
-          <TText style={tw`text-lg font-bold text-black`}>{data?.name}</TText>
-          <TText numberOfLines={3} style={tw` text-xs text-black`}>
+          <TText style={tw`text-lg font-bold text-white`}>{data?.name}</TText>
+          <TText numberOfLines={3} style={tw` text-xs text-white`}>
             <TText style={tw`font-bold text-sm`}>Also Known as :</TText>{' '}
             {data?.also_known_as.join(' , ')}
           </TText>
-          <TText style={tw` text-sm text-black`}>
+          <TText style={tw` text-sm text-white`}>
             <TText style={tw`font-semibold`}>Profession :</TText>{' '}
             {data?.known_for_department}
           </TText>
 
-          <TText style={tw`text-black`}>
+          <TText style={tw`text-white`}>
             <TText style={tw`font-bold`}>Gender : </TText> {gender}
           </TText>
-          <TText style={tw` text-sm text-black`}>
+          <TText style={tw` text-sm text-white`}>
             <TText style={tw`font-bold`}>Birth : </TText>{' '}
             {moment(data?.birthday).format('DD MMMM YYYY')}
           </TText>
           {data?.deathday ? (
-            <TText style={tw` text-sm text-black`}>
-              <TText style={tw`font-bold`}>Death : </TText> [`-$
+            <TText style={tw` text-sm text-white`}>
+              <TText style={tw`font-bold`}>Death : </TText> [`
               {moment(data.deathday).format('DD MMMM YYYY')}`]
             </TText>
           ) : null}
 
-          <TText style={tw`text-black`}>
+          <TText style={tw`text-white`}>
             <TText style={tw`font-bold`}>Location : </TText>{' '}
             {data?.place_of_birth}
           </TText>
@@ -70,10 +70,8 @@ export default function PersonDetailScreen(
       </TView>
 
       {/* Biography */}
-      <Section label="Biography" style={tw`h-30  mx-2`}>
-        <TScrollView>
-          <TText>{data?.biography}</TText>
-        </TScrollView>
+      <Section label="Biography" style={tw`  mx-2`}>
+        <TText style={tw`text-white`}>{data?.biography}</TText>
       </Section>
       {/* Images */}
       <Section label="Profile Images">

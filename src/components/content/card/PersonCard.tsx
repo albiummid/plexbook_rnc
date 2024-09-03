@@ -15,15 +15,15 @@ export default function PersonCard({data: item, style}: any) {
       onPress={() => {
         router.navigate('person_details', {id: item.id, data: item});
       }}
-      style={[
-        tw` rounded-lg bg-primary p-2 gap-1  items-center justify-center `,
-        style,
-      ]}>
+      style={[tw` rounded-lg  gap-1  items-center justify-center `, style]}>
       <TImage
         style={tw` h-40 w-28 rounded-md`}
         source={{uri: getImageURL(item.profile_path)}}
       />
-      <Text style={tw` text-sm text-center flex-1`}>{item.name}</Text>
+      <Text
+        style={tw` text-white bg-black/50 w-full p-2 absolute bottom-0 text-sm text-center flex-1`}>
+        {item.name}
+      </Text>
       {/* <View style={tw`px-2`}>
         <Text style={tw` text-sm`}>Name: {item.name}</Text>
         <Text style={tw`text-sm`}>Gender : {gender[item.gender]}</Text>

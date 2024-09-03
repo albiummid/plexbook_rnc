@@ -1,5 +1,6 @@
+import {useFocusEffect} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import React, {useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {
   FlatListProps,
   Image,
@@ -36,20 +37,16 @@ export default function OnboardingScreen() {
     nextEnabled,
     userDetails,
     doneEnabled,
+    reset,
   } = useOnboarding();
 
-  useEffect(() => {
-    if (pageIndex == 1 && !isAuthenticated) {
-      disableScrolling();
-    } else if (
-      pageIndex == 2 &&
-      (selectedLanguage.length == 0 || selectedGenre.length == 0)
-    ) {
-      disableScrolling();
-    } else {
-      enableScrolling();
-    }
-  }, [pageIndex, isAuthenticated, selectedLanguage, selectedGenre]);
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        reset();
+      };
+    }, []),
+  );
 
   const onCompleteOnboarding = async () => {
     // let this userDoesn't exits
@@ -69,10 +66,22 @@ export default function OnboardingScreen() {
     router.replace('tab_root');
   };
 
+  useEffect(() => {
+    if (pageIndex == 0) {
+      enableScrolling();
+    } else if (pageIndex == 1) {
+      isAuthenticated ? enableScrolling() : disableScrolling();
+    } else if (pageIndex == 2) {
+      !selectedGenre.length || !selectedLanguage.length
+        ? disableScrolling()
+        : enableScrolling();
+    }
+  }, [pageIndex, isAuthenticated, selectedGenre, selectedLanguage]);
+
   const pageList = useMemo(() => {
     return [
       {
-        backgroundColor: '#fff',
+        backgroundColor: '#000000',
         image: (
           <TView style={halfPage}>
             <FirstScreen />
@@ -80,12 +89,12 @@ export default function OnboardingScreen() {
         ),
         title: (
           <TText
-            style={[tw`text-3xl text-black font-semibold`, {letterSpacing: 0}]}>
+            style={[tw`text-3xl text-white font-semibold`, {letterSpacing: 0}]}>
             <Text style={tw`text-primary font-bold  text-4xl`}>P</Text>lexbook
           </TText>
         ),
         subtitle: (
-          <TText style={tw`text-black`}>
+          <TText style={tw`text-white`}>
             Save your favorite content and share with friends.
           </TText>
         ),
@@ -111,12 +120,6 @@ export default function OnboardingScreen() {
         subtitle: '',
       },
     ];
-    // .filter((x, i, arr) => {
-    //   if (!userDetails?.userPreference && i == 2) {
-    //     return false;
-    //   }
-    //   return true;
-    // });
   }, [userDetails]);
 
   return (
@@ -143,6 +146,10 @@ export default function OnboardingScreen() {
 }
 
 const FirstScreen = () => {
+  const {enableScrolling} = useOnboarding();
+  // useEffect(() => {
+  //   enableScrolling();
+  // }, []);
   return (
     <LottieView
       source={require('../assets/lottie/loop.json')}
@@ -160,8 +167,13 @@ const FirstScreen = () => {
 
 const SecondScreen = () => {
   const {user, isAuthenticated} = useFirebaseAuth();
-  const {setSelectedGenre, setSelectedLanguage, setUserDetails} =
-    useOnboarding();
+  const {
+    setSelectedGenre,
+    setSelectedLanguage,
+    setUserDetails,
+    disableScrolling,
+    enableScrolling,
+  } = useOnboarding();
   const handleGoogleSignIn = async () => {
     try {
       const res = await signInWithGoogle();
@@ -181,10 +193,16 @@ const SecondScreen = () => {
         2000,
         ToastAndroid.TOP,
       );
+      enableScrolling();
     } catch (err) {
       ToastAndroid.show(`SignIn error :${String(err)}`, 2000);
     }
   };
+
+  // useEffect(() => {
+  //   disableScrolling();
+  // }, []);
+
   return (
     <TView style={tw`flex-1 w-full`}>
       <TView style={tw`p-2 mb-5`}>
@@ -244,6 +262,8 @@ const ThirdScreen = () => {
     setSelectedLanguage,
     setSelectedGenre,
     selectedGenre,
+    disableScrolling,
+    enableScrolling,
   } = useOnboarding();
 
   const genreChipList = useMemo(
@@ -266,6 +286,14 @@ const ThirdScreen = () => {
         .reverse(),
     [],
   );
+
+  // useEffect(() => {
+  //   if (!selectedGenre.length || !selectedLanguage) {
+  //     disableScrolling();
+  //   } else {
+  //     enableScrolling();
+  //   }
+  // }, [selectedGenre, selectedLanguage]);
   return (
     <TView style={tw`m-2`}>
       <TText style={tw`text-2xl  text-black font-bold  `}>Favour</TText>
