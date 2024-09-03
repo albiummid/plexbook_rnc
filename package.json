@@ -11,7 +11,7 @@
     "signReport": "cd android && ./gradlew signingReport",
     "buildAndroid": "react-native build-android --mode=release",
     "releaseAPK": "cd android && ./gradlew assembleRelease",
-    "runRelease": "npm run android -- --mode='release'",
+    "bnr": "npm run buildAndroid && npm run releaseAPK",
     "rcStart": "cd android && ./gradlew clean && react-native start --reset-cache"
   },
   "dependencies": {
