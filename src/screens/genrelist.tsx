@@ -6,9 +6,9 @@ import SeriesCard from '../components/content/card/series-card';
 import Section from '../components/Section';
 import TabGroupButtons from '../components/ui/TabGroupButtons';
 import {ldb} from '../libs/localDB';
+import {ScreenProps} from '../libs/navigation/Screens';
 import tw from '../libs/tailwind';
 import {getGenreNameById, useDiscoverSeries} from '../libs/tmdb';
-import {ScreenProps} from '../navigation/Screens';
 import {ISO6391LanguageCode} from '../types/static.types';
 
 export default function GenreList(props: ScreenProps<'genre_list'>) {
@@ -47,9 +47,10 @@ export default function GenreList(props: ScreenProps<'genre_list'>) {
   );
 
   return (
-    <Section label={getGenreNameById(id)}>
+    <Section style={tw`bg-black`} label={getGenreNameById(id)}>
       <TabGroupButtons
         containerStyle={tw` mx-auto mb-5`}
+        textStyle={tw`text-white`}
         activeItem={activeLanguage}
         onChange={v => setActiveLanguage(v as ISO6391LanguageCode)}
         tabItems={tabListItem}
