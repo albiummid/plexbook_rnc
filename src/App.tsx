@@ -5,8 +5,7 @@ import ProviderWrapper from './components/layout/ProviderWrapper';
 import './components/ui/ActionSheet';
 import {api} from './libs/api';
 import {RootNavigator} from './libs/navigation/Screens';
-const downloadLink =
-  'https://github.com/Zenda-Cross/vega-app/releases/download/v2.4.1/Vega-armeabi-v7a-v2.4.1.apk';
+
 export default function InitApp() {
   useEffect(() => {
     api.post('/auth/version/check', {version: config.version}).then(data => {
