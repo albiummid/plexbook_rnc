@@ -132,7 +132,6 @@ export default function SearchScreen() {
         }}
         // onEndReachedThreshold={0.5}
         onEndReached={() => {
-          console.log('END_REACHED');
           loadMore();
         }}
         ListFooterComponent={() => {

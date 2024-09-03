@@ -620,7 +620,6 @@ export const useContentSearch = (props: {
   return useInfiniteQuery({
     queryKey: [{props}, 'search'],
     queryFn: ({pageParam}) => {
-      console.log(pageParam);
       return tmdbGET(
         `/search/${props.contentKind}?page=${pageParam}&${queryStrList.join(
           '&',
