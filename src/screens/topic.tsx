@@ -24,6 +24,7 @@ export default function TopicListScreen(props: ScreenProps<'topic_list'>) {
 
   return (
     <Section
+      style={tw`bg-black`}
       label={
         topicKind === 'top_rated'
           ? 'Top Rated'

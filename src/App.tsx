@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Alert, Linking} from 'react-native';
+import {Alert, Linking, StatusBar} from 'react-native';
 import {config} from '../app.config';
 import ProviderWrapper from './components/layout/ProviderWrapper';
 import './components/ui/ActionSheet';
@@ -27,6 +27,7 @@ export default function InitApp() {
   }, []);
   return (
     <ProviderWrapper>
+      <StatusBar translucent={true} />
       <RootNavigator />
     </ProviderWrapper>
   );

@@ -1,6 +1,7 @@
 import {QueryClient} from '@tanstack/react-query';
 import {PersistQueryClientProvider} from '@tanstack/react-query-persist-client';
 import React, {PropsWithChildren} from 'react';
+import {StatusBar} from 'react-native';
 import {SheetProvider} from 'react-native-actions-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -17,12 +18,14 @@ export const queryClient = new QueryClient({
 export default function ProviderWrapper({children}: PropsWithChildren) {
   return (
     <NavigationProvider>
+      <StatusBar translucent />
       <GestureHandlerRootView>
         <PersistQueryClientProvider
           client={queryClient}
           persistOptions={{persister: clientPersister}}>
           <SheetProvider>
             <SafeAreaView style={{flex: 1}}>{children}</SafeAreaView>
+            {/* {children} */}
           </SheetProvider>
         </PersistQueryClientProvider>
       </GestureHandlerRootView>
