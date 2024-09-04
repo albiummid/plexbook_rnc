@@ -157,7 +157,7 @@ export function BottomTab() {
 }
 
 export const authenticatedStack = [
-  StackScreen('tab_root', BottomTab),
+  StackScreen('tab_root', BottomTab, {}),
   StackScreen('list', ListScreen),
   StackScreen('topic_list', TopicListScreen),
   StackScreen('cast_list', CastListScreen),
