@@ -8,7 +8,11 @@ import TabGroupButtons from '../components/ui/TabGroupButtons';
 import {ldb} from '../libs/localDB';
 import {ScreenProps} from '../libs/navigation/Screens';
 import tw from '../libs/tailwind';
-import {getGenreNameById, useDiscoverSeries} from '../libs/tmdb';
+import {
+  getGenreNameById,
+  useDiscoverMovie,
+  useDiscoverSeries,
+} from '../libs/tmdb';
 import {ISO6391LanguageCode} from '../types/static.types';
 
 export default function GenreList(props: ScreenProps<'genre_list'>) {
@@ -26,7 +30,7 @@ export default function GenreList(props: ScreenProps<'genre_list'>) {
     },
     contentKind === 'tv',
   );
-  const {data: movieList, ...movieReq} = useDiscoverSeries(
+  const {data: movieList, ...movieReq} = useDiscoverMovie(
     {
       with_original_language: activeLanguage as ISO6391LanguageCode,
       with_genres: id,
@@ -74,9 +78,9 @@ export default function GenreList(props: ScreenProps<'genre_list'>) {
           renderItem={({item}) =>
             contentKind === 'movie' ? (
               <MovieCard style={tw``} data={item} />
-            ) : (
+            ) : contentKind === 'tv' ? (
               <SeriesCard style={tw``} data={item} />
-            )
+            ) : null
           }
         />
       )}

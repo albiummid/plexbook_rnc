@@ -56,7 +56,7 @@ export default function SplashScreen() {
           source={require('../assets/images/logo.png')}
         />
       </Animated.View>
-      <TView>
+      <TView style={tw`mb-10`}>
         <TText style={tw`text-white mt-auto mx-auto`}>
           Made with ❤️ by Albi Ummid
         </TText>
