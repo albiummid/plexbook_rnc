@@ -20,7 +20,9 @@
 - [x] Profile - with content interest
 - [ ] Comment in Movie/Series/Person Screen
 - [ ] Review Post for Movie/Series "@" keyword support for tagging movie/series/person
+- [ ] List Sharing and redirect to app from link (Deep linking)
 - [x] Language , Genre , Person chips in onboarding screen to get preference of the user.
+- [ ] Switch from list naming to tag assigning for filtering contents.
 - [ ] Local FTP Server Support
 - [ ] Cloud server support
 - [ ] Dark Theme
