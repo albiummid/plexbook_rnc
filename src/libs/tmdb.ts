@@ -26,6 +26,37 @@ export const getImageURL = (path: string = '') =>
 export const tmdbCustomImage = (path: string, sizeParam: string) =>
   `https://image.tmdb.org/t/p/${sizeParam}/${path}`;
 
+export const getPosterImageURL = (path: string, size: TPosterSizes) => {
+  return imageProperties.secure_base_url + size + path;
+};
+export const getBackdropImageURL = (path: string, size: TBackdropSizes) => {
+  return imageProperties.secure_base_url + size + path;
+};
+export const getStillImageURL = (path: string, size: TStillSizes) => {
+  return imageProperties.secure_base_url + size + path;
+};
+export const getLogoImageURL = (path: string, size: TLogoSizes) => {
+  return imageProperties.secure_base_url + size + path;
+};
+export const getProfileImageURL = (path: string, size: TProfileSizes) => {
+  return imageProperties.secure_base_url + size + path;
+};
+
+const imageProperties = {
+  base_url: 'http://image.tmdb.org/t/p/',
+  secure_base_url: 'https://image.tmdb.org/t/p/',
+  backdrop_sizes: ['w300', 'w780', 'w1280', 'original'],
+  logo_sizes: ['w45', 'w92', 'w154', 'w185', 'w300', 'w500', 'original'],
+  poster_sizes: ['w92', 'w154', 'w185', 'w342', 'w500', 'w780', 'original'],
+  profile_sizes: ['w45', 'w185', 'h632', 'original'],
+  still_sizes: ['w92', 'w185', 'w300', 'original'],
+} as const;
+
+type TBackdropSizes = (typeof imageProperties.backdrop_sizes)[number];
+type TLogoSizes = (typeof imageProperties.logo_sizes)[number];
+type TPosterSizes = (typeof imageProperties.poster_sizes)[number];
+type TProfileSizes = (typeof imageProperties.poster_sizes)[number];
+type TStillSizes = (typeof imageProperties.still_sizes)[number];
 export const genres: Record<number, string> = {
   12: 'Adventure',
   14: 'Fantasy',
@@ -589,12 +620,6 @@ export const getIMDBRating = async (imdbId: string) => {
     star: data.data.rating.star,
   };
 };
-
-type TBackdropSizes = (typeof TMDBConfigs.images.backdrop_sizes)[number];
-type TLogoSizes = (typeof TMDBConfigs.images.logo_sizes)[number];
-type TPosterSizes = (typeof TMDBConfigs.images.poster_sizes)[number];
-type TProfileSizes = (typeof TMDBConfigs.images.poster_sizes)[number];
-type TStilSizes = (typeof TMDBConfigs.images.still_sizes)[number];
 
 export const useContentImages = (
   id: number,

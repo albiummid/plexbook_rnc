@@ -2,7 +2,7 @@ import React, {PropsWithChildren} from 'react';
 import {Image, Pressable, ViewProps} from 'react-native';
 import {router} from '../../../libs/navigation/navigator';
 import tw from '../../../libs/tailwind';
-import {getImageURL} from '../../../libs/tmdb';
+import {getPosterImageURL} from '../../../libs/tmdb';
 import {TMovieListItem} from '../../../types/contents/movie.types';
 import {TSeriesListItem} from '../../../types/contents/series.types';
 
@@ -20,7 +20,7 @@ export function FeaturedMovieCard(
       style={[tw`w-full h-full`, props.style]}>
       <Image
         style={tw` h-full w-full rounded-lg`}
-        source={{uri: getImageURL(props.data.poster_path)}}
+        source={{uri: getPosterImageURL(props.data.poster_path, 'w500')}}
       />
     </Pressable>
   );
@@ -40,7 +40,7 @@ export function FeaturedSeriesCard(
       style={[tw`w-full h-full`, props.style]}>
       <Image
         style={tw` h-full w-full rounded-lg`}
-        source={{uri: getImageURL(props.data.poster_path)}}
+        source={{uri: getPosterImageURL(props.data.poster_path, 'w500')}}
       />
     </Pressable>
   );

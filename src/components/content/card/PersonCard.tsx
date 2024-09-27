@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import {router} from '../../../libs/navigation/navigator';
 import tw from '../../../libs/tailwind';
-import {getImageURL} from '../../../libs/tmdb';
+import {getProfileImageURL} from '../../../libs/tmdb';
 import TImage from '../../ui/TImage';
 
 export default function PersonCard({data: item, style}: any) {
@@ -18,7 +18,7 @@ export default function PersonCard({data: item, style}: any) {
       style={[tw` rounded-lg  gap-1  items-center justify-center `, style]}>
       <TImage
         style={tw` h-40 w-28 rounded-md`}
-        source={{uri: getImageURL(item.profile_path)}}
+        source={{uri: getProfileImageURL(item.profile_path, 'w185')}}
       />
       <Text
         style={tw` text-white bg-black/50 w-full p-2 absolute bottom-0 text-sm text-center flex-1`}>

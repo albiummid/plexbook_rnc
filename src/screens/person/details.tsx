@@ -10,7 +10,11 @@ import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
 import {ScreenProps} from '../../libs/navigation/Screens';
 import tw from '../../libs/tailwind';
-import {getImageURL, useContentImages, usePersonDetails} from '../../libs/tmdb';
+import {
+  getProfileImageURL,
+  useContentImages,
+  usePersonDetails,
+} from '../../libs/tmdb';
 import {TPersonImageList} from '../../types/contents/content.types';
 
 export default function PersonDetailScreen(
@@ -35,7 +39,7 @@ export default function PersonDetailScreen(
       <TView style={tw`mx-2 flex-row gap-2`}>
         <Image
           style={tw`h-48 w-30 rounded-lg`}
-          source={{uri: getImageURL(data?.profile_path)}}
+          source={{uri: getProfileImageURL(data?.profile_path!, 'w154')}}
         />
         <TView style={tw`flex-1`}>
           <TText style={tw`text-lg font-bold text-white`}>{data?.name}</TText>
@@ -84,7 +88,7 @@ export default function PersonDetailScreen(
             return (
               <Image
                 style={tw`h-40 w-26 ml-2 rounded-lg `}
-                source={{uri: getImageURL(item.file_path)}}
+                source={{uri: getProfileImageURL(item.file_path, 'w154')}}
               />
             );
           }}

@@ -4,7 +4,7 @@ import {Text, TouchableOpacity, View, ViewProps, ViewStyle} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {router} from '../../../libs/navigation/navigator';
 import tw from '../../../libs/tailwind';
-import {getImageURL} from '../../../libs/tmdb';
+import {getPosterImageURL} from '../../../libs/tmdb';
 import {TMovieListItem} from '../../../types/contents/movie.types';
 import TImage from '../../ui/TImage';
 import Icons from '../../ui/vector-icons';
@@ -32,7 +32,7 @@ export default function MovieCard({data, style, disable}: CardProps) {
       style={[tw`h-40 w-28  rounded-lg`, style]}>
       <TImage
         style={tw`h-full w-full rounded-lg`}
-        source={{uri: getImageURL(data.poster_path)}}
+        source={{uri: getPosterImageURL(data.poster_path, 'w154')}}
       />
       <LinearGradient
         style={tw`absolute bottom-0 w-full rounded-b-lg flex-row items-center justify-between p-2`}

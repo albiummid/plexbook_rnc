@@ -2,7 +2,11 @@ import {FlashList} from '@shopify/flash-list';
 import React, {PropsWithChildren, useState} from 'react';
 import {Image, ImageBackground, Modal, TouchableOpacity} from 'react-native';
 import tw from '../libs/tailwind';
-import {getImageURL, useContentImages} from '../libs/tmdb';
+import {
+  getBackdropImageURL,
+  getPosterImageURL,
+  useContentImages,
+} from '../libs/tmdb';
 import {Poster} from '../types/contents/content.types';
 import Section from './Section';
 import Skelton from './ui/Skelton';
@@ -37,7 +41,10 @@ export default function ContentImageList(
               blurRadius={2}
               style={tw`h-40 w-28 rounded-lg`}
               source={{
-                uri: getImageURL(images?.posters?.[0]?.file_path ?? ''),
+                uri: getPosterImageURL(
+                  images?.posters?.[0]?.file_path ?? '',
+                  'w154',
+                ),
               }}
             />
             <TText
@@ -63,7 +70,10 @@ export default function ContentImageList(
               blurRadius={2}
               style={tw`h-40 w-full rounded-lg`}
               source={{
-                uri: getImageURL(images?.backdrops?.[0]?.file_path ?? ''),
+                uri: getBackdropImageURL(
+                  images?.backdrops?.[0]?.file_path ?? '',
+                  'w300',
+                ),
               }}>
               <TText
                 style={tw`text-white text-center mt-auto mx-auto w-full bg-black/60 p-2 `}
@@ -110,7 +120,7 @@ export default function ContentImageList(
                   )}>
                   <Image
                     style={tw`w-full h-full rounded-lg`}
-                    source={{uri: getImageURL(item.file_path)}}
+                    source={{uri: getBackdropImageURL(item.file_path, 'w300')}}
                   />
                   <TView
                     style={tw`bg-black/60 w-full p-2 rounded-t-lg absolute top-0`}

@@ -7,7 +7,11 @@ import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
 import {ScreenProps} from '../../libs/navigation/Screens';
 import tw from '../../libs/tailwind';
-import {getImageURL, useSeriesSeason} from '../../libs/tmdb';
+import {
+  getPosterImageURL,
+  getStillImageURL,
+  useSeriesSeason,
+} from '../../libs/tmdb';
 
 export default function SeasonDetails(props: ScreenProps<'season_details'>) {
   const {data, id} = props.route.params;
@@ -19,7 +23,7 @@ export default function SeasonDetails(props: ScreenProps<'season_details'>) {
         <TView stack="hStack" gap={2}>
           <Image
             style={tw`h-50 w-36 rounded-lg`}
-            source={{uri: getImageURL(data.poster_path)}}
+            source={{uri: getPosterImageURL(data.poster_path, 'w185')}}
           />
           <TView style={tw`flex-1 gap-y-1`}>
             <TText style={tw`text-lg text-white font-bold`}>
@@ -44,7 +48,7 @@ export default function SeasonDetails(props: ScreenProps<'season_details'>) {
                 key={x.id}>
                 <Image
                   style={tw`h-40 w-full rounded-lg`}
-                  source={{uri: getImageURL(x.still_path)}}
+                  source={{uri: getStillImageURL(x.still_path, 'w185')}}
                 />
                 <TView
                   style={tw` absolute p-2 bottom-0 rounded-b-lg flex-1 bg-black/60 w-full mt-auto`}>

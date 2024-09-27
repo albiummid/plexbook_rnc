@@ -11,7 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {router} from '../../../libs/navigation/navigator';
 import tw from '../../../libs/tailwind';
-import {getImageURL} from '../../../libs/tmdb';
+import {getPosterImageURL} from '../../../libs/tmdb';
 import {Season, TSeriesListItem} from '../../../types/contents/series.types';
 import TImage from '../../ui/TImage';
 import TText from '../../ui/TText';
@@ -40,7 +40,7 @@ export default function SeriesCard({data, style, disable}: CardProps) {
       style={[tw`h-40 w-28 rounded-lg`, style]}>
       <Image
         style={tw`h-full w-full rounded-lg`}
-        source={{uri: getImageURL(data.poster_path)}}
+        source={{uri: getPosterImageURL(data.poster_path, 'w185')}}
       />
       <LinearGradient
         style={tw`absolute bottom-0 w-full rounded-b-lg flex-row items-center justify-between p-2`}
@@ -90,7 +90,7 @@ export const SeasonCard = (props: Season & {seriesId: number}) => {
       style={tw`  ml-2 mr-2 gap-2`}>
       <TImage
         style={tw`w-26 h-40 rounded-lg`}
-        source={{uri: getImageURL(props.poster_path)}}
+        source={{uri: getPosterImageURL(props.poster_path, 'w185')}}
       />
       <TText style={tw`text-white text-center font-bold`}>
         {props.name} (E:{props.episode_count})

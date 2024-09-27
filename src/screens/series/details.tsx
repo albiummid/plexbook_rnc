@@ -18,7 +18,12 @@ import TView from '../../components/ui/TView';
 import Icons from '../../components/ui/vector-icons';
 import {ScreenProps} from '../../libs/navigation/Screens';
 import tw from '../../libs/tailwind';
-import {getContentDetailsById, getDuration, getImageURL} from '../../libs/tmdb';
+import {
+  getBackdropImageURL,
+  getContentDetailsById,
+  getDuration,
+  getPosterImageURL,
+} from '../../libs/tmdb';
 import {TSeriesDetails} from '../../types/contents/series.types';
 
 export default function SeriesDetailScreen({
@@ -36,8 +41,8 @@ export default function SeriesDetailScreen({
   return (
     <TScrollView style={tw`bg-black`}>
       <ImageBackground
-        blurRadius={2}
-        source={{uri: getImageURL(data.backdrop_path)}}>
+        blurRadius={1}
+        source={{uri: getBackdropImageURL(data.backdrop_path, 'w300')}}>
         <Header textStyle={tw`text-white text-base`} />
         <LinearGradient
           style={tw`absolute bottom-0 w-full h-80`}
@@ -86,7 +91,7 @@ export default function SeriesDetailScreen({
           </TView>
           <Image
             style={tw`h-48 w-32 rounded-lg border-2 border-primary`}
-            source={{uri: getImageURL(data.poster_path)}}
+            source={{uri: getPosterImageURL(data.poster_path, 'w185')}}
           />
         </TView>
       </ImageBackground>
