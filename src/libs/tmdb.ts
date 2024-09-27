@@ -580,6 +580,16 @@ const TMDBConfigs = {
   ],
 } as const;
 
+export const getIMDBRating = async (imdbId: string) => {
+  const data = await axios.get(
+    `${process.env.IMDB_SERVER_URL}/title/${imdbId}`,
+  );
+  return {
+    count: data.data.rating.count,
+    star: data.data.rating.star,
+  };
+};
+
 type TBackdropSizes = (typeof TMDBConfigs.images.backdrop_sizes)[number];
 type TLogoSizes = (typeof TMDBConfigs.images.logo_sizes)[number];
 type TPosterSizes = (typeof TMDBConfigs.images.poster_sizes)[number];

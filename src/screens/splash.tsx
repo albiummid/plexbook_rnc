@@ -18,8 +18,8 @@ export default function SplashScreen() {
   const scale = useSharedValue(1);
 
   const scaleDown = () => {
-    return withTiming(0.5, {
-      duration: 1000,
+    return withTiming(1.5, {
+      duration: 500,
     });
   };
 
@@ -29,7 +29,7 @@ export default function SplashScreen() {
 
   useEffect(() => {
     if (!isLoading) {
-      wait(getMS.second(4.5)).then(() => {
+      wait(getMS.second(2.5)).then(() => {
         if (isAuthenticated) {
           router.replace('tab_root');
         } else {
@@ -61,7 +61,7 @@ export default function SplashScreen() {
           Made with ❤️ by Albi Ummid
         </TText>
         <TText style={tw`text-white text-xs mt-auto mx-auto`}>
-          albiummid@gmail.com
+          albi.netlify.app
         </TText>
       </TView>
     </TView>
