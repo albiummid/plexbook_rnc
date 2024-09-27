@@ -43,7 +43,7 @@ export default function ContentImageList(
               source={{
                 uri: getPosterImageURL(
                   images?.posters?.[0]?.file_path ?? '',
-                  'w154',
+                  'w342',
                 ),
               }}
             />
@@ -67,12 +67,12 @@ export default function ContentImageList(
             }}
             style={tw` h-full w-full flex-1`}>
             <ImageBackground
-              blurRadius={2}
+              blurRadius={1}
               style={tw`h-40 w-full rounded-lg`}
               source={{
                 uri: getBackdropImageURL(
                   images?.backdrops?.[0]?.file_path ?? '',
-                  'w300',
+                  'w780',
                 ),
               }}>
               <TText
