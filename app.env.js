@@ -4,10 +4,6 @@ const env = cleanEnv(process.env, {
     default: '',
     docs: 'TMDB API KEY is needed to run this app',
   }),
-  SUPABASE_ANON_KEY: str({
-    default: '',
-  }),
-  SUPABASE_URL: str({default: ''}),
 });
 
 export default env;
