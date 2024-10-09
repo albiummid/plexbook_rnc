@@ -514,7 +514,6 @@ export const useDiscoverMovie = (
   if (params.with_people) {
     queryStrArr.push(`with_people=${params.with_people}`);
   }
-  console.log(params);
   return useQuery({
     queryKey: ['discover-movie', {params, page, sort_by, language}],
     queryFn: () => tmdbGET(`/discover/tv?` + queryStrArr.join('&')),

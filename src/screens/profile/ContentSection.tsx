@@ -1,7 +1,6 @@
 import {useQueries} from '@tanstack/react-query';
 import React, {useMemo} from 'react';
 import {FlatList, Image, TouchableOpacity, View} from 'react-native';
-import {useSheetState} from '../../components/sheets/ActionSheet';
 import CreateAndUpdateTagSheet from '../../components/sheets/TagSheet';
 import TImage from '../../components/ui/TImage';
 import TText from '../../components/ui/TText';
@@ -35,7 +34,6 @@ export default function ContentSection() {
     [],
   );
 
-  console.log(useSheetState.getState().sheetList);
   const [{data: userContents, ...userContentsReq}, {data: tagList}] =
     useQueries({
       queries: [

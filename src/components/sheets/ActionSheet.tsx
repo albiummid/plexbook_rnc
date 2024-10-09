@@ -88,10 +88,10 @@ export const RNActionSheet = (
     <>
       <ActionSheet
         containerStyle={{...tw` p-2`, ...props.containerStyle}}
-        onClose={() => {
-          // useSheetState.setState(state => ({
-          //   sheetList: state.sheetList.filter(x => x.id !== props.sheetId),
-          // }));
+        onTouchBackdrop={() => {
+          useSheetState.setState(state => ({
+            sheetList: state.sheetList.filter(x => x.id !== props.sheetId),
+          }));
         }}
         ref={sheetRef}
         {...props}>

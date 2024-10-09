@@ -97,8 +97,6 @@ export type RootStackParamList = {
   };
 };
 
-console.log(process.env.NODE_ENV);
-
 export const tabScreens: TTabScreenListItem[] = [
   TabScreen('tab_movies', MoviesHomeScreen, {
     tabBarIcon(props) {

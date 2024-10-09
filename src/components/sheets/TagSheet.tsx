@@ -10,13 +10,7 @@ import {queryClient} from '../layout/ProviderWrapper';
 import TButton from '../ui/TButton';
 import TText from '../ui/TText';
 import TView from '../ui/TView';
-import {
-  closeSheet,
-  openSheet,
-  RNActionSheet,
-  sheetIds,
-  useSheetState,
-} from './ActionSheet';
+import {closeSheet, openSheet, RNActionSheet, sheetIds} from './ActionSheet';
 
 interface tagState {
   currentTag: null | any;
@@ -40,15 +34,15 @@ export const useTagState = create<tagState>(set => ({
 }));
 
 export const openTagCreatingSheet = () => {
-  useSheetState.getState().openSheet(sheetIds.tag_create_sheet);
+  openSheet(sheetIds.tag_create_sheet);
 };
 export const openTagUpdatingSheet = (currentTag: any) => {
-  useSheetState.getState().openSheet(sheetIds.tag_update_sheet);
+  openSheet(sheetIds.tag_update_sheet);
   useTagState.setState({currentTag, tagInput: currentTag.label});
 };
 export const closeTagSheet = () => {
-  useSheetState.getState().closeSheet(sheetIds.tag_create_sheet);
-  useSheetState.getState().closeSheet(sheetIds.tag_update_sheet);
+  closeSheet(sheetIds.tag_create_sheet);
+  closeSheet(sheetIds.tag_update_sheet);
   useTagState.setState({currentTag: null, error: '', tagInput: ''});
 };
 
@@ -87,7 +81,6 @@ export default function CreateAndUpdateTagSheet() {
       tagListReq.refetch();
       closeTagSheet();
     } catch (err) {
-      console.log(err);
       setError('Something went wrong !');
     }
   };
@@ -259,7 +252,6 @@ export function MoveToTagSheet() {
         sheetId={sheetIds.move_tag_content_sheet}>
         <TView style={tw`flex-row flex-wrap gap-2 justify-center`}>
           {tagList?.map((x: any, index: number) => {
-            console.log(selectedTagId, x._id);
             if (selectedTagId === x._id) {
               return null;
             }

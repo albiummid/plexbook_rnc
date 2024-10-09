@@ -1,11 +1,7 @@
 import React from 'react';
 import {Alert, ToastAndroid, TouchableOpacity} from 'react-native';
 import {queryClient} from '../../components/layout/ProviderWrapper';
-import {
-  openSheet,
-  sheetIds,
-  useSheetState,
-} from '../../components/sheets/ActionSheet';
+import {openSheet, sheetIds} from '../../components/sheets/ActionSheet';
 import {CopyToTagSheet, MoveToTagSheet} from '../../components/sheets/TagSheet';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
@@ -102,7 +98,6 @@ export default function SelectedActionBar() {
     return true;
   });
 
-  console.log(useSheetState.getState());
   if (selectedIds.length == 0) return null;
   return (
     <TView style={tw`mt-4 border border-primary p-2 rounded-lg`}>
