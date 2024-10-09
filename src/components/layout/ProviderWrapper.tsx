@@ -25,7 +25,6 @@ export default function ProviderWrapper({children}: PropsWithChildren) {
           persistOptions={{persister: clientPersister}}>
           <SheetProvider>
             <SafeAreaView style={{flex: 1}}>{children}</SafeAreaView>
-            {/* {children} */}
           </SheetProvider>
         </PersistQueryClientProvider>
       </GestureHandlerRootView>

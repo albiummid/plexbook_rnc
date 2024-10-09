@@ -50,7 +50,11 @@ export default function PersonCreditList({
                 data={uniqueArray(contentCredit?.cast) as TMovieCastCredit[]}
                 keyExtractor={(i, idx) => String(idx) + i}
                 renderItem={({item}) => (
-                  <MovieCard style={tw`ml-2`} data={item as TMovieListItem} />
+                  <MovieCard
+                    contentId={item.id}
+                    style={tw`ml-2`}
+                    data={item as TMovieListItem}
+                  />
                 )}
               />
               {contentCredit.crew?.length > 0 && (
@@ -64,7 +68,11 @@ export default function PersonCreditList({
                 keyExtractor={(i, idx) => String(idx) + i}
                 data={uniqueArray(contentCredit?.crew)}
                 renderItem={({item}) => (
-                  <MovieCard style={tw`ml-2`} data={item as TMovieListItem} />
+                  <MovieCard
+                    contentId={item.id}
+                    style={tw`ml-2`}
+                    data={item as TMovieListItem}
+                  />
                 )}
               />
             </TView>

@@ -11,6 +11,7 @@ import Icons from '../../ui/vector-icons';
 
 type CardProps = PropsWithChildren<
   {
+    contentId: number;
     data: TMovieListItem;
     style?: ViewStyle;
     disable?: boolean;
@@ -24,7 +25,7 @@ export default function MovieCard({data, style, disable}: CardProps) {
         if (!disable) {
           router.push('movie_details', {
             id: data.id,
-            data,
+            data: data,
           });
         }
       }}
@@ -64,7 +65,11 @@ export const CollectionMovieCard = (
       end={{x: 1, y: 0.5}}
       key={props.index}
       style={[tw``, props.style]}>
-      <MovieCard data={props.data} disable={props.disable} />
+      <MovieCard
+        contentId={props.data.id}
+        data={props.data}
+        disable={props.disable}
+      />
       <Text
         style={tw`text-9xl text-gray-50 font-bold absolute opacity-40 right-0`}>
         {props.index + 1}

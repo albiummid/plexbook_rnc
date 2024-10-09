@@ -40,9 +40,9 @@ export default function TopicListScreen(props: ScreenProps<'topic_list'>) {
           contentContainerStyle={tw`gap-y-2 justify-center items-center`}
           renderItem={({item, index}) => {
             if (contentKind === 'movie') {
-              return <MovieCard key={index} data={item} />;
+              return <MovieCard contentId={item.id} key={index} data={item} />;
             } else {
-              return <SeriesCard key={index} data={item} />;
+              return <SeriesCard contentId={item.id} key={index} data={item} />;
             }
           }}
         />

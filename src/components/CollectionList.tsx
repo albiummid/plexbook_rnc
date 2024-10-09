@@ -35,6 +35,7 @@ export default function CollectionList({
           renderItem={({item, index}) => {
             return (
               <CollectionMovieCard
+                contentId={item.id}
                 disable={id === item.id}
                 style={tw`mx-2 border-primary rounded-lg ${
                   id === item.id ? 'border' : ''

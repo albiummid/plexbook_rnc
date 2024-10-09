@@ -77,7 +77,7 @@ export default function GenreList(props: ScreenProps<'genre_list'>) {
           contentContainerStyle={tw`gap-y-5 justify-center items-center`}
           renderItem={({item}) =>
             contentKind === 'movie' ? (
-              <MovieCard style={tw``} data={item} />
+              <MovieCard contentId={item.id} style={tw``} data={item} />
             ) : contentKind === 'tv' ? (
               <SeriesCard style={tw``} data={item} />
             ) : null

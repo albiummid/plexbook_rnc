@@ -121,7 +121,11 @@ export default function SearchScreen() {
           return (
             <>
               {activeTab === 'movie' ? (
-                <MovieCard style={tw` m-auto`} data={item as TMovieListItem} />
+                <MovieCard
+                  contentId={item.id}
+                  style={tw` m-auto`}
+                  data={item as TMovieListItem}
+                />
               ) : activeTab === 'tv' ? (
                 <SeriesCard
                   style={tw` m-auto`}

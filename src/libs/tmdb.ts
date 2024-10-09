@@ -113,10 +113,10 @@ export const getGenreList = (list: number[]) => {
 //   `https://image.tmdb.org/t/p/w370_and_h556_multi_faces${path}`;
 
 export const getContentDetailsById = async (
-  contentId: 'movie' | 'tv' | 'collection' | 'review',
+  contentKind: 'movie' | 'tv' | 'collection' | 'review',
   id: number,
 ) => {
-  return await tmdbGET(`/${contentId}/${id}`);
+  return await tmdbGET(`/${contentKind}/${id}`);
 };
 
 export const getImagesByContentId = async (

@@ -83,7 +83,7 @@ export default function SeriesDetailScreen({
             <ContentActionBar
               data={data}
               style={tw`mt-1`}
-              contentKind={'movie'}
+              contentKind={'tv'}
               id={id}
             />
             {/* Genre */}

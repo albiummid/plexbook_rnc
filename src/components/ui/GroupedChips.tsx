@@ -37,7 +37,7 @@ export const ChipsButton = ({
       <Text
         style={[
           tw.style(
-            `text-black border px-2 py-1 rounded-3xl border-black`,
+            `text-black border px-2 py-1 rounded-3xl border-black mr-auto`,
             props.selected && 'text-white bg-black',
           ),
           props?.style,

@@ -1,12 +1,11 @@
 import {useQuery} from '@tanstack/react-query';
 import moment from 'moment';
 import React from 'react';
-import {Image, ImageBackground} from 'react-native';
+import {Image, ImageBackground, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ArtistList from '../../components/ArtistList';
 import CollectionList from '../../components/CollectionList';
 import ContentActionBar from '../../components/content/action-bar';
-import GenreSection from '../../components/content/section/GenreSection';
 import TrailerSection from '../../components/content/section/TrailerSection';
 import ContentImageList from '../../components/ContentImageList';
 import {MovieInfo} from '../../components/ContentInfo';
@@ -30,7 +29,7 @@ import {TMovieDetails} from '../../types/contents/movie.types';
 export default function MovieDetailScreen({
   route,
 }: ScreenProps<'movie_details'>) {
-  const {id, data} = route.params;
+  const {id} = route.params;
   const {data: details, ...detailsReq} = useQuery({
     queryKey: ['movie-details', id],
     queryFn: async () => {
@@ -39,11 +38,13 @@ export default function MovieDetailScreen({
     },
   });
 
+  if (!details) return <Text>Loading...</Text>;
+
   return (
     <TScrollView style={tw`bg-black`}>
       <ImageBackground
         blurRadius={1}
-        source={{uri: getBackdropImageURL(data.backdrop_path, 'w300')}}>
+        source={{uri: getBackdropImageURL(details?.backdrop_path, 'w300')}}>
         <Header textStyle={tw`text-white text-base`} />
         <LinearGradient
           style={tw`absolute bottom-0 w-full h-full`}
@@ -51,17 +52,19 @@ export default function MovieDetailScreen({
           start={{x: 0, y: 0}}
           end={{x: 0, y: 1}}
         />
-        <TView stack="hStack" alignItems="end" style={tw` mt-5 mx-2 gap-4 `}>
+        <TView stack="hStack" alignItems="end" style={tw`mx-2 gap-4 `}>
           <TView style={tw`flex-1 gap-y-2`}>
             {/* Poster side intro */}
-            <TText style={tw`text-white font-bold text-xl`}>{data.title}</TText>
+            <TText style={tw`text-white font-bold text-xl`}>
+              {details?.title}
+            </TText>
             {/*  */}
 
             <TView stack="hStack" gapX={1} alignItems="center">
               <TView stack="hStack" gap={1} alignItems="center">
                 <Icons.AntDesign style={tw`text-primary`} name="star" />
                 <TText style={tw`text-white text-xs`}>
-                  {Number(data.vote_average).toFixed(1)}
+                  {Number(details?.vote_average).toFixed(1)}
                 </TText>
               </TView>
               <Icons.Entypo name="dot-single" color={'white'} />
@@ -74,13 +77,13 @@ export default function MovieDetailScreen({
                 </>
               )}
               <TText style={tw`text-white text-xs`}>
-                {moment(data.release_date).format('YYYY')}
+                {moment(details?.release_date).format('YYYY')}
               </TText>
             </TView>
             {/* Genre */}
-            <GenreSection genreIds={data.genre_ids} contentKind="movie" />
+            {/* <GenreSection genreIds={details?.genre_ids} contentKind="movie" /> */}
             <ContentActionBar
-              data={data}
+              data={details}
               style={tw`mt-1`}
               contentKind={'movie'}
               id={id}
@@ -88,13 +91,13 @@ export default function MovieDetailScreen({
           </TView>
           <Image
             style={tw`h-48 w-32 rounded-lg border-2 border-primary`}
-            source={{uri: getPosterImageURL(data.poster_path, 'w154')}}
+            source={{uri: getPosterImageURL(details?.poster_path, 'w154')}}
           />
         </TView>
       </ImageBackground>
 
       {/* Story Line */}
-      <StoryLine story={details?.overview ?? data.overview} />
+      <StoryLine story={details?.overview ?? details?.overview} />
 
       {/* Trailer section */}
       <TrailerSection contentId={id} contentKind="movie" />

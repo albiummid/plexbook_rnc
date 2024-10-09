@@ -74,7 +74,11 @@ export default function TopicSection({
             renderItem={({item, index}) => {
               if (contentKind == 'movie') {
                 return (
-                  <MovieCard style={tw`mx-2`} data={item as TMovieListItem} />
+                  <MovieCard
+                    contentId={item.id}
+                    style={tw`mx-2`}
+                    data={item as TMovieListItem}
+                  />
                 );
               } else {
                 return (

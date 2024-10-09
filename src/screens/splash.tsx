@@ -28,8 +28,11 @@ export default function SplashScreen() {
   }, []);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      router.replace('temp');
+    }
     if (!isLoading) {
-      wait(getMS.second(2.5)).then(() => {
+      wait(getMS.second(2)).then(() => {
         if (isAuthenticated) {
           router.replace('tab_root');
         } else {
@@ -38,6 +41,10 @@ export default function SplashScreen() {
       });
     }
   }, [isAuthenticated, isLoading, spinning]);
+
+  if (process.env.NODE_ENV === 'development') {
+    return <></>;
+  }
 
   return (
     <TView style={tw`flex-1 bg-black  `}>

@@ -8,6 +8,6 @@ export const ldb = {
     localDB.set(key, JSON.stringify(value)),
 };
 export const ldbValues = {
-  getUserId: () => localDB.getString('userId'),
-  getUserInfo: () => ldb.getObject('userInfo'),
+  getUserId: () => localDB.getString('userId') ?? '',
+  getUserInfo: () => ldb.getObject('userInfo') ?? null,
 };

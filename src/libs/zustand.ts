@@ -96,3 +96,47 @@ export const useAppConfig = create(
     },
   ),
 );
+
+interface ContentState {
+  contentType: string;
+  selectedTag: null | any;
+  selectedTagId: string;
+  selectedIds: number[];
+  setSelectedIds: (list: number[]) => void;
+  toggleItem: (item: any) => void;
+  setSelectedTag: (tag: any) => void;
+  setContentType: (content: 'movie' | 'tv') => void;
+}
+
+const contentInitState = {
+  selectedTag: null,
+  selectedTagId: '',
+  contentType: 'movie',
+  selectedIds: [],
+};
+
+export const useContentState = create<ContentState>((set, get) => ({
+  ...contentInitState,
+  setSelectedIds(list: any[]) {
+    set({
+      selectedIds: list,
+    });
+  },
+  toggleItem(id: number) {
+    set(state => ({
+      selectedIds: state.selectedIds.includes(id)
+        ? state.selectedIds.filter(x => x !== id)
+        : state.selectedIds.concat(id),
+    }));
+  },
+  setSelectedTag(tag) {
+    set({selectedTag: tag, selectedTagId: tag?._id || ''});
+  },
+  setContentType(content) {
+    set({
+      contentType: content,
+      selectedTag: '',
+      selectedIds: [],
+    });
+  },
+}));

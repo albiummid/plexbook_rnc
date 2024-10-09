@@ -19,6 +19,7 @@ import Icons from '../../ui/vector-icons';
 
 type CardProps = PropsWithChildren<
   {
+    contentId: number;
     data: TSeriesListItem;
     style?: ViewStyle;
     disable?: boolean;
@@ -72,7 +73,11 @@ export const CollectionSeriesCard = (
       end={{x: 1, y: 0.5}}
       key={props.index}
       style={[tw``, props.style]}>
-      <SeriesCard data={props.data} disable={props.disable} />
+      <SeriesCard
+        contentId={props.data.id}
+        data={props.data}
+        disable={props.disable}
+      />
       <Text
         style={tw`text-9xl text-gray-50 font-bold absolute opacity-40 right-0`}>
         {props.index + 1}

@@ -5,8 +5,8 @@ export async function deviceInfo() {
     os_version: DeviceInfo.getSystemVersion(),
     device: DeviceInfo.getBrand(),
     device_model: DeviceInfo.getModel(),
-    device_id: DeviceInfo.getUniqueId(),
-    device_name: DeviceInfo.getDeviceName(),
-    device_manufacturer: DeviceInfo.getManufacturer(),
+    device_id: await DeviceInfo.getUniqueId(),
+    device_name: await DeviceInfo.getDeviceName(),
+    device_manufacturer: await DeviceInfo.getManufacturer(),
   };
 }

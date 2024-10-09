@@ -18,12 +18,13 @@ import MoviesHomeScreen from '../../screens/movies';
 import MovieDetailScreen from '../../screens/movies/details';
 import Onboarding from '../../screens/onboarding';
 import PersonDetailScreen from '../../screens/person/details';
-import ProfileScreen from '../../screens/profile';
+import ProfileScreen from '../../screens/profile/profile';
 import SearchScreen from '../../screens/search';
 import SeriesHomeScreen from '../../screens/series';
 import SeriesDetailScreen from '../../screens/series/details';
 import SeasonDetails from '../../screens/series/season-details';
 import SplashScreen from '../../screens/splash';
+import TempScreen from '../../screens/temp';
 import TopicListScreen from '../../screens/topic';
 import {TPersonListItem} from '../../types/contents/content.types';
 import {TMovieListItem} from '../../types/contents/movie.types';
@@ -66,6 +67,7 @@ export type RootStackParamList = {
   tab_search: undefined;
   tab_profile: undefined;
   list: undefined;
+  temp: undefined;
   topic_list: {
     contentKind: 'movie' | 'tv';
     topicKind: string;
@@ -94,6 +96,8 @@ export type RootStackParamList = {
     data: Season;
   };
 };
+
+console.log(process.env.NODE_ENV);
 
 export const tabScreens: TTabScreenListItem[] = [
   TabScreen('tab_movies', MoviesHomeScreen, {
@@ -124,6 +128,16 @@ export const tabScreens: TTabScreenListItem[] = [
     },
   }),
 ];
+
+if (process.env.NODE_ENV === 'development') {
+  tabScreens.unshift(
+    TabScreen('temp', TempScreen, {
+      tabBarIcon(props) {
+        return <Icons.MaterialCommunityIcons {...props} name={'dev-to'} />;
+      },
+    }),
+  );
+}
 
 const Tab = createBottomTabNavigator();
 export function BottomTab() {
@@ -170,6 +184,7 @@ export const authenticatedStack = [
 
 export const nonAuthStack = [
   StackScreen('splash', SplashScreen),
+  StackScreen('temp', TempScreen),
   StackScreen('onboarding', Onboarding),
   StackScreen('login', LoginScreen),
   // Screen('RegisterScreen', RegisterScreen),
@@ -184,7 +199,9 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 export function RootNavigator() {
   return (
     <RootStack.Navigator
-      initialRouteName={'splash'}
+      // initialRouteName={
+      //   process.env.NODE_ENV === 'development' ? 'temp' : 'splash'
+      // }
       screenOptions={{
         headerShown: false,
       }}>
