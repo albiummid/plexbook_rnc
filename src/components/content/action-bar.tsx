@@ -18,7 +18,6 @@ import tw from '../../libs/tailwind';
 import {labelToValue} from '../../libs/utils/helpers';
 import {ContentKind} from '../../types/common';
 import {queryClient} from '../layout/ProviderWrapper';
-import Skelton from '../ui/Skelton';
 import TButton from '../ui/TButton';
 import TText from '../ui/TText';
 import TView from '../ui/TView';
@@ -30,15 +29,47 @@ type ActionBarProps = {
   data: any;
 };
 
+const ActionButton = ({
+  isLoading,
+  onPress,
+  Icon,
+  iconName,
+  isEnabled,
+}: {
+  isLoading: boolean;
+  onPress: () => void;
+  Icon: any;
+  iconName: string;
+  isEnabled: boolean;
+}) => {
+  return (
+    <TouchableOpacity disabled={!isLoading} onPress={onPress}>
+      <Icon
+        name={iconName}
+        size={25}
+        style={tw.style(
+          ` mr-auto p-2 rounded-full`,
+          isEnabled ? 'bg-primary text-white' : 'text-primary bg-white',
+          !isLoading && ' opacity-80',
+        )}
+      />
+    </TouchableOpacity>
+  );
+};
+
 export default function ContentActionBar({
   contentKind,
   id,
-  data,
   style,
 }: ActionBarProps) {
   const userId = ldbValues.getUserId();
   const sheetRef = useRef(null);
   const [tagInput, setTagInput] = useState('');
+
+  const [currentSheet, setCurrentSheet] = useState('list'); // list || create
+
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const [{data: userContent, ...userContentReq}, {data: tagList}] = useQueries({
     queries: [
@@ -78,6 +109,7 @@ export default function ContentActionBar({
     });
   };
   const handleToggle = async (tagLabel: string, currentState: boolean) => {
+    setIsLoading(true);
     try {
       if (userContentReq.isLoading) return;
       if (currentState == true) {
@@ -88,16 +120,16 @@ export default function ContentActionBar({
       userContentReq.refetch();
     } catch (err) {
       ToastAndroid.show(String(err), 500);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const isFavorite = userContent?.tags?.includes(labelToValue('Favorite'));
   const isWatched = userContent?.tags?.includes(labelToValue('Watched'));
   const isWatchLater = userContent?.tags?.includes(labelToValue('Watch Later'));
+  const loading = isLoading || userContentReq.isLoading;
 
-  const [currentSheet, setCurrentSheet] = useState('list'); // list || create
-
-  const [error, setError] = useState('');
   const handleCreateTag = async () => {
     try {
       if (tagList.find((x: any) => x.label === tagInput)) {
@@ -114,68 +146,45 @@ export default function ContentActionBar({
     }
   };
 
-  if (userContentReq.isLoading) {
-    return (
-      <TView stack="hStack" gap={2}>
-        {Array.from({length: 3}).map((x, i) => (
-          <Skelton key={i} style={tw` h-11 w-11 rounded-full`} />
-        ))}
-      </TView>
-    );
-  }
-
   return (
     <View style={[tw.style(`flex-row gap-2`), style]}>
-      <TouchableOpacity
+      <ActionButton
+        isLoading={loading}
+        isEnabled={isFavorite}
         onPress={() => {
           handleToggle('Favorite', isFavorite);
-        }}>
-        <Icons.Feather
-          name="heart"
-          size={25}
-          style={tw.style(
-            ` mr-auto p-2 rounded-full`,
-            isFavorite ? 'bg-primary text-white' : 'text-primary bg-white',
-          )}
-        />
-      </TouchableOpacity>
-
-      <TouchableOpacity
+        }}
+        Icon={Icons.Feather}
+        iconName="heart"
+      />
+      <ActionButton
+        isLoading={loading}
+        isEnabled={isFavorite}
         onPress={() => {
           handleToggle('Watched', isWatched);
-        }}>
-        <Icons.Feather
-          name={isWatched ? 'eye' : 'eye-off'}
-          size={25}
-          style={tw.style(
-            ` mr-auto p-2 rounded-full`,
-            isWatched ? 'bg-primary text-white' : 'text-primary bg-white',
-          )}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={async () => {
+        }}
+        Icon={Icons.Feather}
+        iconName={isWatched ? 'eye' : 'eye-off'}
+      />
+      <ActionButton
+        isLoading={loading}
+        isEnabled={isWatchLater}
+        onPress={() => {
           handleToggle('Watch Later', isWatchLater);
-        }}>
-        <Icons.Feather
-          name="watch"
-          size={25}
-          style={tw.style(
-            ` p-2 rounded-full    `,
-            isWatchLater ? 'bg-primary text-white' : 'text-primary bg-white',
-          )}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={async () => {
+        }}
+        Icon={Icons.Feather}
+        iconName={'watch'}
+      />
+
+      <ActionButton
+        isLoading={loading}
+        isEnabled={isWatchLater}
+        onPress={() => {
           sheetRef.current?.show();
-        }}>
-        <Icons.MaterialIcons
-          name="playlist-add"
-          size={20}
-          style={tw.style(` mr-auto p-2 rounded-full text-white bg-primary  `)}
-        />
-      </TouchableOpacity>
+        }}
+        Icon={Icons.Feather}
+        iconName={'folder-plus'}
+      />
 
       <ActionSheet
         onClose={() => {

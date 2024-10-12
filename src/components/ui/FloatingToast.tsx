@@ -5,7 +5,7 @@ import tw from '../../libs/tailwind';
 
 interface IFloatingState {
   isOpen: boolean;
-  id: number;
+  id: number | string;
   message: string;
   status: 'success' | 'error';
   duration: number;
@@ -13,26 +13,33 @@ interface IFloatingState {
 
 interface IToastState {
   toasts: IFloatingState[];
-  showToast: (
-    message: string,
-    status?: 'success' | 'error',
-    duration?: 1000,
-  ) => void;
-  hideToast: (id: number) => void;
+  showToast: (props: {
+    id?: string | number;
+    message: string;
+    status?: 'success' | 'error';
+    duration?: number;
+  }) => IFloatingState | null;
+  getToast: (id: number | string) => IFloatingState | null;
+  hideToast: (id: number | string) => void;
 }
-
-const hideFactor = 20;
-const showFactor = -20;
 
 export const fToastState = create<IToastState>(set => ({
   toasts: [],
-  showToast: (message, status = 'success', duration = 1000) => {
-    console.log(fToastState.getState());
+  getToast: (id): IFloatingState | null => {
+    return fToastState.getState().toasts.find(x => x.id === id) || null;
+  },
+  showToast: ({
+    message,
+    status = 'success',
+    duration = 1000,
+    id,
+  }): IFloatingState | null => {
+    let Id = id || fToastState.getState().toasts.length;
     set(state => ({
       toasts: [
         ...state.toasts,
         {
-          id: state.toasts.length,
+          id: Id,
           isOpen: true,
           message,
           status,
@@ -40,6 +47,7 @@ export const fToastState = create<IToastState>(set => ({
         },
       ],
     }));
+    return fToastState.getState().getToast(Id);
   },
   hideToast: id =>
     set(state => ({
@@ -50,7 +58,7 @@ export const fToastState = create<IToastState>(set => ({
     })),
 }));
 
-export const {showToast, hideToast} = fToastState.getState();
+export const {showToast, hideToast, getToast} = fToastState.getState();
 
 export default function FloatingToast() {
   const {toasts} = fToastState();
@@ -68,7 +76,8 @@ export default function FloatingToast() {
 
   useEffect(() => {
     let timeoutId = null;
-    if (!activeToast || !activeToast.isOpen) return;
+    if (!activeToast || !activeToast.isOpen || activeToast.duration === -1)
+      return;
     timeoutId = setTimeout(() => {
       hideToast(activeToast.id);
     }, activeToast?.duration);
@@ -94,7 +103,7 @@ export default function FloatingToast() {
       <Animated.Text
         style={[
           tw.style(
-            `  text-white w-full z-10 p-2 text-center`,
+            `  text-white absolute w-full bottom-0 z-10 p-2 text-center`,
             activeToast?.status === 'error' ? 'bg-red-400' : 'bg-green-400',
           ),
           {transform: [{translateY: translateY}]},

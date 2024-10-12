@@ -119,7 +119,10 @@ const ContentCard = ({data}: any) => {
             data.content.contentType === 'movie'
               ? 'movie_details'
               : 'series_details',
-            {id: data.content.tmdbId},
+            {
+              id: data.content.tmdbId,
+              data: {poster_path: data.content.posterPath},
+            },
           );
         }
       }}

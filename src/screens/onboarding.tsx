@@ -179,16 +179,15 @@ const SecondScreen = () => {
       setSelectedLanguage(user.data.result.userPreference?.languageList ?? []);
       localDB.set('userId', user.data.result._id);
       localDB.set('userInfo', JSON.stringify(user.data.result));
-
-      ToastAndroid.showWithGravity(
-        `Welcome back ${res.user.displayName} !`,
-        2000,
-        ToastAndroid.TOP,
-      );
+      // ToastAndroid.showWithGravity(
+      //   `Welcome back ${res.user.displayName} !`,
+      //   2000,
+      //   ToastAndroid.TOP,
+      // );
       // enableScrolling();
     } catch (err) {
-      if (err.message === 'Sign in action cancelled') {
-        ToastAndroid.show(`User cancelled`, 2000);
+      if (String(err?.message) === 'Sign in action cancelled') {
+        ToastAndroid.show(`User cancelled`, 1000);
       }
     }
   };

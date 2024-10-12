@@ -12,6 +12,7 @@ import ContentImageList from '../../components/ContentImageList';
 import Header from '../../components/layout/Header';
 import RecommendedList from '../../components/RecommendedList';
 import StoryLine from '../../components/StoryLine';
+import Fallback from '../../components/ui/ScreenFallback';
 import TScrollView from '../../components/ui/TScrollView';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
@@ -38,11 +39,18 @@ export default function SeriesDetailScreen({
     },
   });
 
+  if (!details)
+    return (
+      <Fallback isLoading={detailsReq.isLoading} error={detailsReq.isError} />
+    );
+
   return (
     <TScrollView style={tw`bg-black`}>
       <ImageBackground
         blurRadius={1}
-        source={{uri: getBackdropImageURL(data.backdrop_path, 'w300')}}>
+        source={{
+          uri: getBackdropImageURL(details.backdrop_path as string, 'w300'),
+        }}>
         <Header textStyle={tw`text-white text-base`} />
         <LinearGradient
           style={tw`absolute bottom-0 w-full h-80`}
@@ -57,14 +65,16 @@ export default function SeriesDetailScreen({
           style={tw` mt-5 mx-2 `}>
           <TView gapY={1} style={tw` flex-1`}>
             {/* Poster side intro */}
-            <TText style={tw`text-white font-bold text-xl`}>{data.name}</TText>
+            <TText style={tw`text-white font-bold text-xl`}>
+              {details?.name}
+            </TText>
             {/*  */}
 
             <TView stack="hStack" gapX={1} alignItems="center">
               <TView stack="hStack" gap={1} alignItems="center">
                 <Icons.AntDesign style={tw`text-primary`} name="star" />
                 <TText style={tw`text-white text-xs`}>
-                  {Number(data.vote_average).toFixed(1)}
+                  {Number(details?.vote_average).toFixed(1)}
                 </TText>
               </TView>
               {detailsReq.isSuccess && (
@@ -77,27 +87,27 @@ export default function SeriesDetailScreen({
                 </>
               )}
               <TText style={tw`text-white text-xs`}>
-                {moment(data.first_air_date).format('DD MMMM YYYY')}
+                {moment(details?.first_air_date).format('DD MMMM YYYY')}
               </TText>
             </TView>
             <ContentActionBar
-              data={data}
+              data={details}
               style={tw`mt-1`}
               contentKind={'tv'}
               id={id}
             />
             {/* Genre */}
-            <GenreSection genreIds={data.genre_ids} contentKind="tv" />
+            <GenreSection genres={details.genres} contentKind="tv" />
           </TView>
           <Image
             style={tw`h-48 w-32 rounded-lg border-2 border-primary`}
-            source={{uri: getPosterImageURL(data.poster_path, 'w185')}}
+            source={{uri: getPosterImageURL(details?.poster_path, 'w185')}}
           />
         </TView>
       </ImageBackground>
 
       {/* Story Line */}
-      <StoryLine story={details?.overview ?? data.overview} />
+      <StoryLine story={details?.overview} />
 
       {/* Season */}
       <SeasonSection data={details} />

@@ -43,3 +43,20 @@ export function generateUUID() {
 
 export const labelToValue = (label: string) =>
   label.split(' ').join('_').toLowerCase();
+
+export function compareVersions(version1: string, version2: string) {
+  // Split both versions into major, minor, and patch segments
+  const v1 = version1.split('.').map(Number);
+  const v2 = version2.split('.').map(Number);
+
+  // Compare each segment (major, minor, patch)
+  for (let i = 0; i < Math.max(v1.length, v2.length); i++) {
+    const num1 = v1[i] || 0; // Use 0 if the segment is missing (e.g. '1.0' vs '1.0.0')
+    const num2 = v2[i] || 0;
+
+    if (num1 > num2) return 'greater'; // version1 is greater
+    if (num1 < num2) return 'less'; // version2 is greater
+  }
+
+  return 'equal'; // versions are equal
+}

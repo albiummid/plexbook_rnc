@@ -1,13 +1,13 @@
 import {QueryClient} from '@tanstack/react-query';
 import {PersistQueryClientProvider} from '@tanstack/react-query-persist-client';
 import React, {PropsWithChildren} from 'react';
-import {StatusBar} from 'react-native';
 import {SheetProvider} from 'react-native-actions-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {NavigationProvider} from '../../libs/navigation/navigator';
 import {clientPersister} from '../../libs/tanstack';
 import {getMS} from '../../libs/utils/helpers';
+import FloatingToast from '../ui/FloatingToast';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -18,7 +18,6 @@ export const queryClient = new QueryClient({
 export default function ProviderWrapper({children}: PropsWithChildren) {
   return (
     <NavigationProvider>
-      <StatusBar translucent />
       <GestureHandlerRootView>
         <PersistQueryClientProvider
           client={queryClient}
@@ -28,6 +27,7 @@ export default function ProviderWrapper({children}: PropsWithChildren) {
           </SheetProvider>
         </PersistQueryClientProvider>
       </GestureHandlerRootView>
+      <FloatingToast />
     </NavigationProvider>
   );
 }

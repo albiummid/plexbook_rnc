@@ -25,7 +25,7 @@ export default function MovieCard({data, style, disable}: CardProps) {
         if (!disable) {
           router.push('movie_details', {
             id: data.id,
-            data: data,
+            data: {poster_path: data.poster_path},
           });
         }
       }}

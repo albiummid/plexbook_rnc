@@ -10,6 +10,7 @@ import {
 import {PropsWithChildren} from 'react';
 import Icons from '../../components/ui/vector-icons';
 import {colors} from '../../constants/colors';
+import AdminScreen from '../../screens/admin/AdminScreen';
 import CastListScreen from '../../screens/cast';
 import GenreList from '../../screens/genrelist';
 import ListScreen from '../../screens/list';
@@ -24,11 +25,11 @@ import SeriesHomeScreen from '../../screens/series';
 import SeriesDetailScreen from '../../screens/series/details';
 import SeasonDetails from '../../screens/series/season-details';
 import SplashScreen from '../../screens/splash';
-import TempScreen from '../../screens/temp';
 import TopicListScreen from '../../screens/topic';
 import {TPersonListItem} from '../../types/contents/content.types';
 import {TMovieListItem} from '../../types/contents/movie.types';
 import {Season, TSeriesListItem} from '../../types/contents/series.types';
+import {ldbValues} from '../localDB';
 import tw from '../tailwind';
 import {RouteName} from './navigator';
 
@@ -66,6 +67,7 @@ export type RootStackParamList = {
   tab_series: undefined;
   tab_search: undefined;
   tab_profile: undefined;
+  tab_admin: undefined;
   list: undefined;
   temp: undefined;
   topic_list: {
@@ -127,11 +129,13 @@ export const tabScreens: TTabScreenListItem[] = [
   }),
 ];
 
-if (process.env.NODE_ENV === 'development') {
-  tabScreens.unshift(
-    TabScreen('temp', TempScreen, {
+if (
+  ldbValues.getUserInfo()?.userInfo?.profile?.email === 'albi.ummid@gmail.com'
+) {
+  tabScreens.push(
+    TabScreen('temp', AdminScreen, {
       tabBarIcon(props) {
-        return <Icons.MaterialCommunityIcons {...props} name={'dev-to'} />;
+        return <Icons.Entypo {...props} name={'tools'} />;
       },
     }),
   );
@@ -140,31 +144,27 @@ if (process.env.NODE_ENV === 'development') {
 const Tab = createBottomTabNavigator();
 export function BottomTab() {
   return (
-    <>
-      <Tab.Navigator
-        screenOptions={({route, navigation}) => ({
-          headerShown: false,
-          tabBarHideOnKeyboard: true,
-          tabBarActiveTintColor: colors.active_tint,
-          tabBarInactiveTintColor: colors.inactive_tint,
-          headerShadowVisible: false,
-          tabBarShowLabel: false,
-          tabBarStyle: tw`bg-black`,
-        })}>
-        <>
-          {tabScreens.map((item, index) => {
-            return (
-              <Tab.Screen
-                key={index}
-                name={item.name}
-                component={item.component}
-                options={item.options as BottomTabNavigationOptions}
-              />
-            );
-          })}
-        </>
-      </Tab.Navigator>
-    </>
+    <Tab.Navigator
+      screenOptions={({route, navigation}) => ({
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+        tabBarActiveTintColor: colors.active_tint,
+        tabBarInactiveTintColor: colors.inactive_tint,
+        headerShadowVisible: false,
+        tabBarShowLabel: false,
+        tabBarStyle: tw`bg-black`,
+      })}>
+      {tabScreens.map((item, index) => {
+        return (
+          <Tab.Screen
+            key={index}
+            name={item.name}
+            component={item.component}
+            options={item.options as BottomTabNavigationOptions}
+          />
+        );
+      })}
+    </Tab.Navigator>
   );
 }
 
@@ -182,7 +182,6 @@ export const authenticatedStack = [
 
 export const nonAuthStack = [
   StackScreen('splash', SplashScreen),
-  StackScreen('temp', TempScreen),
   StackScreen('onboarding', Onboarding),
   StackScreen('login', LoginScreen),
   // Screen('RegisterScreen', RegisterScreen),

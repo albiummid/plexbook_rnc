@@ -33,7 +33,7 @@ export default function SeriesCard({data, style, disable}: CardProps) {
         if (!disable) {
           router.push('series_details', {
             id: data.id,
-            data,
+            data: {poster_path: data.poster_path},
           });
         }
       }}

@@ -7,6 +7,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import TText from '../components/ui/TText';
 import TView from '../components/ui/TView';
+import {colors} from '../constants/colors';
 import {useFirebaseAuth} from '../libs/firebase';
 import {router} from '../libs/navigation/navigator';
 import tw from '../libs/tailwind';
@@ -17,22 +18,22 @@ export default function SplashScreen() {
   const [spinning, setSpinning] = useState(true);
   const scale = useSharedValue(1);
 
-  const scaleDown = () => {
-    return withTiming(1.5, {
-      duration: 500,
-    });
-  };
-
   useEffect(() => {
-    scale.value = withDelay(500, withRepeat(scaleDown(), 4, true));
+    scale.value = withDelay(
+      500,
+      withRepeat(
+        withTiming(1.2, {
+          duration: 500,
+        }),
+        4,
+        true,
+      ),
+    );
   }, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      router.replace('temp');
-    }
     if (!isLoading) {
-      wait(getMS.second(2)).then(() => {
+      wait(getMS.second(1.6)).then(() => {
         if (isAuthenticated) {
           router.replace('tab_root');
         } else {
@@ -41,10 +42,6 @@ export default function SplashScreen() {
       });
     }
   }, [isAuthenticated, isLoading, spinning]);
-
-  if (process.env.NODE_ENV === 'development') {
-    return <></>;
-  }
 
   return (
     <TView style={tw`flex-1 bg-black  `}>
@@ -61,6 +58,7 @@ export default function SplashScreen() {
             },
           ]}
           source={require('../assets/images/logo.png')}
+          tintColor={colors.primary}
         />
       </Animated.View>
       <TView style={tw`mb-10`}>

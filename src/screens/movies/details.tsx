@@ -1,17 +1,19 @@
 import {useQuery} from '@tanstack/react-query';
 import moment from 'moment';
 import React from 'react';
-import {Image, ImageBackground, Text} from 'react-native';
+import {Image, ImageBackground} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ArtistList from '../../components/ArtistList';
 import CollectionList from '../../components/CollectionList';
 import ContentActionBar from '../../components/content/action-bar';
+import GenreSection from '../../components/content/section/GenreSection';
 import TrailerSection from '../../components/content/section/TrailerSection';
 import ContentImageList from '../../components/ContentImageList';
 import {MovieInfo} from '../../components/ContentInfo';
 import Header from '../../components/layout/Header';
 import RecommendedList from '../../components/RecommendedList';
 import StoryLine from '../../components/StoryLine';
+import Fallback from '../../components/ui/ScreenFallback';
 import TScrollView from '../../components/ui/TScrollView';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
@@ -38,7 +40,10 @@ export default function MovieDetailScreen({
     },
   });
 
-  if (!details) return <Text>Loading...</Text>;
+  if (!details)
+    return (
+      <Fallback isLoading={detailsReq.isLoading} error={detailsReq.error} />
+    );
 
   return (
     <TScrollView style={tw`bg-black`}>
@@ -81,7 +86,7 @@ export default function MovieDetailScreen({
               </TText>
             </TView>
             {/* Genre */}
-            {/* <GenreSection genreIds={details?.genre_ids} contentKind="movie" /> */}
+            <GenreSection genres={details?.genres} contentKind="movie" />
             <ContentActionBar
               data={details}
               style={tw`mt-1`}

@@ -66,7 +66,8 @@ export const sheetIds = {
 export const RNActionSheet = (
   props: PropsWithChildren<ActionSheetProps> & {
     sheetId: string;
-    label: string;
+    label?: string;
+    header?: React.ReactNode;
     rightSection?: React.ReactNode;
   },
 ) => {
@@ -96,9 +97,13 @@ export const RNActionSheet = (
         ref={sheetRef}
         {...props}>
         <TView stack="hStack" justifyContent="center">
-          <TText style={tw`text-black font-bold my-2 text-base`}>
-            {props.label}
-          </TText>
+          {props.header ? (
+            props.header
+          ) : props.label && props?.label.length > 0 ? (
+            <TText style={tw`text-black font-bold my-2 text-base`}>
+              {props.label}
+            </TText>
+          ) : null}
           <TView>{props.rightSection}</TView>
         </TView>
         {props.children}

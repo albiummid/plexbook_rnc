@@ -97,6 +97,18 @@ export const useAppConfig = create(
   ),
 );
 
+interface IAppState {
+  isConnectionExpensive: boolean;
+  serverStatus: 'reachable' | 'unreachable' | 'idle';
+  internetStatus: 'connected' | 'disconnected' | 'idle';
+}
+
+export const appState = create<IAppState>(() => ({
+  isConnectionExpensive: false,
+  serverStatus: 'idle',
+  internetStatus: 'idle',
+}));
+
 interface ContentState {
   contentType: string;
   selectedTag: null | any;
