@@ -29,10 +29,10 @@ export default function SeasonDetails(props: ScreenProps<'season_details'>) {
             <TText style={tw`text-lg text-white font-bold`}>
               Season {data?.season_number}
             </TText>
-            <TText color={'white'}>
+            <TText style={tw`text-white`}>
               {moment(data.air_date).format('DD MMMM YYYY')}
             </TText>
-            <TText color={'white'}>
+            <TText style={tw`text-white`}>
               {data?.overview.length > 0
                 ? data.overview
                 : details?.episodes[0]?.overview}
@@ -52,7 +52,7 @@ export default function SeasonDetails(props: ScreenProps<'season_details'>) {
                 />
                 <TView
                   style={tw` absolute p-2 bottom-0 rounded-b-lg flex-1 bg-black/60 w-full mt-auto`}>
-                  <TText color={'white'} style={tw` font-bold `}>
+                  <TText style={tw`flex-1 text-white`}>
                     Episode {x.episode_number}
                   </TText>
 

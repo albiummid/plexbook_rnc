@@ -159,12 +159,12 @@ export default function ContentActionBar({
       />
       <ActionButton
         isLoading={loading}
-        isEnabled={isFavorite}
+        isEnabled={isWatched}
         onPress={() => {
-          handleToggle('Watched', isFavorite);
+          handleToggle('Watched', isWatched);
         }}
         Icon={Icons.Feather}
-        iconName={isFavorite ? 'eye' : 'eye-off'}
+        iconName={isWatched ? 'eye' : 'eye-off'}
       />
       <ActionButton
         isLoading={loading}

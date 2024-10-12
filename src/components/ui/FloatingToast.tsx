@@ -97,7 +97,6 @@ export default function FloatingToast() {
       translateY.value = withTiming(40, {duration: 500});
     }
   }, [activeToast]);
-  console.log(activeToast);
 
   return (
     <>

@@ -21,7 +21,9 @@ export default function TrailerSection(props: {
   const [playlist, setPlaylist] = useState<any[]>([]);
   useEffect(() => {
     if (videoList?.results.length && playlist.length == 0) {
-      const list = videoList?.results.filter(x => x.site === 'YouTube');
+      const list = videoList?.results
+        .filter(x => x.site === 'YouTube')
+        .reverse();
 
       setActiveItem(list[0].key);
       setPlaylist(list);

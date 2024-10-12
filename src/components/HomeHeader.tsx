@@ -12,7 +12,7 @@ export default function HomeHeader() {
   return (
     <View style={tw`flex-row justify-between px-2 py-4  `}>
       <View>
-        <TText style={tw`text-2xl text-white font-bold`}>Plex | Book</TText>
+        <TText style={tw`text-2xl text-white font-bold`}>Plexbook</TText>
         <TText style={tw`text-sm text-white`}>Hi, {user?.displayName}</TText>
       </View>
 

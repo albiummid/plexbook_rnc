@@ -1,6 +1,5 @@
 import {useFocusEffect} from '@react-navigation/native';
 import React, {useCallback, useRef} from 'react';
-import {StatusBar} from 'react-native';
 import {FeaturedMovieList} from '../../components/FeaturedList';
 import HomeHeader from '../../components/HomeHeader';
 import TopicSection from '../../components/TopicSection';
@@ -16,7 +15,6 @@ export default function MoviesHomeScreen() {
 
   return (
     <TScrollView ref={scrollViewRef} style={tw`bg-black`}>
-      <StatusBar translucent />
       <HomeHeader />
       <FeaturedMovieList contentKind="movie" />
       <TopicSection

@@ -31,14 +31,6 @@ export const useSheetState = create<sheetState>(set => ({
   },
   openSheet(id, sheetProps) {
     set(state => {
-      console.log(id, [
-        ...state.sheetList.filter(x => x.id !== id),
-        {
-          id,
-          isOpen: true,
-          sheetProps,
-        },
-      ]);
       return {
         sheetList: [
           ...state.sheetList.filter(x => x.id !== id),

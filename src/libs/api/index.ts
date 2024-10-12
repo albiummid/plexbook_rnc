@@ -12,8 +12,6 @@ export const api = axios.create({
   timeout: 15000,
 });
 
-console.log(baseURL, 'BASE_URL');
-
 // Add a request interceptor
 api.interceptors.request.use(
   function (config) {
@@ -22,7 +20,6 @@ api.interceptors.request.use(
   },
   function (error) {
     // Do something with request error
-    console.log(error, 'ERROR__REQ_:', error);
 
     return Promise.reject(error);
   },

@@ -18,12 +18,12 @@ import {
   supported64BitAbisSync,
   supportedAbisSync,
 } from 'react-native-device-info';
-import FileViewer from 'react-native-file-viewer';
 import {api} from '../libs/api';
 import {checkInstallPermission} from '../libs/permissions';
 import tw from '../libs/tailwind';
 import {compareVersions} from '../libs/utils/helpers';
 import {openSheet, RNActionSheet} from './sheets/ActionSheet';
+import {showToast} from './ui/FloatingToast';
 import Icons from './ui/vector-icons';
 export default function UpdateChecker() {
   const [downloadProgress, setDownloadProgress] = useState('0');
@@ -94,45 +94,37 @@ export default function UpdateChecker() {
 
     if (isExists) {
       openAPK(filePath);
-      //   await FileViewer.open(filePath, {showOpenWithDialog: true});
     }
 
     if (downloadStatus === 'ended') {
-      await FileViewer.open(filePath, {showOpenWithDialog: true});
+      openAPK(filePath);
       return;
     }
 
-    console.log(isExists);
-    // Linking.openURL(updateFile?.fileLink);
-
-    // if (!isExists) {
-    //   RNFS.downloadFile({
-    //     fromUrl: updateFile?.fileLink,
-    //     toFile: filePath,
-    //     progress: res => {
-    //       setDownloadStatus('started');
-    //       let pgs = (res.bytesWritten / res.contentLength).toFixed(2);
-    //       setDownloadProgress(pgs);
-    //     },
-    //     progressDivider: 1,
-    //   })
-    //     .promise.then(async result => {
-    //       setDownloadStatus('ended');
-    //       setDownloadProgress('1');
-    //       await FileViewer.open(filePath, {showOpenWithDialog: true});
-    //       // if(result.statusCode == 200){
-    //       //     NativeModules.InstallApk.install(filePath);
-    //       // }
-    //     })
-    //     .catch(e => {
-    //       console.log(e);
-    //       showToast({message: String(e), status: 'error'});
-    //     });
-    // }
-    await FileViewer.open(filePath, {showOpenWithDialog: true});
+    if (!isExists) {
+      RNFS.downloadFile({
+        fromUrl: updateFile?.fileLink,
+        toFile: filePath,
+        progress: res => {
+          setDownloadStatus('started');
+          let pgs = (res.bytesWritten / res.contentLength).toFixed(2);
+          setDownloadProgress(pgs);
+        },
+        progressDivider: 1,
+      })
+        .promise.then(async result => {
+          setDownloadStatus('ended');
+          setDownloadProgress('1');
+          if (result.statusCode == 200) {
+            openAPK(filePath);
+          }
+        })
+        .catch(e => {
+          showToast({message: String(e), status: 'error'});
+        });
+    }
   };
 
-  console.log(downloadStatus);
   if (!updateFile) return null;
   return (
     <RNActionSheet sheetId="update-checker">

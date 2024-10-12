@@ -19,7 +19,7 @@ export default function GenreSection({
 }) {
   return (
     <Section label="Genres">
-      <TView style={[tw`mx-2 items-center flex-row flex-wrap`, style]}>
+      <TView style={[tw`mx-2 items-center flex-row flex-wrap gap-2`, style]}>
         {genres?.map(x => {
           return (
             <TouchableOpacity
@@ -28,7 +28,7 @@ export default function GenreSection({
                 router.navigate('genre_list', {id: x.id, contentKind});
               }}>
               <TText
-                style={tw`text-xs mr-2 px-2 py-1 rounded-lg border text-primary border-primary `}>
+                style={tw`text-xs px-2 py-1 rounded-lg border text-primary border-primary `}>
                 {x?.name}
               </TText>
             </TouchableOpacity>

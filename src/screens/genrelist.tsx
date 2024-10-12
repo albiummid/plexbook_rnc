@@ -20,7 +20,6 @@ export default function GenreList(props: ScreenProps<'genre_list'>) {
   );
 
   const {id, contentKind} = props.route.params;
-  console.log(contentKind, id);
   const {data: seriesList, ...seriesReq} = useDiscoverSeries(
     {
       with_original_language: activeLanguage as any,
@@ -49,7 +48,6 @@ export default function GenreList(props: ScreenProps<'genre_list'>) {
       })),
     [],
   );
-  console.log(movieList);
 
   return (
     <Section style={tw`bg-black `} label={getGenreNameById(id)}>

@@ -68,6 +68,7 @@ export default function SeriesDetailScreen({
               {details?.name}
             </TText>
             {/*  */}
+            {/* <Ratings imdbId={details.}/> */}
 
             <TView stack="hStack" gapX={1} alignItems="center">
               <TView stack="hStack" gap={1} alignItems="center">

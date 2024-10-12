@@ -29,7 +29,6 @@ export default function Versions() {
     queryKey: ['version-list'],
     queryFn: async () => {
       const {data} = await api.get('/auth/version/list');
-      console.log(data);
       return data.result;
     },
   });
