@@ -4,7 +4,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {router} from '../../../libs/navigation/navigator';
 import tw from '../../../libs/tailwind';
 import {Genre} from '../../../types/contents/series.types';
-import TScrollView from '../../ui/TScrollView';
+import Section from '../../Section';
 import TText from '../../ui/TText';
 import TView from '../../ui/TView';
 
@@ -18,8 +18,8 @@ export default function GenreSection({
   style?: StyleProp<ViewStyle>;
 }) {
   return (
-    <TView style={[tw`mt-2`, style]}>
-      <TScrollView horizontal style={tw`gap-2`}>
+    <Section label="Genres">
+      <TView style={[tw`mx-2 items-center flex-row flex-wrap`, style]}>
         {genres?.map(x => {
           return (
             <TouchableOpacity
@@ -34,7 +34,7 @@ export default function GenreSection({
             </TouchableOpacity>
           );
         })}
-      </TScrollView>
-    </TView>
+      </TView>
+    </Section>
   );
 }

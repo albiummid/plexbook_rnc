@@ -30,16 +30,16 @@ export const languageList = [
     name: 'हिन्दी',
   },
   {
-    iso_639_1: 'en',
-    english_name: 'English',
-    name: 'English',
-  },
-  {
     iso_639_1: 'bn',
     english_name: 'Bengali',
     name: 'বাংলা',
   },
-];
+  {
+    iso_639_1: 'en',
+    english_name: 'English',
+    name: 'English',
+  },
+].reverse();
 
 export const genresList: Record<number, string> = {
   12: 'Adventure',

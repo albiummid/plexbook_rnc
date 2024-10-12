@@ -43,14 +43,14 @@ const ActionButton = ({
   isEnabled: boolean;
 }) => {
   return (
-    <TouchableOpacity disabled={!isLoading} onPress={onPress}>
+    <TouchableOpacity disabled={isLoading} onPress={onPress}>
       <Icon
         name={iconName}
         size={25}
         style={tw.style(
           ` mr-auto p-2 rounded-full`,
           isEnabled ? 'bg-primary text-white' : 'text-primary bg-white',
-          !isLoading && ' opacity-80',
+          isLoading && ' opacity-80',
         )}
       />
     </TouchableOpacity>
@@ -161,10 +161,10 @@ export default function ContentActionBar({
         isLoading={loading}
         isEnabled={isFavorite}
         onPress={() => {
-          handleToggle('Watched', isWatched);
+          handleToggle('Watched', isFavorite);
         }}
         Icon={Icons.Feather}
-        iconName={isWatched ? 'eye' : 'eye-off'}
+        iconName={isFavorite ? 'eye' : 'eye-off'}
       />
       <ActionButton
         isLoading={loading}
@@ -178,7 +178,7 @@ export default function ContentActionBar({
 
       <ActionButton
         isLoading={loading}
-        isEnabled={isWatchLater}
+        isEnabled={false}
         onPress={() => {
           sheetRef.current?.show();
         }}

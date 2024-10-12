@@ -85,6 +85,7 @@ export default function FloatingToast() {
     return () => {
       if (timeoutId) {
         clearTimeout(timeoutId);
+        fToastState.setState({toasts: []});
       }
     };
   }, [activeToast]);

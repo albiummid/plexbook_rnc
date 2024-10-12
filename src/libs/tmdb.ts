@@ -516,7 +516,7 @@ export const useDiscoverMovie = (
   }
   return useQuery({
     queryKey: ['discover-movie', {params, page, sort_by, language}],
-    queryFn: () => tmdbGET(`/discover/tv?` + queryStrArr.join('&')),
+    queryFn: () => tmdbGET(`/discover/movie?` + queryStrArr.join('&')),
     select(data) {
       return data.data;
     },

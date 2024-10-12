@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import ArtistList from '../../components/ArtistList';
 import CollectionList from '../../components/CollectionList';
 import ContentActionBar from '../../components/content/action-bar';
+import Ratings from '../../components/content/Ratings';
 import GenreSection from '../../components/content/section/GenreSection';
 import TrailerSection from '../../components/content/section/TrailerSection';
 import ContentImageList from '../../components/ContentImageList';
@@ -64,6 +65,7 @@ export default function MovieDetailScreen({
               {details?.title}
             </TText>
             {/*  */}
+            <Ratings imdbId={details.imdb_id} />
 
             <TView stack="hStack" gapX={1} alignItems="center">
               <TView stack="hStack" gap={1} alignItems="center">
@@ -86,7 +88,6 @@ export default function MovieDetailScreen({
               </TText>
             </TView>
             {/* Genre */}
-            <GenreSection genres={details?.genres} contentKind="movie" />
             <ContentActionBar
               data={details}
               style={tw`mt-1`}
@@ -100,6 +101,7 @@ export default function MovieDetailScreen({
           />
         </TView>
       </ImageBackground>
+      <GenreSection genres={details?.genres} contentKind="movie" />
 
       {/* Story Line */}
       <StoryLine story={details?.overview ?? details?.overview} />

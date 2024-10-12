@@ -11,7 +11,7 @@ export default function ContentSkelton({
   return (
     <Skelton
       {...props}
-      style={[tw`h-40 w-28 rounded-lg bg-primary`, props.style]}>
+      style={[tw`h-40 w-24 rounded-lg bg-primary`, props.style]}>
       {children}
     </Skelton>
   );

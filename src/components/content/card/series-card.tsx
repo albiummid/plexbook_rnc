@@ -38,7 +38,7 @@ export default function SeriesCard({data, style, disable}: CardProps) {
         }
       }}
       activeOpacity={0.5}
-      style={[tw`h-40 w-28 rounded-lg`, style]}>
+      style={[tw`h-40 w-24 rounded-lg`, style]}>
       <Image
         style={tw`h-full w-full rounded-lg`}
         source={{uri: getPosterImageURL(data.poster_path, 'w185')}}

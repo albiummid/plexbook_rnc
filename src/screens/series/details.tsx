@@ -22,7 +22,6 @@ import tw from '../../libs/tailwind';
 import {
   getBackdropImageURL,
   getContentDetailsById,
-  getDuration,
   getPosterImageURL,
 } from '../../libs/tmdb';
 import {TSeriesDetails} from '../../types/contents/series.types';
@@ -77,17 +76,9 @@ export default function SeriesDetailScreen({
                   {Number(details?.vote_average).toFixed(1)}
                 </TText>
               </TView>
-              {detailsReq.isSuccess && (
-                <>
-                  <Icons.Entypo name="dot-single" color={'white'} />
-                  <TText style={tw`text-white text-xs`}>
-                    {getDuration(details?.episode_run_time[0])}
-                  </TText>
-                  <Icons.Entypo name="dot-single" color={'white'} />
-                </>
-              )}
+              <Icons.Entypo name="dot-single" color={'white'} />
               <TText style={tw`text-white text-xs`}>
-                {moment(details?.first_air_date).format('DD MMMM YYYY')}
+                {moment(details?.first_air_date).format('MMMM YYYY')}
               </TText>
             </TView>
             <ContentActionBar
@@ -96,8 +87,6 @@ export default function SeriesDetailScreen({
               contentKind={'tv'}
               id={id}
             />
-            {/* Genre */}
-            <GenreSection genres={details.genres} contentKind="tv" />
           </TView>
           <Image
             style={tw`h-48 w-32 rounded-lg border-2 border-primary`}
@@ -105,6 +94,8 @@ export default function SeriesDetailScreen({
           />
         </TView>
       </ImageBackground>
+      {/* Genre */}
+      <GenreSection genres={details.genres} contentKind="tv" />
 
       {/* Story Line */}
       <StoryLine story={details?.overview} />
