@@ -25,7 +25,6 @@ export const signOut = async () => {
     .signOut()
     .then(async () => {
       GoogleSignin.revokeAccess();
-      ToastAndroid.show('You are SignOut !', 1000);
     });
 };
 
