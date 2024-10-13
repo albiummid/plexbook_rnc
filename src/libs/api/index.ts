@@ -1,15 +1,17 @@
 import axios from 'axios';
 import {appState} from '../zustand';
 const isProd = process.env.NODE_ENV !== 'development';
-const localIP = '192.168.0.105';
-// '10.0.2.2';
+const localIP =
+  // '192.168.0.105';
+  '10.0.2.2';
 
-export const baseURL = isProd
+export const baseURL = !isProd
   ? process.env.SERVER_API_URL + '/v1'
   : `http://${localIP}:5000/api/v1`;
+
 export const api = axios.create({
   baseURL,
-  timeout: 15000,
+  timeout: 10000,
 });
 
 // Add a request interceptor
@@ -29,6 +31,9 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
+    // appState.setState({
+    //   serverStatus: 'reachable',
+    // });
     // Do something with response data
     return response;
   },

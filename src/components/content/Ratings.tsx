@@ -7,16 +7,17 @@ import Skelton from '../ui/Skelton';
 import TText from '../ui/TText';
 
 export default function Ratings({imdbId}: {imdbId: string}) {
-  const {data: ratingData} = useQuery({
+  const {data: ratingData, ...req} = useQuery({
     queryKey: ['ratings', {imdbId}],
+    enabled: Boolean(imdbId),
     queryFn: async () => {
       const {data} = await api.get('/content/ratings/' + imdbId);
       return data.result;
     },
   });
 
-  if (!ratingData) return <Skelton style={tw` w-1/2 rounded-lg h-6`} />;
-  if (ratingData.imdbRating === 'N/A') return null;
+  if (req.isLoading) return <Skelton style={tw` w-1/2 rounded-lg h-6`} />;
+  if (!ratingData) return null;
   return (
     <View style={tw``}>
       <View style={tw`flex-row items-center gap-2`}>

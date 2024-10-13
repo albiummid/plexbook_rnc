@@ -74,7 +74,11 @@ export default function SearchScreen() {
           textStyle={tw`text-white`}
           tabItems={tabItems.map(x => ({label: x.label, value: x.value}))}
           activeItem={activeTab}
-          onChange={e => setActiveTab(e)}
+          onChange={e => {
+            setActiveTab(e);
+            setTextInput('');
+            setKeyword('');
+          }}
         />
       }>
       <TView style={tw`relative border border-primary rounded-lg m-2`}>

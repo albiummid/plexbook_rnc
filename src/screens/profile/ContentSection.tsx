@@ -1,12 +1,12 @@
-import {useQueries} from '@tanstack/react-query';
+import {FlashList} from '@shopify/flash-list';
 import React, {useMemo} from 'react';
-import {FlatList, Image, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Image, TouchableOpacity, View} from 'react-native';
 import CreateAndUpdateTagSheet from '../../components/sheets/TagSheet';
 import TImage from '../../components/ui/TImage';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
 import TabGroupButtons from '../../components/ui/TabGroupButtons';
-import {api} from '../../libs/api';
+import {useGetInfiniteList} from '../../libs/api/queries';
 import {ldbValues} from '../../libs/localDB';
 import {router} from '../../libs/navigation/navigator';
 import tw from '../../libs/tailwind';
@@ -18,47 +18,28 @@ import TagSection from './TagSection';
 export default function ContentSection() {
   const userId = ldbValues.getUserId();
   const {contentType, selectedTag, setContentType} = useContentState();
-  const subTabItems = useMemo(
-    () => [
-      {
-        // label: `Movies (${selectedList.movieList.length})`,
-        label: `Movies `,
-        value: 'movie',
-      },
-      {
-        // label: `TV Series (${selectedList.tvList.length})`,
-        label: `TV Series `,
-        value: 'tv',
-      },
-    ],
-    [],
+  const subTabItems = [
+    {
+      // label: `Movies (${selectedList.movieList.length})`,
+      label: `Movies `,
+      value: 'movie',
+    },
+    {
+      // label: `TV Series (${selectedList.tvList.length})`,
+      label: `TV Series `,
+      value: 'tv',
+    },
+  ];
+
+  const {flattedData: userContentData, ...userContentReq} = useGetInfiniteList(
+    '/content/user/list',
+    {
+      userId,
+      tags: selectedTag?.value,
+      cType: contentType,
+      _limit: 12,
+    },
   );
-
-  const [{data: userContents, ...userContentsReq}, {data: tagList}] =
-    useQueries({
-      queries: [
-        {
-          queryKey: ['user-contents', {userId, contentType, selectedTag}],
-          queryFn: async () => {
-            const {data} = await api.get(
-              `/content/list?userId=${userId}&_limit=100&cType=${contentType}${
-                selectedTag ? `&tags=${selectedTag?.value}` : ''
-              }`,
-            );
-
-            return data.result.list;
-          },
-          refetchOnWindowFocus: true,
-        },
-        {
-          queryKey: ['tag-list', {userId}],
-          queryFn: async () => {
-            const {data} = await api.get(`/content/tag/list/${userId}`);
-            return data.result;
-          },
-        },
-      ],
-    });
 
   return (
     <TView style={tw`mt-5 flex-1 `}>
@@ -78,15 +59,26 @@ export default function ContentSection() {
         <CreateAndUpdateTagSheet />
       </View>
 
-      <FlatList
-        data={userContents}
+      <FlashList
+        data={userContentData}
         numColumns={3}
-        style={tw`mt-5`}
-        contentContainerStyle={tw`gap-5`}
-        columnWrapperStyle={tw`gap-5  `}
+        // contentContainerStyle={tw`m-5`}
+        estimatedItemSize={40}
+        onEndReachedThreshold={0.5}
+        onEndReached={() => {
+          if (userContentReq.hasNextPage) {
+            userContentReq.fetchNextPage();
+          }
+        }}
         renderItem={({item, index}) => {
           return <ContentCard data={item} index={index} />;
         }}
+        ListHeaderComponent={<View style={tw`mt-2`}></View>}
+        ListFooterComponent={
+          <View style={tw`mb-20`}>
+            {userContentReq.isFetchingNextPage && <ActivityIndicator />}
+          </View>
+        }
       />
     </TView>
   );
@@ -101,7 +93,7 @@ const ContentCard = ({data}: any) => {
           require('../../assets/images/poster_fallback.png'),
         ).uri;
   const isSelected = useMemo(
-    () => selectedIds.includes(data.content._id),
+    () => selectedIds?.includes(data?.content?._id),
     [selectedIds, data],
   );
 
@@ -109,7 +101,7 @@ const ContentCard = ({data}: any) => {
     <TouchableOpacity
       activeOpacity={0.6}
       onLongPress={d => {
-        toggleItem(data.content._id);
+        toggleItem(data?.content._id);
       }}
       onPress={() => {
         if (selectedIds.length > 0) {
@@ -127,7 +119,7 @@ const ContentCard = ({data}: any) => {
         }
       }}
       style={tw.style(
-        `flex-1 max-w-26`,
+        `flex-1 max-w-26 my-2`,
         isSelected && `border border-primary rounded-lg`,
       )}>
       <TImage
@@ -137,7 +129,7 @@ const ContentCard = ({data}: any) => {
         style={tw`h-40  rounded-lg`}
       />
       <TText style={tw`text-white text-xs  text-center mt-2`}>
-        {data.content?.label}
+        {data?.content?.label}
       </TText>
     </TouchableOpacity>
   );

@@ -5,6 +5,7 @@ import {FlatList, Image} from 'react-native';
 import Header from '../../components/layout/Header';
 import PersonCreditList from '../../components/PersonCreditList';
 import Section from '../../components/Section';
+import Fallback from '../../components/ui/ScreenFallback';
 import TScrollView from '../../components/ui/TScrollView';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
@@ -24,7 +25,7 @@ export default function PersonDetailScreen(
   const {data, ...detailsReq} = usePersonDetails(id);
   const {data: imageRes, ...req}: {data: TPersonImageList | undefined} =
     useContentImages(id, 'person');
-  const scrollViewRef = useRef(null);
+  const scrollViewRef = useRef<any>(null);
   const gender =
     data?.gender == 1 ? 'Female' : data?.gender == 2 ? 'Male' : 'Not available';
 
@@ -33,6 +34,13 @@ export default function PersonDetailScreen(
       scrollViewRef.current?.scrollTo({y: 0});
     }, []),
   );
+
+  if (!data) {
+    return (
+      <Fallback error={detailsReq.error} isLoading={detailsReq.isLoading} />
+    );
+  }
+
   return (
     <TScrollView style={tw`bg-black`} ref={scrollViewRef}>
       <Header title="Person Details" textStyle={tw`text-white `} />

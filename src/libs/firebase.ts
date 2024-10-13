@@ -153,6 +153,6 @@ export const useFirebaseAuth = () => {
 // };
 
 // Firebase db
-import database from '@react-native-firebase/database';
-import {ToastAndroid} from 'react-native';
-export const userDB = (userId: string) => database().ref(`/users/${userId}`);
+// import database from '@react-native-firebase/database';
+// import {ToastAndroid} from 'react-native';
+// export const userDB = (userId: string) => database().ref(`/users/${userId}`);

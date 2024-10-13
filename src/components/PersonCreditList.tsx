@@ -5,7 +5,6 @@ import {usePersonContentCredit} from '../libs/tmdb';
 import {uniqueArray} from '../libs/utils/helpers';
 import {TMovieListItem} from '../types/contents/movie.types';
 import {TMovieCastCredit} from '../types/contents/person.types';
-import {TSeriesListItem} from '../types/contents/series.types';
 import {renderHorizontalSkeltonList} from './content/card/content-skelton';
 import MovieCard from './content/card/movie-card';
 import SeriesCard from './content/card/series-card';
@@ -32,84 +31,61 @@ export default function PersonCreditList({
 }) {
   const {data: contentCredit} = usePersonContentCredit(contentKind, id);
 
+  if (!contentCredit) return null;
+
   return (
     <Section
       label={(contentKind === 'movie' ? 'Movie' : 'Series') + ' credits'}>
       {contentCredit ? (
         <TView>
-          {contentKind === 'movie' && (
-            <TView>
-              {contentCredit?.cast.length > 0 && (
-                <TText
-                  style={tw`text-base text-black ml-2 mb-4 font-bold mr-auto border-b-4 border-primary `}>
-                  As a cast
-                </TText>
+          <TView>
+            {contentCredit?.cast.length > 0 && (
+              <TText
+                style={tw`text-base text-white ml-2 mb-4 font-bold mr-auto border-b-4 border-primary `}>
+                As a cast
+              </TText>
+            )}
+            <FlatList
+              horizontal
+              data={uniqueArray(contentCredit?.cast) as TMovieCastCredit[]}
+              keyExtractor={(i, idx) => String(idx) + i}
+              renderItem={({item}) => (
+                <MovieCard
+                  contentId={item.id}
+                  style={tw`ml-2`}
+                  data={item as TMovieListItem}
+                />
               )}
-              <FlatList
-                horizontal
-                data={uniqueArray(contentCredit?.cast) as TMovieCastCredit[]}
-                keyExtractor={(i, idx) => String(idx) + i}
-                renderItem={({item}) => (
-                  <MovieCard
-                    contentId={item.id}
-                    style={tw`ml-2`}
-                    data={item as TMovieListItem}
-                  />
-                )}
-              />
-              {contentCredit.crew?.length > 0 && (
-                <TText
-                  style={tw`text-base text-black ml-2 mt-4 mb-4 font-bold mr-auto border-b-4 border-primary `}>
-                  As a crew
-                </TText>
+            />
+            {contentCredit.crew?.length > 0 && (
+              <TText
+                style={tw`text-base text-white ml-2 mt-4 mb-4 font-bold mr-auto border-b-4 border-primary `}>
+                As a crew
+              </TText>
+            )}
+            <FlatList
+              horizontal
+              keyExtractor={(i, idx) => String(idx) + i}
+              data={uniqueArray(contentCredit?.crew)}
+              renderItem={({item}) => (
+                <>
+                  {contentKind === 'movie' ? (
+                    <MovieCard
+                      contentId={item.id}
+                      style={tw`ml-2`}
+                      data={item as TMovieListItem}
+                    />
+                  ) : (
+                    <SeriesCard
+                      contentId={item.id}
+                      style={tw`ml-2`}
+                      data={item}
+                    />
+                  )}
+                </>
               )}
-              <FlatList
-                horizontal
-                keyExtractor={(i, idx) => String(idx) + i}
-                data={uniqueArray(contentCredit?.crew)}
-                renderItem={({item}) => (
-                  <MovieCard
-                    contentId={item.id}
-                    style={tw`ml-2`}
-                    data={item as TMovieListItem}
-                  />
-                )}
-              />
-            </TView>
-          )}
-
-          {contentKind === 'tv' && (
-            <TView>
-              {contentCredit?.cast.length > 0 && (
-                <TText
-                  style={tw`text-base text-black ml-2 mb-4 font-bold mr-auto border-b-4 border-primary `}>
-                  As a cast
-                </TText>
-              )}
-              <FlatList
-                horizontal
-                data={uniqueArray(contentCredit?.cast)}
-                keyExtractor={(i, idx) => String(idx) + i}
-                renderItem={({item}) => (
-                  <SeriesCard style={tw`ml-2`} data={item as TSeriesListItem} />
-                )}
-              />
-              {contentCredit.crew?.length > 0 && (
-                <TText
-                  style={tw`text-base text-black ml-2 mt-4 mb-4 font-bold mr-auto border-b-4 border-primary `}>
-                  As a crew
-                </TText>
-              )}
-              <FlatList
-                horizontal
-                keyExtractor={(i, idx) => String(idx) + i}
-                data={uniqueArray(contentCredit?.crew)}
-                renderItem={({item}) => (
-                  <SeriesCard style={tw`ml-2`} data={item as TSeriesListItem} />
-                )}
-              />
-            </TView>
-          )}
+            />
+          </TView>
         </TView>
       ) : (
         <>

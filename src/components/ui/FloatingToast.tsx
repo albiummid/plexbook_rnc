@@ -98,12 +98,15 @@ export default function FloatingToast() {
     }
   }, [activeToast]);
 
+  if (!activeToast) return null;
+
   return (
     <>
       <Animated.Text
         style={[
           tw.style(
             `  text-white absolute w-full bottom-0 z-10 p-2 text-center`,
+
             activeToast?.status === 'error' ? 'bg-red-400' : 'bg-green-400',
           ),
           {transform: [{translateY: translateY}]},

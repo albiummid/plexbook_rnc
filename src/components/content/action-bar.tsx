@@ -77,7 +77,7 @@ export default function ContentActionBar({
         queryKey: ['user-content', {userId, contentKind, id}],
         queryFn: async () => {
           const {data} = await api.get(
-            `/content/list?userId=${userId}&tmdbId=${id}`,
+            `/content/user/list?userId=${userId}&tmdbId=${id}&cType=${contentKind}`,
           );
           return data.result.list[0] ?? null;
         },

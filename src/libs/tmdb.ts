@@ -9,9 +9,8 @@ import {
 import {TMovieListItem} from '../types/contents/movie.types';
 import {SeasonDetails, TSeriesListItem} from '../types/contents/series.types';
 import {ISO6391LanguageCode, Locale, TMDbTimezone} from '../types/static.types';
-
+const key = process.env.TMDB_API_KEY;
 export const tmdbGET = async (path: string) => {
-  const key = process.env.TMDB_API_KEY;
   let url = 'https://api.themoviedb.org/3';
   if (path.includes('?')) {
     url = url + path + `&api_key=${key}`;
