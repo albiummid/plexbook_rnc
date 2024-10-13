@@ -5,7 +5,7 @@ const localIP =
   // '192.168.0.105';
   '10.0.2.2';
 
-export const baseURL = !isProd
+export const baseURL = isProd
   ? process.env.SERVER_API_URL + '/v1'
   : `http://${localIP}:5000/api/v1`;
 
