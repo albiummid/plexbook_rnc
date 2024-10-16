@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, {useRef} from 'react';
+import React from 'react';
 import {FlatList, Image} from 'react-native';
 import Header from '../../components/layout/Header';
 import PersonCreditList from '../../components/PersonCreditList';
@@ -24,7 +24,7 @@ export default function PersonDetailScreen(
   const {data, ...detailsReq} = usePersonDetails(id);
   const {data: imageRes, ...req}: {data: TPersonImageList | undefined} =
     useContentImages(id, 'person');
-  const scrollViewRef = useRef<any>(null);
+
   const gender =
     data?.gender == 1 ? 'Female' : data?.gender == 2 ? 'Male' : 'Not available';
 
@@ -35,7 +35,7 @@ export default function PersonDetailScreen(
   }
 
   return (
-    <TScrollView style={tw`bg-black`} ref={scrollViewRef}>
+    <TScrollView style={tw`bg-black`}>
       <Header title="Person Details" textStyle={tw`text-white `} />
       <TView style={tw`mx-2 flex-row gap-2`}>
         <Image
