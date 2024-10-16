@@ -1,6 +1,5 @@
-import {useFocusEffect} from '@react-navigation/native';
 import moment from 'moment';
-import React, {useCallback, useRef} from 'react';
+import React, {useRef} from 'react';
 import {FlatList, Image} from 'react-native';
 import Header from '../../components/layout/Header';
 import PersonCreditList from '../../components/PersonCreditList';
@@ -28,12 +27,6 @@ export default function PersonDetailScreen(
   const scrollViewRef = useRef<any>(null);
   const gender =
     data?.gender == 1 ? 'Female' : data?.gender == 2 ? 'Male' : 'Not available';
-
-  useFocusEffect(
-    useCallback(() => {
-      scrollViewRef.current?.scrollTo({y: 0});
-    }, []),
-  );
 
   if (!data) {
     return (

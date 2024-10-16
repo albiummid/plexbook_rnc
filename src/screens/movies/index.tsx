@@ -1,20 +1,12 @@
-import {useFocusEffect} from '@react-navigation/native';
-import React, {useCallback, useRef} from 'react';
+import React from 'react';
 import {FeaturedMovieList} from '../../components/FeaturedList';
 import HomeHeader from '../../components/HomeHeader';
 import TopicSection from '../../components/TopicSection';
 import TScrollView from '../../components/ui/TScrollView';
 import tw from '../../libs/tailwind';
 export default function MoviesHomeScreen() {
-  const scrollViewRef = useRef(null);
-  useFocusEffect(
-    useCallback(() => {
-      scrollViewRef.current?.scrollTo({y: 0});
-    }, []),
-  );
-
   return (
-    <TScrollView ref={scrollViewRef} style={tw`bg-black`}>
+    <TScrollView style={tw`bg-black`}>
       <HomeHeader />
       <FeaturedMovieList contentKind="movie" />
       <TopicSection
