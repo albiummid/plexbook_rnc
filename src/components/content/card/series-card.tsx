@@ -29,13 +29,12 @@ type CardProps = PropsWithChildren<
 export default function SeriesCard({data, style, disable}: CardProps) {
   return (
     <TouchableOpacity
+      disabled={disable}
       onPress={() => {
-        if (!disable) {
-          router.push('series_details', {
-            id: data.id,
-            data: {poster_path: data.poster_path},
-          });
-        }
+        router.push('series_details', {
+          id: data.id,
+          data: {poster_path: data.poster_path},
+        });
       }}
       activeOpacity={0.5}
       style={[tw`h-40 w-24 rounded-lg`, style]}>

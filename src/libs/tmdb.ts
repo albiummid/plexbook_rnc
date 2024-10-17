@@ -1,5 +1,6 @@
 import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import axios from 'axios';
+import {Image} from 'react-native';
 import {
   TMovieListResponse,
   TMultiSearch,
@@ -17,6 +18,7 @@ export const tmdbGET = async (path: string) => {
   } else {
     url = url + path + `?api_key=${key}`;
   }
+  // console.log(url);
   return await axios.get(url);
 };
 
@@ -26,9 +28,15 @@ export const tmdbCustomImage = (path: string, sizeParam: string) =>
   `https://image.tmdb.org/t/p/${sizeParam}/${path}`;
 
 export const getPosterImageURL = (path: string, size: TPosterSizes) => {
+  if (!path)
+    return Image.resolveAssetSource(require('../assets/images/no-poster.png'))
+      .uri;
   return imageProperties.secure_base_url + size + path;
 };
 export const getBackdropImageURL = (path: string, size: TBackdropSizes) => {
+  if (!path)
+    return Image.resolveAssetSource(require('../assets/images/no-poster.png'))
+      .uri;
   return imageProperties.secure_base_url + size + path;
 };
 export const getStillImageURL = (path: string, size: TStillSizes) => {
@@ -212,7 +220,7 @@ export const usePersonContentCredit = (
   personId: number,
 ) => {
   return useQuery({
-    queryKey: [`person-${contentKind}-credits`, personId, contentKind],
+    queryKey: [`person-credits`, personId, contentKind],
     queryFn: () => tmdbGET(`/person/${personId}/${contentKind}_credits`),
     select(data) {
       return data.data;
@@ -650,25 +658,40 @@ export const useContentSearch = (props: {
   contentKind: 'movie' | 'tv' | 'person';
   query: string;
 }) => {
-  let queryStrList = [`query=${props.query}`];
-  return useInfiniteQuery({
-    queryKey: [{props}, 'search'],
-    queryFn: ({pageParam}) => {
-      return tmdbGET(
-        `/search/${props.contentKind}?page=${pageParam}&${queryStrList.join(
-          '&',
-        )}`,
-      );
-    },
-    select(data) {
-      return data.pages.map(x => x.data.results).flat();
-    },
+  return useTMDBInfiniteList(`/search/${props.contentKind}`, {
+    query: props.query,
+  });
+};
+
+export const useTMDBInfiniteList = (
+  pathURL: string,
+  query: Record<string, any>,
+) => {
+  let queryHook = useInfiniteQuery({
+    queryKey: [pathURL, {query}],
     initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages, lastPageParams) => {
-      if (lastPage.data.total_pages > lastPageParams) {
-        return Number(lastPageParams) + 1;
-      }
-      return undefined;
+    getNextPageParam: (lastPage: any) =>
+      lastPage.page < lastPage.total_pages
+        ? Number(lastPage.page) + 1
+        : undefined,
+    queryFn: async ({pageParam}) => {
+      const queries = Object.entries({...query, page: pageParam})
+        .filter(([key, value]) => Boolean(value))
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&');
+      const {data} = await tmdbGET(`${pathURL}?${queries}`);
+      return {
+        ...data,
+        results: data.results
+          .filter((x: any) => {
+            return x.popularity < 0.5 && x.poster_path == null ? false : true;
+          }) // filtering broken results
+          .sort((a: any, b: any) => b.popularity - a.popularity), // sorting to get popular result first,
+      };
     },
   });
+  return {
+    ...queryHook,
+    flattenedData: queryHook?.data?.pages.flatMap(x => x.results),
+  };
 };

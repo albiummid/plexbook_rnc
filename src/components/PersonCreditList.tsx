@@ -11,6 +11,7 @@ import Section from './Section';
 import Skelton from './ui/Skelton';
 import TText from './ui/TText';
 import TView from './ui/TView';
+import SeriesCard from './content/card/series-card';
 
 const CreditSectionSkelton = () => {
   return (
@@ -41,21 +42,25 @@ export default function PersonCreditList({
         <TView>
           {contentCredit?.cast.length > 0 && (
             <>
-              <TText
-                style={tw`text-base text-white ml-2 mb-4 font-bold mr-auto border-b-4 border-primary `}>
-                As a cast
-              </TText>
               <FlatList
                 horizontal
                 data={uniqueArray(contentCredit?.cast) as TMovieCastCredit[]}
                 keyExtractor={(i, idx) => String(idx) + i}
-                renderItem={({item}) => (
-                  <MovieCard
-                    contentId={item.id}
-                    style={tw`ml-2`}
-                    data={item as TMovieListItem}
-                  />
-                )}
+                renderItem={({item}) =>
+                  contentKind === 'movie' ? (
+                    <MovieCard
+                      contentId={item.id}
+                      style={tw`ml-2`}
+                      data={item as any}
+                    />
+                  ) : (
+                    <SeriesCard
+                      contentId={item.id}
+                      style={tw`ml-2`}
+                      data={item as any}
+                    />
+                  )
+                }
               />
             </>
           )}

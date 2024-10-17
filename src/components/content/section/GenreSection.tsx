@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleProp, ViewStyle} from 'react-native';
+import {ScrollView, StyleProp, ViewStyle} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {router} from '../../../libs/navigation/navigator';
 import tw from '../../../libs/tailwind';
@@ -19,22 +19,24 @@ export default function GenreSection({
 }) {
   return (
     <Section label="Genres">
-      <TView style={[tw`mx-2 items-center flex-row flex-wrap gap-2`, style]}>
-        {genres?.map(x => {
-          return (
-            <TouchableOpacity
-              key={x?.id}
-              onPress={() => {
-                router.navigate('genre_list', {id: x.id, contentKind});
-              }}>
-              <TText
-                style={tw`text-xs px-2 py-1 rounded-lg border text-primary border-primary `}>
-                {x?.name}
-              </TText>
-            </TouchableOpacity>
-          );
-        })}
-      </TView>
+      <ScrollView horizontal>
+        <TView style={[tw`items-center flex-row flex-wrap gap-2`, style]}>
+          {genres?.map(x => {
+            return (
+              <TouchableOpacity
+                key={x?.id}
+                onPress={() => {
+                  router.navigate('genre_list', {id: x.id, contentKind});
+                }}>
+                <TText
+                  style={tw`text-xs px-2 py-1 rounded-lg border text-primary border-primary `}>
+                  {x?.name}
+                </TText>
+              </TouchableOpacity>
+            );
+          })}
+        </TView>
+      </ScrollView>
     </Section>
   );
 }

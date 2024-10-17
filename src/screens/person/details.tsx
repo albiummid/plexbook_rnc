@@ -75,9 +75,11 @@ export default function PersonDetailScreen(
       </TView>
 
       {/* Biography */}
-      <Section label="Biography" style={tw`  mx-2`}>
-        <TText style={tw`text-white`}>{data?.biography}</TText>
+      <Section label="Biography">
+        <TText style={tw`text-white mx-2`}>{data?.biography}</TText>
       </Section>
+      {/* Known for */}
+      <Section label="Known for"></Section>
       {/* Images */}
       <Section label="Profile Images">
         <FlatList
@@ -88,7 +90,7 @@ export default function PersonDetailScreen(
           renderItem={({item}) => {
             return (
               <Image
-                style={tw`h-40 w-26 ml-2 rounded-lg `}
+                style={tw`h-30 w-20 ml-2 rounded-lg `}
                 source={{uri: getProfileImageURL(item.file_path, 'w154')}}
               />
             );

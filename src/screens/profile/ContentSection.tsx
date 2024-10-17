@@ -126,7 +126,7 @@ const ContentCard = ({data}: any) => {
         source={{
           uri: posterURI,
         }}
-        style={tw`h-40  rounded-lg`}
+        style={tw`h-36 w-24  rounded-lg`}
       />
       <TText style={tw`text-white text-xs  text-center mt-2`}>
         {data?.content?.label}

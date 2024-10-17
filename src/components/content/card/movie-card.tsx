@@ -8,6 +8,7 @@ import {getPosterImageURL} from '../../../libs/tmdb';
 import {TMovieListItem} from '../../../types/contents/movie.types';
 import TImage from '../../ui/TImage';
 import Icons from '../../ui/vector-icons';
+import TText from '../../ui/TText';
 
 type CardProps = PropsWithChildren<
   {
@@ -59,21 +60,26 @@ export const CollectionMovieCard = (
   props: CardProps & {index: number; disable: boolean},
 ) => {
   return (
-    <LinearGradient
-      colors={['transparent', 'black']}
-      start={{x: 1, y: 1}}
-      end={{x: 1, y: 0.5}}
-      key={props.index}
-      style={[tw``, props.style]}>
-      <MovieCard
-        contentId={props.data.id}
-        data={props.data}
-        disable={props.disable}
-      />
-      <Text
-        style={tw`text-9xl text-gray-50 font-bold absolute opacity-40 right-0`}>
-        {props.index + 1}
-      </Text>
-    </LinearGradient>
+    <TouchableOpacity
+      style={tw`w-24`}
+      onPress={() => {
+        router.push('movie_details', {id: props.data.id});
+      }}>
+      <LinearGradient
+        colors={['transparent', 'black']}
+        start={{x: 1, y: 1}}
+        end={{x: 1, y: 0}}
+        key={props.index}
+        style={[tw`relative`, props.style]}>
+        <MovieCard contentId={props.data.id} data={props.data} disable={true} />
+        <TText>{props.data.title}</TText>
+        <Text
+          style={[
+            tw`text-9xl text-white/60 bg-black/20 text-right h-full w-full font-bold absolute`,
+          ]}>
+          {props.index + 1}
+        </Text>
+      </LinearGradient>
+    </TouchableOpacity>
   );
 };

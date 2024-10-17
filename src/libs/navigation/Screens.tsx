@@ -32,6 +32,7 @@ import {Season, TSeriesListItem} from '../../types/contents/series.types';
 import {ldbValues} from '../localDB';
 import tw from '../tailwind';
 import {RouteName} from './navigator';
+import CollectionDetails from '../../screens/collection';
 
 type TTabScreenListItem = {
   name: RouteName;
@@ -88,6 +89,9 @@ export type RootStackParamList = {
   person_details: {
     id: number;
     data: TPersonListItem;
+  };
+  collection_details: {
+    id: number;
   };
   genre_list: {
     id: number;
@@ -178,6 +182,7 @@ export const authenticatedStack = [
   StackScreen('series_details', SeriesDetailScreen),
   StackScreen('season_details', SeasonDetails),
   StackScreen('person_details', PersonDetailScreen),
+  StackScreen('collection_details', CollectionDetails),
 ];
 
 export const nonAuthStack = [

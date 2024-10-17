@@ -27,49 +27,49 @@ export default function NetworkStatus() {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (serverStatus === 'idle') {
-      api
-        .get('/auth/health-check')
-        .then(res => {
-          appState.setState({
-            serverStatus: res.status === 200 ? 'reachable' : 'unreachable',
-          });
-        })
-        .catch(error => {
-          appState.setState({
-            serverStatus: 'unreachable',
-          });
-        });
-    }
+  // useEffect(() => {
+  //   if (serverStatus === 'idle') {
+  //     api
+  //       .get('/auth/health-check')
+  //       .then(res => {
+  //         appState.setState({
+  //           serverStatus: res.status === 200 ? 'reachable' : 'unreachable',
+  //         });
+  //       })
+  //       .catch(error => {
+  //         appState.setState({
+  //           serverStatus: 'unreachable',
+  //         });
+  //       });
+  //   }
 
-    let id = 'internetStatus';
-    if (internetStatus === 'disconnected') {
-      showToast({
-        id,
-        message: 'You are now in offline',
-        duration: -1,
-        status: 'error',
-      });
-      return;
-    } else if (internetStatus === 'connected') {
-      hideToast(id);
-    }
+  //   let id = 'internetStatus';
+  //   if (internetStatus === 'disconnected') {
+  //     showToast({
+  //       id,
+  //       message: 'You are now in offline',
+  //       duration: -1,
+  //       status: 'error',
+  //     });
+  //     return;
+  //   } else if (internetStatus === 'connected') {
+  //     hideToast(id);
+  //   }
 
-    // Toast
-    let serverToastId = 'serverToast';
-    if (serverStatus === 'unreachable') {
-      showToast({
-        id: serverToastId,
-        status: 'error',
-        message:
-          'Something went wrong.\nPlease check your internet connection.',
-        duration: -1,
-      });
-    } else if (serverStatus === 'reachable') {
-      hideToast(serverToastId);
-    }
-  }, [serverStatus, internetStatus]);
+  //   // Toast
+  //   let serverToastId = 'serverToast';
+  //   if (serverStatus === 'unreachable') {
+  //     showToast({
+  //       id: serverToastId,
+  //       status: 'error',
+  //       message:
+  //         'Something went wrong.\nPlease check your internet connection.',
+  //       duration: -1,
+  //     });
+  //   } else if (serverStatus === 'reachable') {
+  //     hideToast(serverToastId);
+  //   }
+  // }, [serverStatus, internetStatus]);
 
   return null;
 }

@@ -11,7 +11,7 @@ import FloatingToast from '../ui/FloatingToast';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      gcTime: getMS.second(5), // 24 hours
+      gcTime: getMS.day(1), // 24 hours
     },
   },
 });

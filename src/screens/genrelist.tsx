@@ -13,6 +13,7 @@ import {
   useDiscoverMovie,
   useDiscoverSeries,
 } from '../libs/tmdb';
+import {FlashList} from '@shopify/flash-list';
 
 export default function GenreList(props: ScreenProps<'genre_list'>) {
   const [activeLanguage, setActiveLanguage] = useState(
@@ -68,14 +69,13 @@ export default function GenreList(props: ScreenProps<'genre_list'>) {
           renderItem={({item}) => <ContentSkelton />}
         />
       ) : (
-        <FlatList
+        <FlashList
           numColumns={3}
           data={
             contentKind === 'movie' ? movieList.results : seriesList.results
           }
-          // estimatedItemSize={30}
-          columnWrapperStyle={tw`gap-2`}
-          contentContainerStyle={tw`mx-auto flex-grow gap-2`}
+          estimatedItemSize={40}
+          contentContainerStyle={tw``}
           renderItem={({item}) => {
             return (
               <View style={tw``}>

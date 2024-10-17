@@ -6,8 +6,10 @@ export default function TImage(props: PropsWithChildren<ImageProps>) {
   const [isLoading, setIsLoading] = useState(true);
   return (
     <>
-      {/* <Image style={[props.style]} {...props} /> */}
-      <Skelton style={props.style} visible={!isLoading}>
+      <Skelton
+        shimmerColors={['black', 'gray', 'black']}
+        shimmerStyle={[props.style]}
+        visible={!isLoading}>
         <Image
           onLoadEnd={() => {
             setIsLoading(false);

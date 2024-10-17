@@ -23,9 +23,8 @@ export default function Section({
   ...props
 }: SectionProps) {
   return (
-    <View style={[tw`gap-1 pt-4 flex-1  `, props.style]}>
-      <View
-        style={tw.style(`flex-row items-center justify-between mx-2 mb-2 `)}>
+    <View style={[tw`gap-1 pt-4 flex-1 bg-black px-2 `, props.style]}>
+      <View style={tw.style(`flex-row items-center justify-between  mb-2 `)}>
         <Text
           style={tw`border-l-8 pl-4 border-primary text-white text-xl  font-bold ${
             labelColor ? `text-[${labelColor}]` : ' '
@@ -53,7 +52,7 @@ export default function Section({
           </>
         )}
       </View>
-      <View style={[tw`flex-1`, props.style]}>{children}</View>
+      <View style={[tw`flex-1 gap-y-3`, props.style]}>{children}</View>
     </View>
   );
 }
