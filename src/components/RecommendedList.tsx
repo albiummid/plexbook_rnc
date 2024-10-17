@@ -20,6 +20,10 @@ export default function RecommendedList(
     props.contentId,
   );
 
+  if (data?.results?.length === 0) {
+    return null;
+  }
+
   return (
     <Section label={`Recommendation`} labelColor="white">
       {!listReq.isSuccess && renderHorizontalSkeltonList()}

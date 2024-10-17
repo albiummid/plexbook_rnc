@@ -18,7 +18,7 @@ export const tmdbGET = async (path: string) => {
   } else {
     url = url + path + `?api_key=${key}`;
   }
-  // console.log(url);
+  console.log(url);
   return await axios.get(url);
 };
 
@@ -628,26 +628,26 @@ export const getIMDBRating = async (imdbId: string) => {
 };
 
 export const useContentImages = (
-  id: number,
-  contentKind: 'movie' | 'tv' | 'person',
-  // info:
-  //   | {
-  //       contentKind: 'movie' | 'tv';
-  //       imageKind: 'backdrop';
-  //       imageSize: TBackdropSizes;
-  //     } & {
-  //       contentKind: 'movie' | 'tv';
-  //       imageKind: 'poster';
-  //       imageSize: TPosterSizes;
-  //     } & {
-  //       ContentKind: 'person';
-  //       imageKind: 'profile';
-  //       imageSize: TProfileSizes;
-  //     },
+  {
+    id,
+    contentKind,
+    personTaggedImages,
+  }: {
+    id: number;
+    contentKind: 'movie' | 'tv' | 'person';
+    personTaggedImages?: boolean;
+  },
+  enabled = true,
 ) => {
   return useQuery({
-    queryKey: [`${contentKind}-images`, id],
-    queryFn: () => tmdbGET(`/${contentKind}/${id}/images`),
+    queryKey: [`images`, {id, personTaggedImages, contentKind}],
+    enabled: Boolean(enabled),
+    queryFn: () =>
+      tmdbGET(
+        `/${contentKind}/${id}/${
+          personTaggedImages ? 'tagged_images' : 'images'
+        }`,
+      ),
     select(res) {
       return res.data;
     },
@@ -655,7 +655,7 @@ export const useContentImages = (
 };
 
 export const useContentSearch = (props: {
-  contentKind: 'movie' | 'tv' | 'person';
+  contentKind: 'movie' | 'tv' | 'person' | 'collection';
   query: string;
 }) => {
   return useTMDBInfiniteList(`/search/${props.contentKind}`, {

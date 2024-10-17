@@ -1,7 +1,8 @@
 import {FlashList} from '@shopify/flash-list';
-import React, {useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {
   ActivityIndicator,
+  Keyboard,
   ScrollView,
   Text,
   TextInput,
@@ -27,6 +28,9 @@ import moment from 'moment';
 import MovieCard from '../components/content/card/movie-card';
 import SeriesCard from '../components/content/card/series-card';
 import {FlatList} from 'react-native-actions-sheet';
+import {useFocusEffect} from '@react-navigation/native';
+import {openSheet, sheetIds} from '../components/sheets/ActionSheet';
+import CardActionBar from '../components/content/card/card-action';
 
 export default function SearchScreen() {
   const [keyword, setKeyword] = useState('');
@@ -45,6 +49,12 @@ export default function SearchScreen() {
   const debounce = useDebouncedCallback(v => {
     setKeyword(v);
   }, 600);
+
+  useFocusEffect(
+    useCallback(() => {
+      ref.current.focus();
+    }, []),
+  );
 
   return (
     <Section label="Search" style={tw`bg-black`}>
@@ -82,7 +92,7 @@ export default function SearchScreen() {
           }}
           ref={ref}
           value={textInput}
-          style={tw` py-2 px-4 text-white`}
+          style={tw` py-1 px-4 text-white`}
           placeholderTextColor={'white'}
           placeholder={`Type any ${activeTab} name`}
         />
@@ -92,9 +102,10 @@ export default function SearchScreen() {
               ref.current.clear();
               setKeyword('');
               setTextInput('');
+              // Keyboard.dismiss();
             }}
             style={tw` absolute border-primary right-2 top-2 p-1 justify-center items-center border rounded-full m-auto`}>
-            <Icons.AntDesign size={15} name="close" style={tw` text-primary`} />
+            <Icons.AntDesign size={10} name="close" style={tw` text-primary`} />
           </TouchableOpacity>
         )}
       </TView>
@@ -205,6 +216,7 @@ const ContentCard = ({item, contentKind}: {item: any; contentKind: string}) => {
         <View style={tw`flex-1 gap-1`}>
           <>
             <TText style={tw`text-white pr-2 font-bold `}>{label}</TText>
+            <CardActionBar data={item} contentKind={contentKind} id={item.id} />
             {/* Genre list */}
             <View style={tw` flex-row  flex-wrap`}>
               {getGenreList(item.genre_ids).map((x, i) => (
@@ -239,6 +251,10 @@ const ContentCard = ({item, contentKind}: {item: any; contentKind: string}) => {
   if (contentKind === 'person') {
     return (
       <View style={tw`m-2 gap-2 border border-primary p-2 rounded-lg `}>
+        <View style={tw`absolute right-2`}>
+          <CardActionBar data={item} contentKind={contentKind} id={item.id} />
+        </View>
+
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={onPress}

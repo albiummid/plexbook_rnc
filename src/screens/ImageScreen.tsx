@@ -3,7 +3,13 @@ import React, {useState} from 'react';
 import Section from '../components/Section';
 import {FlashList} from '@shopify/flash-list';
 import TImage from '../components/ui/TImage';
-import {getBackdropImageURL, getPosterImageURL} from '../libs/tmdb';
+import {
+  getBackdropImageURL,
+  getLogoImageURL,
+  getPosterImageURL,
+  getProfileImageURL,
+  getStillImageURL,
+} from '../libs/tmdb';
 import tw from '../libs/tailwind';
 import {TouchableOpacity} from 'react-native';
 import TText from '../components/ui/TText';
@@ -53,7 +59,6 @@ export default function ImageScreen({...props}) {
       toFile: downloadDest,
     })
       .promise.then(res => {
-        console.log('Image downloaded successfully:', res);
         ToastAndroid.show(
           `Image saved to: ${downloadDest}`,
           ToastAndroid.SHORT,
@@ -66,21 +71,25 @@ export default function ImageScreen({...props}) {
         );
       });
   };
-  console.log(active);
   return (
-    <Section label={type === 'backdrop' ? 'Backdrops' : 'Posters'}>
+    <Section label={labels[type]}>
       <FlashList
         data={list}
-        estimatedItemSize={100}
-        numColumns={type === 'poster' ? 3 : 1}
+        estimatedItemSize={20}
+        numColumns={['poster', 'profile'].includes(type) ? 3 : 1}
         renderItem={({item}) => {
           const imageURI =
-            type == 'poster'
+            type === 'poster'
               ? getPosterImageURL(item?.file_path, 'w500')
-              : getBackdropImageURL(item?.file_path, 'w780');
+              : type === 'backdrop'
+              ? getBackdropImageURL(item?.file_path, 'w780')
+              : type === 'profile'
+              ? getProfileImageURL(item?.file_path, 'w500')
+              : type === 'tagged_images'
+              ? getStillImageURL(item?.file_path, 'original')
+              : getLogoImageURL(item?.file_path, 'w300');
           return (
             <TouchableOpacity
-              disabled // due to downloading to storage api is broken
               onPress={() => {
                 setActive(item);
               }}>
@@ -88,7 +97,7 @@ export default function ImageScreen({...props}) {
                 source={{uri: imageURI}}
                 style={tw.style(
                   ` h-40 my-2  rounded-lg`,
-                  type === 'poster' ? ` w-24` : `w-full`,
+                  ['poster', 'profile'].includes(type) ? ` w-24` : `w-full`,
                 )}
               />
             </TouchableOpacity>

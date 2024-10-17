@@ -61,7 +61,7 @@ export default function TopicSection({
           contentKind,
         });
       }}>
-      <View style={tw.style('mt-5 gap-2', style)}>
+      <View style={tw.style('', style)}>
         {!listReq.isSuccess && renderHorizontalSkeltonList()}
         {listReq.isSuccess && (
           <FlatList

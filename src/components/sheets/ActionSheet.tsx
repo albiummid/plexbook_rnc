@@ -17,6 +17,7 @@ export interface sheetState {
   sheetList: ISheet[];
   openSheet: (id: string, sheetProps?: any) => void;
   closeSheet: (id: string) => void;
+  getSheetProps: (id: string) => any;
   reset: () => void;
 }
 
@@ -24,24 +25,20 @@ const initialState = {
   sheetList: [],
 };
 
-export const useSheetState = create<sheetState>(set => ({
+export const useSheetState = create<sheetState>((set, get) => ({
   ...initialState,
   closeSheet(id: string) {
     set(state => ({sheetList: state.sheetList.filter(x => x.id !== id)}));
   },
+  getSheetProps: (id: string) => {
+    return get().sheetList.find(x => x.id === id)?.sheetProps;
+  },
   openSheet(id, sheetProps) {
-    set(state => {
-      return {
-        sheetList: [
-          ...state.sheetList.filter(x => x.id !== id),
-          {
-            id,
-            isOpen: true,
-            sheetProps,
-          },
-        ],
-      };
-    });
+    set(state => ({
+      sheetList: state.sheetList
+        .filter(x => x.id !== id)
+        .concat({id, sheetProps, isOpen: true}),
+    }));
   },
   reset() {
     set(initialState);
@@ -78,29 +75,27 @@ export const RNActionSheet = (
   }, [sheet]);
 
   return (
-    <>
-      <ActionSheet
-        containerStyle={{...tw` p-2`, ...props.containerStyle}}
-        onTouchBackdrop={() => {
-          useSheetState.setState(state => ({
-            sheetList: state.sheetList.filter(x => x.id !== props.sheetId),
-          }));
-        }}
-        ref={sheetRef}
-        {...props}>
-        <TView stack="hStack" justifyContent="center">
-          {props.header ? (
-            props.header
-          ) : props.label && props?.label.length > 0 ? (
-            <TText style={tw`text-black font-bold my-2 text-base`}>
-              {props.label}
-            </TText>
-          ) : null}
-          <TView>{props.rightSection}</TView>
-        </TView>
-        {props.children}
-      </ActionSheet>
-    </>
+    <ActionSheet
+      containerStyle={{...tw` p-2`, ...props.containerStyle}}
+      onTouchBackdrop={() => {
+        useSheetState.setState(state => ({
+          sheetList: state.sheetList.filter(x => x.id !== props.sheetId),
+        }));
+      }}
+      ref={sheetRef}
+      {...props}>
+      <TView stack="hStack" justifyContent="center">
+        {props.header ? (
+          props.header
+        ) : props.label && props?.label.length > 0 ? (
+          <TText style={tw`text-black font-bold my-2 text-base`}>
+            {props.label}
+          </TText>
+        ) : null}
+        <TView>{props.rightSection}</TView>
+      </TView>
+      {props.children}
+    </ActionSheet>
   );
 };
 

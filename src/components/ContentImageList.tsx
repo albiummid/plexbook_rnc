@@ -4,7 +4,10 @@ import {Image, ImageBackground, Modal, TouchableOpacity} from 'react-native';
 import tw from '../libs/tailwind';
 import {
   getBackdropImageURL,
+  getLogoImageURL,
   getPosterImageURL,
+  getProfileImageURL,
+  getStillImageURL,
   useContentImages,
 } from '../libs/tmdb';
 import Section from './Section';
@@ -17,27 +20,54 @@ import TImage from './ui/TImage';
 export default function ContentImageList(
   props: PropsWithChildren<{
     id: number;
-    contentKind: 'movie' | 'tv';
+    contentKind: 'movie' | 'tv' | 'person';
     label: string;
   }>,
 ) {
-  const {data: images, ...req} = useContentImages(props.id, props.contentKind);
-  console.log({...images, posters: [], backdrops: [], logos: []});
+  const {data: images, ...req} = useContentImages({
+    id: props.id,
+    contentKind: props.contentKind,
+    personTaggedImages: false,
+  });
+  const {data: taggedImages, ...taggedImagesReq} = useContentImages(
+    {
+      id: props.id,
+      contentKind: props.contentKind,
+      personTaggedImages: true,
+    },
+    props.contentKind === 'person',
+  );
+  if (props.contentKind === 'person') {
+    console.log(taggedImages);
+  }
+
   const ImageCard = ({
     type,
     lists,
     isSuccess,
   }: {
-    type: 'poster' | 'backdrop';
-    lists: {posters: any[]; backdrops: any[]};
+    type: 'poster' | 'backdrop' | 'logo' | 'profile' | 'tagged_images';
+    lists: {posters: any[]; backdrops: any[]; logos: any[]; profiles: any[]};
     isSuccess: boolean;
   }) => {
-    const imageList = type === 'poster' ? lists?.posters : lists?.backdrops;
+    const imageList =
+      type === 'poster'
+        ? lists?.posters
+        : type == 'backdrop'
+        ? lists?.backdrops
+        : type === 'logo'
+        ? lists.logos
+        : type === 'profile'
+        ? lists.profiles
+        : lists.results;
+
     return (
       <Skelton
         style={tw.style(
           ` rounded-lg border border-primary`,
-          type === 'poster' ? 'h-40 w-28' : 'h-full w-full flex-1',
+          ['poster', 'profile'].includes(type)
+            ? 'h-40 w-28'
+            : 'h-full w-full flex-1',
         )}
         visible={isSuccess}>
         <TouchableOpacity
@@ -52,19 +82,34 @@ export default function ContentImageList(
             blurRadius={2}
             style={tw.style(
               `h-full w-full rounded-lg`,
-              type === 'poster' ? 'w-28' : 'w-full',
+              ['poster', 'profile'].includes(type) ? 'w-28' : 'w-full',
             )}
             source={{
               uri:
                 type === 'poster'
-                  ? getPosterImageURL(imageList[0]?.file_path, 'w500')
-                  : getBackdropImageURL(imageList[0]?.file_path, 'w780'),
+                  ? getPosterImageURL(imageList?.[0]?.file_path, 'w500')
+                  : type === 'backdrop'
+                  ? getBackdropImageURL(imageList?.[0]?.file_path, 'w780')
+                  : type === 'profile'
+                  ? getProfileImageURL(imageList?.[0]?.file_path, 'w500')
+                  : type === 'tagged_images'
+                  ? getStillImageURL(imageList?.[0]?.file_path, 'original')
+                  : getLogoImageURL(imageList?.[0]?.file_path, 'w300'),
             }}
           />
           <TText
             style={tw`text-white text-center absolute bottom-0 mx-auto w-full bg-black/60 p-2 `}
             color={'white'}>
-            {images?.posters?.length} Poster
+            {imageList.length}{' '}
+            {type === 'profile'
+              ? 'Profiles'
+              : type === 'backdrop'
+              ? 'Backdrops'
+              : type === 'logo'
+              ? 'Logos'
+              : type === 'poster'
+              ? 'Posters'
+              : 'Tagged Images'}
           </TText>
         </TouchableOpacity>
       </Skelton>
@@ -74,8 +119,29 @@ export default function ContentImageList(
   return (
     <Section label={'Images'} labelColor="white">
       <TView stack="hStack" style={tw`gap-2`} mX={8}>
-        <ImageCard lists={images} type="poster" isSuccess={req.isSuccess} />
-        <ImageCard lists={images} type="backdrop" isSuccess={req.isSuccess} />
+        {props.contentKind === 'person' ? (
+          <>
+            <ImageCard
+              lists={images}
+              type="profile"
+              isSuccess={req.isSuccess}
+            />
+            <ImageCard
+              lists={taggedImages}
+              type="tagged_images"
+              isSuccess={req.isSuccess}
+            />
+          </>
+        ) : (
+          <>
+            <ImageCard lists={images} type="poster" isSuccess={req.isSuccess} />
+            <ImageCard
+              lists={images}
+              type="backdrop"
+              isSuccess={req.isSuccess}
+            />
+          </>
+        )}
       </TView>
     </Section>
   );

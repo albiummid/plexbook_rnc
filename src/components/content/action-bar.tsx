@@ -22,6 +22,13 @@ import TButton from '../ui/TButton';
 import TText from '../ui/TText';
 import TView from '../ui/TView';
 import Icons from '../ui/vector-icons';
+import ToggleButton from '../ui/ToggleButton';
+import {
+  closeSheet,
+  openSheet,
+  RNActionSheet,
+  sheetIds,
+} from '../sheets/ActionSheet';
 type ActionBarProps = {
   contentKind: ContentKind;
   id: number;
@@ -71,7 +78,10 @@ export default function ContentActionBar({
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const [{data: userContent, ...userContentReq}, {data: tagList}] = useQueries({
+  const [
+    {data: userContent, ...userContentReq},
+    {data: tagList, ...tagListReq},
+  ] = useQueries({
     queries: [
       {
         queryKey: ['user-content', {userId, contentKind, id}],
@@ -93,7 +103,7 @@ export default function ContentActionBar({
   });
 
   const assignTag = async (tagLabel: string) => {
-    await api.post('/content/tag/assign', {
+    return await api.post('/content/tag/assign', {
       userId,
       cType: contentKind,
       tagLabel,
@@ -101,7 +111,7 @@ export default function ContentActionBar({
     });
   };
   const removeTag = async (tagLabel: string) => {
-    await api.post('/content/tag/remove', {
+    return await api.post('/content/tag/remove', {
       userId,
       cType: contentKind,
       tagLabel,
@@ -112,12 +122,14 @@ export default function ContentActionBar({
     setIsLoading(true);
     try {
       if (userContentReq.isLoading) return;
+      let res;
       if (currentState == true) {
-        await removeTag(tagLabel);
+        res = await removeTag(tagLabel);
       } else {
-        await assignTag(tagLabel);
+        res = await assignTag(tagLabel);
       }
       userContentReq.refetch();
+      ToastAndroid.show(res.data.message, ToastAndroid.SHORT);
     } catch (err) {
       ToastAndroid.show(String(err), 500);
     } finally {
@@ -136,15 +148,21 @@ export default function ContentActionBar({
         setError('This tag name already exists.');
         return;
       }
-      await api.post(`/content/tag/create`, {
+      const {data} = await api.post(`/content/tag/create`, {
         userId,
         label: tagInput,
       });
-      queryClient.invalidateQueries({queryKey: ['tag-list']});
+      tagListReq.refetch();
+      setTagInput('');
+      setError('');
+      ToastAndroid.show(data.message, ToastAndroid.SHORT);
+      setCurrentSheet('list');
     } catch (err) {
       setError('Something went wrong !');
     }
   };
+
+  if (!contentKind) return null;
 
   return (
     <View style={[tw.style(`flex-row gap-2`), style]}>
@@ -155,108 +173,101 @@ export default function ContentActionBar({
           handleToggle('Favorite', isFavorite);
         }}
         Icon={Icons.Feather}
-        iconName="heart"
-      />
-      <ActionButton
-        isLoading={loading}
-        isEnabled={isWatched}
-        onPress={() => {
-          handleToggle('Watched', isWatched);
-        }}
-        Icon={Icons.Feather}
-        iconName={isWatched ? 'eye' : 'eye-off'}
-      />
-      <ActionButton
-        isLoading={loading}
-        isEnabled={isWatchLater}
-        onPress={() => {
-          handleToggle('Watch Later', isWatchLater);
-        }}
-        Icon={Icons.Feather}
-        iconName={'watch'}
+        iconName={contentKind === 'person' ? 'bookmark' : 'heart'}
       />
 
-      <ActionButton
-        isLoading={loading}
-        isEnabled={false}
-        onPress={() => {
-          sheetRef.current?.show();
-        }}
-        Icon={Icons.Feather}
-        iconName={'folder-plus'}
-      />
+      {contentKind !== 'person' && (
+        <>
+          <ActionButton
+            isLoading={loading}
+            isEnabled={isWatched}
+            onPress={() => {
+              handleToggle('Watched', isWatched);
+            }}
+            Icon={Icons.Feather}
+            iconName={isWatched ? 'eye' : 'eye-off'}
+          />
+          <ActionButton
+            isLoading={loading}
+            isEnabled={isWatchLater}
+            onPress={() => {
+              handleToggle('Watch Later', isWatchLater);
+            }}
+            Icon={Icons.Feather}
+            iconName={'watch'}
+          />
 
-      <ActionSheet
+          <ActionButton
+            isLoading={loading}
+            isEnabled={false}
+            onPress={() => {
+              openSheet('assign-tag');
+            }}
+            Icon={Icons.Feather}
+            iconName={'folder-plus'}
+          />
+        </>
+      )}
+
+      <RNActionSheet
         onClose={() => {
           setError('');
           setTagInput('');
           setCurrentSheet('list');
         }}
-        containerStyle={tw`p-4 min-h-60`}
-        ref={sheetRef}>
+        containerStyle={tw`p-4 bg-black border border-b-0 border-primary`}
+        sheetId="assign-tag">
         <TView
           // stack="hStack"
           // alignItems="center"
           gap={2}
-          style={tw`border-b  pb-1 border-gray-200`}
+          style={tw` pb-1`}
           justifyContent="between">
-          <TText style={tw`text-base font-bold `}>
-            {currentSheet === 'list' ? 'Add to tag list' : 'Create tag'}
-          </TText>
           <TView stack="hStack" justifyContent="between">
-            <TButton
+            <TText style={tw`text-base font-bold text-white `}>
+              {currentSheet === 'list' ? 'Add to tag list' : 'Create tag'}
+            </TText>
+            <ToggleButton
               onPress={() => {
-                setCurrentSheet(pv => (pv == 'list' ? 'create-tag' : 'list'));
-              }}>
-              {currentSheet !== 'list' ? 'Add to tag list' : 'Create tag'}
-            </TButton>
-            <TButton
-              onPress={() => {
-                sheetRef.current?.hide();
+                closeSheet('assign-tag');
               }}>
               Close
-            </TButton>
+            </ToggleButton>
           </TView>
         </TView>
         <View>
-          {currentSheet === 'list' && (
-            <ScrollView style={tw`mt-2`}>
+          {currentSheet === 'list' ? (
+            <View style={tw`mt-5 flex-row gap-2 flex-wrap`}>
               {tagList?.map((x: any) => {
                 const isAssigned = userContent?.tags?.includes(x.value);
                 return (
-                  <TouchableOpacity
-                    onPress={v => {
-                      handleToggle(x.label, isAssigned);
-                    }}
-                    key={x._id}
-                    style={tw`p-1 flex-row gap-1 border justify-between mb-2 rounded-lg border-gray-300`}>
-                    <TText style={tw`font-bold ml-2`}>{x.label}</TText>
-                    <RNBouncyCheckbox
-                      onPress={v => {
-                        handleToggle(x.label, isAssigned);
-                      }}
-                      size={20}
-                      useBuiltInState={false}
-                      fillColor={colors.primary}
-                      isChecked={isAssigned}
-                    />
-                  </TouchableOpacity>
+                  <ToggleButton
+                    onPress={() => handleToggle(x.label, isAssigned)}
+                    textStyle={tw`text-xs`}
+                    isActive={isAssigned}>
+                    {x.label}
+                  </ToggleButton>
                 );
               })}
-            </ScrollView>
-          )}
-        </View>
-
-        <>
-          {currentSheet === 'create-tag' && (
+              <ToggleButton
+                textStyle={tw`text-xs`}
+                onPress={() => {
+                  setCurrentSheet('create');
+                }}>
+                {currentSheet !== 'list' ? 'Add to tag list' : '+ Create'}
+              </ToggleButton>
+            </View>
+          ) : (
             <>
               <View style={tw`my-4`}>
-                <TText>Tag Name</TText>
+                <TText style={tw`text-white`}>Tag Name</TText>
                 <TextInput
+                  cursorColor={'white'}
                   style={tw.style(
-                    `px-2 py-1 rounded-lg border my-1 `,
+                    `px-2 py-1 rounded-lg border my-1 border-primary text-white  `,
                     error.length > 0 && 'border-red-400',
                   )}
+                  autoFocus={true}
                   placeholder="Enter a tag name"
                   value={tagInput}
                   onChangeText={v => {
@@ -268,16 +279,25 @@ export default function ContentActionBar({
                   <TText style={tw`text-red-400`}>{error}</TText>
                 )}
               </View>
-              <TButton
-                onPress={handleCreateTag}
-                disabled={tagInput.length == 0}
-                textStyle={tw`w-full py-2`}>
-                Create Tag
-              </TButton>
+              <View style={tw`flex-row justify-between`}>
+                <ToggleButton
+                  onPress={handleCreateTag}
+                  // style={tw`mx-auto`}
+                  disabled={tagInput.length == 0}>
+                  Create Tag
+                </ToggleButton>
+                <ToggleButton
+                  // textStyle={tw`text-xs`}
+                  onPress={() => {
+                    setCurrentSheet('list');
+                  }}>
+                  Cancel
+                </ToggleButton>
+              </View>
             </>
           )}
-        </>
-      </ActionSheet>
+        </View>
+      </RNActionSheet>
     </View>
   );
 }

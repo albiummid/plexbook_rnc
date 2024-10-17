@@ -156,12 +156,12 @@ export function BottomTab() {
     <Tab.Navigator
       screenOptions={({route, navigation}) => ({
         headerShown: false,
-        tabBarHideOnKeyboard: true,
+        // tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: colors.active_tint,
         tabBarInactiveTintColor: colors.inactive_tint,
         headerShadowVisible: false,
         tabBarShowLabel: false,
-        tabBarStyle: tw`bg-black`,
+        tabBarStyle: tw`bg-black h-10`,
       })}>
       {tabScreens.map((item, index) => {
         return (

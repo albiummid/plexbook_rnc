@@ -76,11 +76,12 @@ export default function SelectedActionBar() {
               text: 'Yes',
               onPress: async () => {
                 try {
-                  const res = await api.post('/content/delete-from-tag', {
+                  const data = {
                     tagId: selectedTagId,
-                    userId,
+                    userId: ldbValues.getUserId(),
                     contentIds: selectedIds,
-                  });
+                  };
+                  const res = await api.post('/content/delete-from-tag', data);
                   ToastAndroid.show(res.data.message, 500);
                 } catch (err) {
                   ToastAndroid.show(String(err), 500);
@@ -93,6 +94,9 @@ export default function SelectedActionBar() {
     },
   ].filter(x => {
     if (selectedTagId === '' && x.label === 'Move') {
+      return false;
+    }
+    if (contentType === 'person' && ['Copy', 'Move'].includes(x.label)) {
       return false;
     }
     return true;

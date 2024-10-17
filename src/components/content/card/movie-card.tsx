@@ -66,7 +66,9 @@ export const CollectionMovieCard = (
         router.push('movie_details', {id: props.data.id});
       }}>
       <MovieCard contentId={props.data.id} data={props.data} disable={true} />
-      <TText style={tw`text-center text-white`}>{props.data.title}</TText>
+      <TText numberOfLines={1} style={tw`text-center text-white`}>
+        {props.data.title}
+      </TText>
       <Text
         style={[
           tw`text-9xl text-white/60 bg-black/20 text-right h-full w-full font-bold absolute`,

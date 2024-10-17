@@ -6,28 +6,31 @@ import TImage from '../../components/ui/TImage';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
 import TabGroupButtons from '../../components/ui/TabGroupButtons';
-import {useGetInfiniteList} from '../../libs/api/queries';
+import {useGetInfiniteList, useTagList} from '../../libs/api/queries';
 import {ldbValues} from '../../libs/localDB';
 import {router} from '../../libs/navigation/navigator';
 import tw from '../../libs/tailwind';
-import {getPosterImageURL} from '../../libs/tmdb';
+import {getPosterImageURL, getProfileImageURL} from '../../libs/tmdb';
 import {useContentState} from '../../libs/zustand';
 import SelectedActionBar from './SelectedActionBar';
 import TagSection from './TagSection';
 
 export default function ContentSection() {
   const userId = ldbValues.getUserId();
-  const {contentType, selectedTag, setContentType} = useContentState();
+  const {contentType, selectedTag, setContentType, setSelectedTag} =
+    useContentState();
   const subTabItems = [
     {
-      // label: `Movies (${selectedList.movieList.length})`,
       label: `Movies `,
       value: 'movie',
     },
     {
-      // label: `TV Series (${selectedList.tvList.length})`,
       label: `TV Series `,
       value: 'tv',
+    },
+    {
+      label: 'Person',
+      value: 'person',
     },
   ];
 
@@ -41,6 +44,8 @@ export default function ContentSection() {
     },
   );
 
+  const {data: tagList, ...tagListReq} = useTagList(userId);
+
   return (
     <TView style={tw`mt-5 flex-1 `}>
       <TabGroupButtons
@@ -50,6 +55,9 @@ export default function ContentSection() {
         textStyle={tw`text-white`}
         onChange={v => {
           setContentType(v as any);
+          if (v === 'person') {
+            setSelectedTag(tagList.find(x => x.value === 'favorite'));
+          }
         }}
       />
 
@@ -86,12 +94,11 @@ export default function ContentSection() {
 
 const ContentCard = ({data}: any) => {
   const {selectedIds, toggleItem} = useContentState();
+  const contentType = data.content.contentType;
   const posterURI =
-    data?.content?.posterPath?.length > 0
-      ? getPosterImageURL(data?.content?.posterPath, 'w185')
-      : Image.resolveAssetSource(
-          require('../../assets/images/poster_fallback.png'),
-        ).uri;
+    contentType === 'person'
+      ? getProfileImageURL(data?.content?.posterPath, 'w154')
+      : getPosterImageURL(data?.content?.posterPath, 'w185');
   const isSelected = useMemo(
     () => selectedIds?.includes(data?.content?._id),
     [selectedIds, data],

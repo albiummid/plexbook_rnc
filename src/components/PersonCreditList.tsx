@@ -44,19 +44,23 @@ export default function PersonCreditList({
             <>
               <FlatList
                 horizontal
-                data={uniqueArray(contentCredit?.cast) as TMovieCastCredit[]}
+                data={
+                  contentCredit?.cast?.sort(
+                    (a, b) => b.vote_average - a.vote_average,
+                  ) as TMovieCastCredit[]
+                }
                 keyExtractor={(i, idx) => String(idx) + i}
                 renderItem={({item}) =>
                   contentKind === 'movie' ? (
                     <MovieCard
                       contentId={item.id}
-                      style={tw`ml-2`}
+                      style={tw`ml-2 w-24`}
                       data={item as any}
                     />
                   ) : (
                     <SeriesCard
                       contentId={item.id}
-                      style={tw`ml-2`}
+                      style={tw`ml-2 w-24`}
                       data={item as any}
                     />
                   )

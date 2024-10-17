@@ -13,10 +13,10 @@ import {useContentState} from '../../libs/zustand';
 export default function TagSection() {
   const userId = ldbValues.getUserId();
   const {data: tagList, ...tagListReq} = useTagList(userId);
-  const {selectedTag, setSelectedTag, selectedTagId, selectedIds} =
+  const {selectedTag, setSelectedTag, selectedTagId, selectedIds, contentType} =
     useContentState();
 
-  if (selectedIds.length > 0) return null;
+  if (selectedIds.length > 0 || contentType === 'person') return null;
   return (
     <View>
       <ScrollView

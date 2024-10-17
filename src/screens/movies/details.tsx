@@ -73,16 +73,17 @@ export default function MovieDetailScreen({
                 <TText style={tw`text-white text-xs`}>
                   {Number(details?.vote_average).toFixed(1)}
                 </TText>
+                <Icons.Entypo name="dot-single" color={'white'} />
               </TView>
-              <Icons.Entypo name="dot-single" color={'white'} />
+
               {detailsReq.isSuccess && (
                 <>
                   <TText style={tw`text-white text-xs`}>
                     {getDuration(details?.runtime)}
                   </TText>
-                  <Icons.Entypo name="dot-single" color={'white'} />
                 </>
               )}
+              <Icons.Entypo name="dot-single" color={'white'} />
               <TText style={tw`text-white text-xs`}>
                 {moment(details?.release_date).format('YYYY')}
               </TText>
