@@ -31,7 +31,7 @@ export default function MovieCard({data, style, disable}: CardProps) {
         }
       }}
       activeOpacity={0.5}
-      style={[tw`h-40  w-24  rounded-lg`, style]}>
+      style={[tw`h-40  w-full  rounded-lg`, style]}>
       <TImage
         style={tw`h-full w-full rounded-lg`}
         source={{uri: getPosterImageURL(data.poster_path, 'w154')}}
@@ -61,25 +61,18 @@ export const CollectionMovieCard = (
 ) => {
   return (
     <TouchableOpacity
-      style={tw`w-24`}
+      style={[tw`w-26`, props.style]}
       onPress={() => {
         router.push('movie_details', {id: props.data.id});
       }}>
-      <LinearGradient
-        colors={['transparent', 'black']}
-        start={{x: 1, y: 1}}
-        end={{x: 1, y: 0}}
-        key={props.index}
-        style={[tw`relative`, props.style]}>
-        <MovieCard contentId={props.data.id} data={props.data} disable={true} />
-        <TText>{props.data.title}</TText>
-        <Text
-          style={[
-            tw`text-9xl text-white/60 bg-black/20 text-right h-full w-full font-bold absolute`,
-          ]}>
-          {props.index + 1}
-        </Text>
-      </LinearGradient>
+      <MovieCard contentId={props.data.id} data={props.data} disable={true} />
+      <TText style={tw`text-center text-white`}>{props.data.title}</TText>
+      <Text
+        style={[
+          tw`text-9xl text-white/60 bg-black/20 text-right h-full w-full font-bold absolute`,
+        ]}>
+        {props.index + 1}
+      </Text>
     </TouchableOpacity>
   );
 };

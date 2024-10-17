@@ -30,9 +30,17 @@ export default function RecommendedList(
           showsHorizontalScrollIndicator={false}
           renderItem={({item}) =>
             props.contentKind === 'movie' ? (
-              <MovieCard contentId={item.id} style={tw`mx-2`} data={item} />
+              <MovieCard
+                contentId={item.id}
+                style={tw`mr-2 w-24`}
+                data={item}
+              />
             ) : (
-              <SeriesCard contentId={item.id} style={tw`mx-2`} data={item} />
+              <SeriesCard
+                contentId={item.id}
+                style={tw`mr-2 w-24`}
+                data={item}
+              />
             )
           }
         />

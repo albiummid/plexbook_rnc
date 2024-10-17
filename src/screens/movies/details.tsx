@@ -124,7 +124,7 @@ export default function MovieDetailScreen({
       <MovieInfo data={details} isLoading={detailsReq.isLoading} />
 
       {/* Image list */}
-      <ContentImageList id={id} contentKind={'movie'} />
+      <ContentImageList id={id} contentKind={'movie'} label={details.title} />
       {/* Recommended List */}
       <RecommendedList contentId={id} contentKind="movie" />
     </TScrollView>

@@ -33,6 +33,7 @@ import {ldbValues} from '../localDB';
 import tw from '../tailwind';
 import {RouteName} from './navigator';
 import CollectionDetails from '../../screens/collection';
+import ImageScreen from '../../screens/ImageScreen';
 
 type TTabScreenListItem = {
   name: RouteName;
@@ -71,6 +72,10 @@ export type RootStackParamList = {
   tab_admin: undefined;
   list: undefined;
   temp: undefined;
+  image_screen: {
+    type: 'poster' | 'backdrop' | 'profile';
+    list: any[];
+  };
   topic_list: {
     contentKind: 'movie' | 'tv';
     topicKind: string;
@@ -183,6 +188,7 @@ export const authenticatedStack = [
   StackScreen('season_details', SeasonDetails),
   StackScreen('person_details', PersonDetailScreen),
   StackScreen('collection_details', CollectionDetails),
+  StackScreen('image_screen', ImageScreen),
 ];
 
 export const nonAuthStack = [

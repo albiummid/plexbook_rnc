@@ -76,13 +76,17 @@ export default function TopicSection({
                 return (
                   <MovieCard
                     contentId={item.id}
-                    style={tw`mx-2`}
+                    style={tw`w-24 mr-3`}
                     data={item as TMovieListItem}
                   />
                 );
               } else {
                 return (
-                  <SeriesCard style={tw`mx-2`} data={item as TSeriesListItem} />
+                  <SeriesCard
+                    style={tw`mr-3 w-24`}
+                    contentId={item.id}
+                    data={item as TSeriesListItem}
+                  />
                 );
               }
             }}

@@ -37,7 +37,7 @@ export default function CollectionList({
               <CollectionMovieCard
                 contentId={item.id}
                 disable={id === item.id}
-                style={tw`mx-2 border-primary rounded-lg ${
+                style={tw`mr-2 border-primary rounded-lg ${
                   id === item.id ? 'border' : ''
                 }`}
                 data={item as TMovieListItem}
