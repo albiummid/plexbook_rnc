@@ -37,9 +37,6 @@ export default function ContentImageList(
     },
     props.contentKind === 'person',
   );
-  if (props.contentKind === 'person') {
-    console.log(taggedImages, images);
-  }
 
   const ImageCard = ({
     type,
@@ -119,7 +116,7 @@ export default function ContentImageList(
 
   return (
     <Section label={'Images'} labelColor="white">
-      <TView stack="hStack" style={tw`gap-2`} mX={8}>
+      <TView stack="hStack" style={tw`gap-2`}>
         {props.contentKind === 'person' ? (
           <>
             <ImageCard

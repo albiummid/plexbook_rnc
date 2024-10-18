@@ -19,7 +19,7 @@ export default function CastCard(
 
   return (
     <TouchableOpacity
-      style={props.style}
+      style={[tw`w-24`, props.style]}
       activeOpacity={0.5}
       onPress={() => {
         router.navigate('person_details', {id: props.id});
@@ -27,10 +27,12 @@ export default function CastCard(
       <TView style={tw`h-32 w-24 mx-auto mb-2`}>
         <Image style={tw`h-full w-full rounded-3xl`} source={{uri: imageURL}} />
       </TView>
-      <TText style={tw` text-white text-xs text-center`}>
+      <TText numberOfLines={1} style={tw` text-white text-xs text-center`}>
         {props.character}
       </TText>
-      <TText style={tw` text-white text-center font-bold`}>{props.name}</TText>
+      <TText numberOfLines={1} style={tw` text-white text-center font-bold`}>
+        {props.name}
+      </TText>
     </TouchableOpacity>
   );
 }

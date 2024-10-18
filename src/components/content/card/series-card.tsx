@@ -70,7 +70,6 @@ export const CollectionSeriesCard = (
       colors={['transparent', 'black']}
       start={{x: 1, y: 1}}
       end={{x: 1, y: 0.5}}
-      key={props.index}
       style={[tw``, props.style]}>
       <SeriesCard
         contentId={props.data.id}

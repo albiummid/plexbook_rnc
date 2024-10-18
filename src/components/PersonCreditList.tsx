@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList} from 'react-native';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import tw from '../libs/tailwind';
 import {usePersonContentCredit} from '../libs/tmdb';
 import {uniqueArray} from '../libs/utils/helpers';
@@ -46,25 +46,37 @@ export default function PersonCreditList({
                 horizontal
                 data={
                   contentCredit?.cast?.sort(
-                    (a, b) => b.vote_average - a.vote_average,
+                    (a: any, b: any) => b.vote_average - a.vote_average,
                   ) as TMovieCastCredit[]
                 }
                 keyExtractor={(i, idx) => String(idx) + i}
-                renderItem={({item}) =>
-                  contentKind === 'movie' ? (
-                    <MovieCard
-                      contentId={item.id}
-                      style={tw`ml-2 w-24`}
-                      data={item as any}
-                    />
-                  ) : (
-                    <SeriesCard
-                      contentId={item.id}
-                      style={tw`ml-2 w-24`}
-                      data={item as any}
-                    />
-                  )
-                }
+                renderItem={({item}) => (
+                  <TouchableOpacity style={tw`w-24 mr-2`}>
+                    {contentKind === 'movie' ? (
+                      <MovieCard
+                        contentId={item.id}
+                        style={tw` w-24`}
+                        data={item as any}
+                      />
+                    ) : (
+                      <SeriesCard
+                        contentId={item.id}
+                        style={tw` w-24`}
+                        data={item as any}
+                      />
+                    )}
+                    <TText
+                      numberOfLines={1}
+                      style={tw`text-xs text-center text-white  mt-1`}>
+                      {item?.character}
+                    </TText>
+                    <TText
+                      numberOfLines={1}
+                      style={tw` font-bold text-center text-white `}>
+                      {contentKind === 'movie' ? item.title : item.name}
+                    </TText>
+                  </TouchableOpacity>
+                )}
               />
             </>
           )}

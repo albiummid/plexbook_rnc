@@ -19,7 +19,6 @@ export default function GenreList(props: ScreenProps<'genre_list'>) {
   const [activeLanguage, setActiveLanguage] = useState(
     languageList.find(x => x.name === 'English')?.iso_639_1,
   );
-
   const {id, contentKind} = props.route.params;
   const {data: seriesList, ...seriesReq} = useDiscoverSeries(
     {
@@ -76,13 +75,21 @@ export default function GenreList(props: ScreenProps<'genre_list'>) {
           }
           estimatedItemSize={40}
           contentContainerStyle={tw``}
-          renderItem={({item}) => {
+          renderItem={({item, index}: {item: any; index: number}) => {
             return (
               <View style={tw``}>
                 {contentKind === 'movie' ? (
-                  <MovieCard contentId={item.id} style={tw``} data={item} />
+                  <MovieCard
+                    contentId={item.id}
+                    style={tw` w-24`}
+                    data={item}
+                  />
                 ) : contentKind === 'tv' ? (
-                  <SeriesCard contentId={item.id} style={tw``} data={item} />
+                  <SeriesCard
+                    contentId={item.id}
+                    style={tw`w-24`}
+                    data={item}
+                  />
                 ) : null}
               </View>
             );

@@ -28,7 +28,7 @@ export default function TText(props: TTextProps) {
     Object.values(utils).filter(Boolean).join(' ').trim(),
   );
   return (
-    <Text style={[utilStyles, tw`text-white`, props.style]} {...props}>
+    <Text style={[tw`text-white`, utilStyles, props.style]} {...props}>
       {props.children}
     </Text>
   );

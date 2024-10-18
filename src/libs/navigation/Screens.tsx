@@ -34,6 +34,7 @@ import tw from '../tailwind';
 import {RouteName} from './navigator';
 import CollectionDetails from '../../screens/collection';
 import ImageScreen from '../../screens/ImageScreen';
+import ContentList from '../../screens/content/content-list';
 
 type TTabScreenListItem = {
   name: RouteName;
@@ -79,6 +80,9 @@ export type RootStackParamList = {
   topic_list: {
     contentKind: 'movie' | 'tv';
     topicKind: string;
+  };
+  content_list: {
+    tagId: string;
   };
   cast_list: {
     id: number;
@@ -189,6 +193,7 @@ export const authenticatedStack = [
   StackScreen('person_details', PersonDetailScreen),
   StackScreen('collection_details', CollectionDetails),
   StackScreen('image_screen', ImageScreen),
+  StackScreen('content_list', ContentList),
 ];
 
 export const nonAuthStack = [

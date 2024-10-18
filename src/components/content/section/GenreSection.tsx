@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleProp, ViewStyle} from 'react-native';
+import {ScrollView, StyleProp, Text, View, ViewStyle} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {router} from '../../../libs/navigation/navigator';
 import tw from '../../../libs/tailwind';
@@ -7,6 +7,7 @@ import {Genre} from '../../../types/contents/series.types';
 import Section from '../../Section';
 import TText from '../../ui/TText';
 import TView from '../../ui/TView';
+import ToggleButton from '../../ui/ToggleButton';
 
 export default function GenreSection({
   genres,
@@ -18,25 +19,26 @@ export default function GenreSection({
   style?: StyleProp<ViewStyle>;
 }) {
   return (
-    <Section label="Genres">
-      <ScrollView horizontal>
-        <TView style={[tw`items-center flex-row flex-wrap gap-2`, style]}>
-          {genres?.map(x => {
-            return (
-              <TouchableOpacity
-                key={x?.id}
-                onPress={() => {
-                  router.navigate('genre_list', {id: x.id, contentKind});
-                }}>
-                <TText
-                  style={tw`text-xs px-2 py-1 rounded-lg border text-primary border-primary `}>
-                  {x?.name}
+    <TView style={[tw`flex-row flex-wrap pr-5`, style]}>
+      {genres?.map((x, i) => {
+        return (
+          <TouchableOpacity
+            onPress={() => {
+              router.navigate('genre_list', {id: x.id, contentKind});
+            }}
+            key={i}>
+            <TText style={tw` text-primary text-xs font-semibold`}>
+              {i !== 0 && (
+                <TText style={tw` text-primary font-semibold text-xs`}>
+                  {' '}
+                  |{' '}
                 </TText>
-              </TouchableOpacity>
-            );
-          })}
-        </TView>
-      </ScrollView>
-    </Section>
+              )}
+              {x?.name}
+            </TText>
+          </TouchableOpacity>
+        );
+      })}
+    </TView>
   );
 }

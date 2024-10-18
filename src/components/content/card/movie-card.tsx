@@ -10,14 +10,12 @@ import TImage from '../../ui/TImage';
 import Icons from '../../ui/vector-icons';
 import TText from '../../ui/TText';
 
-type CardProps = PropsWithChildren<
-  {
-    contentId: number;
-    data: TMovieListItem;
-    style?: ViewStyle;
-    disable?: boolean;
-  } & ViewProps
->;
+type CardProps = PropsWithChildren<{
+  contentId: number;
+  data: TMovieListItem;
+  style?: ViewStyle;
+  disable?: boolean;
+}>;
 
 export default function MovieCard({data, style, disable}: CardProps) {
   return (
@@ -59,13 +57,22 @@ export default function MovieCard({data, style, disable}: CardProps) {
 export const CollectionMovieCard = (
   props: CardProps & {index: number; disable: boolean},
 ) => {
+  if (!props.data?.release_date) {
+    return null;
+  }
   return (
     <TouchableOpacity
       style={[tw`w-24`, props.style]}
+      disabled={props.disable}
       onPress={() => {
         router.push('movie_details', {id: props.data.id});
       }}>
-      <MovieCard contentId={props.data.id} data={props.data} disable={true} />
+      <MovieCard
+        contentId={props.data.id}
+        data={props.data}
+        style={tw.style(props.disable && `border-2 border-primary`)}
+        disable={true}
+      />
       <TText numberOfLines={1} style={tw`text-center text-white`}>
         {props.data.title}
       </TText>

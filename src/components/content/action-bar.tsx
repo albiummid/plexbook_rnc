@@ -53,7 +53,7 @@ const ActionButton = ({
     <TouchableOpacity disabled={isLoading} onPress={onPress}>
       <Icon
         name={iconName}
-        size={25}
+        size={20}
         style={tw.style(
           ` mr-auto p-2 rounded-full`,
           isEnabled ? 'bg-primary text-white' : 'text-primary bg-white',
@@ -163,6 +163,10 @@ export default function ContentActionBar({
     }
   };
 
+  const handleShareContent = async () => {
+    // console.log('L');
+  };
+
   if (!contentKind) return null;
 
   return (
@@ -209,6 +213,13 @@ export default function ContentActionBar({
           />
         </>
       )}
+
+      <ActionButton
+        isEnabled={false}
+        onPress={handleShareContent}
+        Icon={Icons.Feather}
+        iconName="share-2"
+      />
 
       <RNActionSheet
         onClose={() => {

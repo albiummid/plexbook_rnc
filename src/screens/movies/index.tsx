@@ -6,7 +6,7 @@ import TScrollView from '../../components/ui/TScrollView';
 import tw from '../../libs/tailwind';
 export default function MoviesHomeScreen() {
   return (
-    <TScrollView style={tw`bg-black`}>
+    <TScrollView style={tw`bg-black px-2 pt-2`}>
       <HomeHeader />
       <FeaturedMovieList contentKind="movie" />
       <TopicSection

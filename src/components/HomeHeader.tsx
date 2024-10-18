@@ -10,7 +10,7 @@ export default function HomeHeader() {
   if (!user) return;
 
   return (
-    <View style={tw`flex-row justify-between px-2 py-4  `}>
+    <View style={tw`flex-row justify-between items-center  `}>
       <View>
         <TText style={tw`text-2xl text-white font-bold`}>Plexbook</TText>
         <TText style={tw`text-sm text-white`}>Hi, {user?.displayName}</TText>

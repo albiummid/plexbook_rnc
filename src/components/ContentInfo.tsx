@@ -13,21 +13,20 @@ export function MovieInfo(
   }>,
 ) {
   return (
-    <Section label="Movie Info" labelColor="white" style={tw`px-2 `}>
+    <Section label="Movie Info" labelColor="white" style={tw``}>
       <InfoCard
         textColor={'white'}
         label="Original Name"
         value={props.data?.original_title}
         isLoading={props.isLoading}
       />
-      <TDivider vertical gap={5} />
+
       <InfoCard
         textColor={'white'}
         isLoading={props.isLoading}
         label={'Status'}
         value={props.data?.status}
       />
-      <TDivider vertical gap={5} />
 
       <InfoCard
         textColor={'white'}
@@ -35,7 +34,6 @@ export function MovieInfo(
         label={'Runtime'}
         value={getDuration(props.data?.runtime)}
       />
-      <TDivider vertical gap={5} />
 
       <InfoCard
         textColor={'white'}
@@ -45,7 +43,6 @@ export function MovieInfo(
           .map(x => x.english_name ?? x.name)
           .join(', ')}
       />
-      <TDivider vertical gap={5} />
 
       <InfoCard
         textColor={'white'}
@@ -53,7 +50,6 @@ export function MovieInfo(
         label={'Budget'}
         value={getMoneyStr(props.data?.budget ?? 0)}
       />
-      <TDivider vertical gap={5} />
 
       <InfoCard
         textColor={'white'}
@@ -61,28 +57,24 @@ export function MovieInfo(
         label={'Revenue'}
         value={getMoneyStr(props.data?.revenue ?? 0)}
       />
-      <TDivider vertical gap={5} />
       <InfoCard
         textColor={'white'}
         isLoading={props.isLoading}
         label={'Tagline'}
         value={props.data?.tagline}
       />
-      <TDivider vertical gap={5} />
       <InfoCard
         textColor={'white'}
         isLoading={props.isLoading}
         label={'Production Companies'}
         value={props.data?.production_companies.map(x => x.name).join(' ,\n')}
       />
-      <TDivider vertical gap={5} />
       <InfoCard
         textColor={'white'}
         isLoading={props.isLoading}
         label={'Production Countries'}
         value={props.data?.production_countries.map(x => x.name).join(', ')}
       />
-      <TDivider vertical gap={5} />
     </Section>
   );
 }

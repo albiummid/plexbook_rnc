@@ -55,17 +55,3 @@ export default function InfoCard(props: {
     </TView>
   );
 }
-
-// {typeof props.value === 'string' ||
-//     (typeof props.value === 'number' ? (
-//       <TText
-//         style={[tw.style(utilClasses.basic, 'flex-1'), props.valueStyle]}>
-//         {typeof props.value === 'number'
-//           ? props.value > 0
-//             ? props.value
-//             : 'N/A'
-//           : props.value ?? 'N/A'}
-//       </TText>
-//     ) : (
-//       <>{props.value}</>
-//     ))}

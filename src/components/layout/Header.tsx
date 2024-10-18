@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleProp, TextStyle, View} from 'react-native';
+import {StyleProp, TextStyle, View, ViewStyle} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {router} from '../../libs/navigation/navigator';
 import tw from '../../libs/tailwind';
@@ -9,13 +9,19 @@ export default function Header({
   title,
   textStyle,
   onBackPress,
+  containerStyle,
 }: {
   title?: string;
   textStyle?: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
   onBackPress?: () => void;
 }) {
   return (
-    <View style={tw`p-2 flex-row items-center justify-between z-10 `}>
+    <View
+      style={[
+        tw` flex-row items-center justify-between z-10 `,
+        containerStyle,
+      ]}>
       <TouchableOpacity
         style={tw`ml-auto`}
         onPress={() => {

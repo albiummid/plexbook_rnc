@@ -1,7 +1,7 @@
 import {useQuery} from '@tanstack/react-query';
 import moment from 'moment';
 import React from 'react';
-import {Image, ImageBackground} from 'react-native';
+import {Image, ImageBackground, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ArtistList from '../../components/ArtistList';
 import ContentActionBar from '../../components/content/action-bar';
@@ -23,13 +23,16 @@ import {
   getBackdropImageURL,
   getContentDetailsById,
   getPosterImageURL,
+  tmdbGET,
 } from '../../libs/tmdb';
 import {TSeriesDetails} from '../../types/contents/series.types';
+import Ratings from '../../components/content/Ratings';
+import DetailsHero from '../../components/content/DetailsHero';
 
 export default function SeriesDetailScreen({
   route,
 }: ScreenProps<'series_details'>) {
-  const {id, data} = route.params;
+  const {id} = route.params;
   const {data: details, ...detailsReq} = useQuery({
     queryKey: ['movie-details', id],
     queryFn: async () => {
@@ -45,80 +48,27 @@ export default function SeriesDetailScreen({
 
   return (
     <TScrollView style={tw`bg-black`}>
-      <ImageBackground
-        blurRadius={1}
-        source={{
-          uri: getBackdropImageURL(details.backdrop_path as string, 'w300'),
-        }}>
-        <Header textStyle={tw`text-white text-base`} />
-        <LinearGradient
-          style={tw`absolute bottom-0 w-full h-80`}
-          colors={['transparent', 'black']}
-          start={{x: 0, y: 0.5}}
-          end={{x: 0, y: 1}}
-        />
-        <TView
-          stack="hStack"
-          alignItems="end"
-          justifyContent="center"
-          style={tw` mt-5 mx-2 `}>
-          <TView gapY={1} style={tw` flex-1`}>
-            {/* Poster side intro */}
-            <TText style={tw`text-white font-bold text-xl`}>
-              {details?.name}
-            </TText>
-            {/*  */}
-            {/* <Ratings imdbId={details.}/> */}
+      <DetailsHero contentKind="tv" details={details} id={id} />
+      <View style={tw`px-2`}>
+        {/* Season */}
+        <SeasonSection data={details} />
 
-            <TView stack="hStack" gapX={1} alignItems="center">
-              <TView stack="hStack" gap={1} alignItems="center">
-                <Icons.AntDesign style={tw`text-primary`} name="star" />
-                <TText style={tw`text-white text-xs`}>
-                  {Number(details?.vote_average).toFixed(1)}
-                </TText>
-              </TView>
-              <Icons.Entypo name="dot-single" color={'white'} />
-              <TText style={tw`text-white text-xs`}>
-                {moment(details?.first_air_date).format('MMMM YYYY')}
-              </TText>
-            </TView>
-            <ContentActionBar
-              data={details}
-              style={tw`mt-1`}
-              contentKind={'tv'}
-              id={id}
-            />
-          </TView>
-          <Image
-            style={tw`h-48 w-32 rounded-lg border-2 border-primary`}
-            source={{uri: getPosterImageURL(details?.poster_path, 'w185')}}
-          />
-        </TView>
-      </ImageBackground>
-      {/* Genre */}
-      <GenreSection genres={details.genres} contentKind="tv" />
+        {/* Trailer section */}
+        <TrailerSection contentId={id} contentKind="tv" />
 
-      {/* Story Line */}
-      <StoryLine story={details?.overview} />
+        {/* Top Cast */}
+        <ArtistList id={id} contentKind={'tv'} />
+        {/* Collection */}
 
-      {/* Season */}
-      <SeasonSection data={details} />
+        {/* Content Info */}
 
-      {/* Trailer section */}
-      <TrailerSection contentId={id} contentKind="tv" />
+        {/* <MovieInfo data={details} isLoading={detailsReq.isLoading} /> */}
 
-      {/* Top Cast */}
-      <ArtistList id={id} contentKind={'tv'} />
-      {/* Collection */}
-
-      {/* Content Info */}
-
-      {/* <MovieInfo data={details} isLoading={detailsReq.isLoading} /> */}
-
-      {/* Image list */}
-      <ContentImageList id={id} contentKind={'tv'} label={details.name} />
-      {/* Recommended List */}
-      <RecommendedList contentId={id} contentKind="tv" />
+        {/* Image list */}
+        <ContentImageList id={id} contentKind={'tv'} label={details.name} />
+        {/* Recommended List */}
+        <RecommendedList contentId={id} contentKind="tv" />
+      </View>
     </TScrollView>
   );
 }
