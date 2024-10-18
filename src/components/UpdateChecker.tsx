@@ -6,10 +6,12 @@ import {
   Linking,
   Platform,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
 import * as RNFS from 'react-native-fs';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 import {
@@ -89,40 +91,42 @@ export default function UpdateChecker() {
   const [downloadStatus, setDownloadStatus] = useState('idle');
   const handleDownload = async () => {
     if (!updateFile) return;
-    let filePath = RNFS.DocumentDirectoryPath + updateFile?.fileName;
-    let isExists = await RNFS.exists(filePath);
+    // console.log(updateFile);
+    Linking.openURL(updateFile.fileLink);
+    // let filePath = RNFS.DocumentDirectoryPath + updateFile?.fileName;
+    // let isExists = await RNFS.exists(filePath);
 
-    if (isExists) {
-      openAPK(filePath);
-    }
+    // if (isExists) {
+    //   openAPK(filePath);
+    // }
 
-    if (downloadStatus === 'ended') {
-      openAPK(filePath);
-      return;
-    }
+    // if (downloadStatus === 'ended') {
+    //   openAPK(filePath);
+    //   return;
+    // }
 
-    if (!isExists) {
-      RNFS.downloadFile({
-        fromUrl: updateFile?.fileLink,
-        toFile: filePath,
-        progress: res => {
-          setDownloadStatus('started');
-          let pgs = (res.bytesWritten / res.contentLength).toFixed(2);
-          setDownloadProgress(pgs);
-        },
-        progressDivider: 1,
-      })
-        .promise.then(async result => {
-          setDownloadStatus('ended');
-          setDownloadProgress('1');
-          if (result.statusCode == 200) {
-            openAPK(filePath);
-          }
-        })
-        .catch(e => {
-          showToast({message: String(e), status: 'error'});
-        });
-    }
+    // if (!isExists) {
+    //   RNFS.downloadFile({
+    //     fromUrl: updateFile?.fileLink,
+    //     toFile: filePath,
+    //     progress: res => {
+    //       setDownloadStatus('started');
+    //       let pgs = (res.bytesWritten / res.contentLength).toFixed(2);
+    //       setDownloadProgress(pgs);
+    //     },
+    //     progressDivider: 1,
+    //   })
+    //     .promise.then(async result => {
+    //       setDownloadStatus('ended');
+    //       setDownloadProgress('1');
+    //       if (result.statusCode == 200) {
+    //         openAPK(filePath);
+    //       }
+    //     })
+    //     .catch(e => {
+    //       showToast({message: String(e), status: 'error'});
+    //     });
+    // }
   };
 
   if (!updateFile) return null;
@@ -188,23 +192,36 @@ export default function UpdateChecker() {
           progress={Number(downloadProgress)}
           styleAttr="Horizontal"
         />
-        <Text style={tw`text-center`}>{Number(downloadProgress) * 100}%</Text>
+        <Text style={tw`text-center`}>
+          {Number(Number(downloadProgress) * 100).toFixed(0)}%
+        </Text>
       </View>
 
-      <TouchableOpacity
-        disabled={downloadStatus === 'started'}
-        onPress={handleDownload}
-        style={tw`gap-2 w-1/2 mx-auto items-center my-2 bg-gray-300 px-4 py-2 rounded-lg`}>
-        <Text style={tw` text-center mx-auto`}>
-          {downloadStatus == 'idle'
-            ? 'Download'
-            : downloadStatus === 'started'
-            ? 'Downloading'
-            : downloadStatus === 'ended'
-            ? 'Open'
-            : 'Download again.'}
-        </Text>
-      </TouchableOpacity>
+      <View style={tw`flex-row justify-center items-center gap-5 mx-3`}>
+        <TouchableOpacity
+          disabled={downloadStatus === 'started'}
+          onPress={handleDownload}
+          style={tw`gap-2 w-1/2 mx-auto items-center my-2 bg-gray-300 px-4 py-2 rounded-lg`}>
+          <Text style={tw` text-center mx-auto`}>
+            {downloadStatus == 'idle'
+              ? 'Download'
+              : downloadStatus === 'started'
+              ? 'Downloading'
+              : downloadStatus === 'ended'
+              ? 'Open'
+              : 'Download again.'}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          disabled={downloadStatus === 'started'}
+          onPress={() => {
+            Clipboard.setString(updateFile.fileLink);
+            ToastAndroid.show('Link copied', ToastAndroid.SHORT);
+          }}
+          style={tw`gap-2 w-1/2 mx-auto items-center my-2 bg-gray-300 px-4 py-2 rounded-lg`}>
+          <Text style={tw` text-center mx-auto`}>Copy link</Text>
+        </TouchableOpacity>
+      </View>
     </RNActionSheet>
   );
 }

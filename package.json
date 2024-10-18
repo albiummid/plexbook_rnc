@@ -1,6 +1,6 @@
 {
   "name": "plexbook_rnc",
-  "version": "1.1.1",
+  "version": "2.1.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -15,6 +15,7 @@
     "rcStart": "cd android && ./gradlew clean && react-native start --reset-cache"
   },
   "dependencies": {
+    "@react-native-clipboard/clipboard": "^1.14.2",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-native-community/progress-bar-android": "^1.0.5",
     "@react-native-firebase/app": "^20.4.0",
