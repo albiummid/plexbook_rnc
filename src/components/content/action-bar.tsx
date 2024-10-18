@@ -214,12 +214,12 @@ export default function ContentActionBar({
         </>
       )}
 
-      <ActionButton
+      {/* <ActionButton
         isEnabled={false}
         onPress={handleShareContent}
         Icon={Icons.Feather}
         iconName="share-2"
-      />
+      /> */}
 
       <RNActionSheet
         onClose={() => {
