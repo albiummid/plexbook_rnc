@@ -25,7 +25,7 @@ export default function TrailerSection(props: {
         .filter(x => x.site === 'YouTube')
         .reverse();
 
-      setActiveItem(list[0].key);
+      setActiveItem(list[0]?.key);
       setPlaylist(list);
     }
   }, [playlist, videoList]);
@@ -42,7 +42,7 @@ export default function TrailerSection(props: {
             if (playlist.length == 0) {
               return;
             }
-            let index = playlist.findIndex((x: any) => x.key === activeItem);
+            let index = playlist.findIndex((x: any) => x?.key === activeItem);
             if (index + 1 === playlist.length) {
               return;
             } else {

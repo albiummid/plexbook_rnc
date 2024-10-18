@@ -48,7 +48,7 @@ export default function SearchScreen() {
 
   const debounce = useDebouncedCallback(v => {
     setKeyword(v);
-  }, 600);
+  }, 1000);
 
   useFocusEffect(
     useCallback(() => {

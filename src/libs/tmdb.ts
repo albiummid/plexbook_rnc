@@ -18,7 +18,7 @@ export const tmdbGET = async (path: string) => {
   } else {
     url = url + path + `?api_key=${key}`;
   }
-  console.log(url);
+  // console.log(url);
   return await axios.get(url);
 };
 
@@ -103,11 +103,11 @@ export const getGenreNames = (genreIds: number[]) => {
 
 export const getGenreList = (list: number[]) => {
   let gList: {id: number; name: string}[] = [];
-  list.forEach(x => {
+  list?.forEach(x => {
     if (genres[x]) {
       gList.push({
         id: x,
-        name: genres[x],
+        name: genres[x] ?? '',
       });
     }
   });

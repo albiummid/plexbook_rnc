@@ -42,6 +42,9 @@ export default function ContentSection() {
       cType: contentType,
       _limit: 12,
     },
+    {
+      enabled: Boolean(userId && contentType),
+    },
   );
 
   const {data: tagList, ...tagListReq} = useTagList(userId);
@@ -56,7 +59,7 @@ export default function ContentSection() {
         onChange={v => {
           setContentType(v as any);
           if (v === 'person') {
-            setSelectedTag(tagList.find(x => x.value === 'favorite'));
+            setSelectedTag(tagList.find((x: any) => x.value === 'favorite'));
           }
         }}
       />
@@ -68,9 +71,10 @@ export default function ContentSection() {
       </View>
 
       <FlashList
+        removeClippedSubviews
         data={userContentData}
         numColumns={3}
-        // contentContainerStyle={tw`m-5`}
+        // contentContainerStyle={tw`bg-red-400`}
         estimatedItemSize={40}
         onEndReachedThreshold={0.5}
         onEndReached={() => {
@@ -97,8 +101,8 @@ const ContentCard = ({data}: any) => {
   const contentType = data.content.contentType;
   const posterURI =
     contentType === 'person'
-      ? getProfileImageURL(data?.content?.posterPath, 'w154')
-      : getPosterImageURL(data?.content?.posterPath, 'w185');
+      ? getProfileImageURL(data?.content?.imagePath, 'w154')
+      : getPosterImageURL(data?.content?.imagePath, 'w185');
   const isSelected = useMemo(
     () => selectedIds?.includes(data?.content?._id),
     [selectedIds, data],
@@ -115,18 +119,21 @@ const ContentCard = ({data}: any) => {
           toggleItem(data.content._id);
         } else {
           router.push(
-            data.content.contentType === 'movie'
+            contentType === 'movie'
               ? 'movie_details'
-              : 'series_details',
+              : contentType === 'tv'
+              ? 'series_details'
+              : contentType === 'person'
+              ? 'person_details'
+              : 'tab_home',
             {
               id: data.content.tmdbId,
-              data: {poster_path: data.content.posterPath},
             },
           );
         }
       }}
       style={tw.style(
-        `flex-1 max-w-26 my-2`,
+        `flex-1 max-w-26 my-2 mx-auto`,
         isSelected && `border border-primary rounded-lg`,
       )}>
       <TImage

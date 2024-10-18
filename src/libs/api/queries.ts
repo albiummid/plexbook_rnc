@@ -1,4 +1,9 @@
-import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
+import {
+  QueryFunction,
+  UndefinedInitialDataInfiniteOptions,
+  useInfiniteQuery,
+  useQuery,
+} from '@tanstack/react-query';
 import {api} from '.';
 
 export const useTagList = (userId: string, ...queryProps: any) =>
@@ -16,6 +21,7 @@ export const useTagList = (userId: string, ...queryProps: any) =>
 export const useGetInfiniteList = (
   apiPath: string,
   query: Record<string, any>,
+  options: Partial<UndefinedInitialDataInfiniteOptions<QueryFunction>>,
 ) => {
   let queryHook = useInfiniteQuery({
     queryKey: [apiPath, {query}],
@@ -29,6 +35,7 @@ export const useGetInfiniteList = (
       const {data} = await api.get(`${apiPath}?${queries}`);
       return data.result;
     },
+    ...options,
   });
   return {
     ...queryHook,

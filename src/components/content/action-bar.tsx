@@ -85,6 +85,7 @@ export default function ContentActionBar({
     queries: [
       {
         queryKey: ['user-content', {userId, contentKind, id}],
+        enabled: Boolean(userId && contentKind),
         queryFn: async () => {
           const {data} = await api.get(
             `/content/user/list?userId=${userId}&tmdbId=${id}&cType=${contentKind}`,
@@ -242,6 +243,7 @@ export default function ContentActionBar({
                 const isAssigned = userContent?.tags?.includes(x.value);
                 return (
                   <ToggleButton
+                    key={x._id}
                     onPress={() => handleToggle(x.label, isAssigned)}
                     textStyle={tw`text-xs`}
                     isActive={isAssigned}>

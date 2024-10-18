@@ -38,7 +38,7 @@ export default function ContentImageList(
     props.contentKind === 'person',
   );
   if (props.contentKind === 'person') {
-    console.log(taggedImages);
+    console.log(taggedImages, images);
   }
 
   const ImageCard = ({
@@ -56,11 +56,12 @@ export default function ContentImageList(
         : type == 'backdrop'
         ? lists?.backdrops
         : type === 'logo'
-        ? lists.logos
+        ? lists?.logos
         : type === 'profile'
-        ? lists.profiles
-        : lists.results;
+        ? lists?.profiles
+        : lists?.results || [];
 
+    if (imageList?.length === 0) return null;
     return (
       <Skelton
         style={tw.style(
@@ -91,7 +92,7 @@ export default function ContentImageList(
                   : type === 'backdrop'
                   ? getBackdropImageURL(imageList?.[0]?.file_path, 'w780')
                   : type === 'profile'
-                  ? getProfileImageURL(imageList?.[0]?.file_path, 'w500')
+                  ? getProfileImageURL(imageList?.[0]?.file_path, 'original')
                   : type === 'tagged_images'
                   ? getStillImageURL(imageList?.[0]?.file_path, 'original')
                   : getLogoImageURL(imageList?.[0]?.file_path, 'w300'),
@@ -100,7 +101,7 @@ export default function ContentImageList(
           <TText
             style={tw`text-white text-center absolute bottom-0 mx-auto w-full bg-black/60 p-2 `}
             color={'white'}>
-            {imageList.length}{' '}
+            {imageList?.length}{' '}
             {type === 'profile'
               ? 'Profiles'
               : type === 'backdrop'

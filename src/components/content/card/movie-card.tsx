@@ -61,7 +61,7 @@ export const CollectionMovieCard = (
 ) => {
   return (
     <TouchableOpacity
-      style={[tw`w-26`, props.style]}
+      style={[tw`w-24`, props.style]}
       onPress={() => {
         router.push('movie_details', {id: props.data.id});
       }}>

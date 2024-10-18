@@ -26,12 +26,19 @@ export default function ImageScreen({...props}) {
     poster: 'Posters',
     backdrop: 'Backdrops',
     profile: 'Person Images',
+    tagged_images: 'Tagged Images',
   };
 
   const activeImageURI =
-    type == 'poster'
+    type === 'poster'
       ? getPosterImageURL(active?.file_path, 'original')
-      : getBackdropImageURL(active?.file_path, 'original');
+      : type === 'backdrop'
+      ? getBackdropImageURL(active?.file_path, 'original')
+      : type === 'profile'
+      ? getProfileImageURL(active?.file_path, 'original')
+      : type === 'tagged_images'
+      ? getStillImageURL(active?.file_path, 'original')
+      : getLogoImageURL(active?.file_path, 'w300');
 
   const handleDownload = async () => {
     const hasPermission = await requestStoragePermission();
@@ -112,32 +119,31 @@ export default function ImageScreen({...props}) {
           setActive(null);
         }}>
         <View style={tw`bg-black/80 flex-1 h-full`}>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={tw`ml-auto p-1`}
-            onPress={() => {
-              setActive(null);
-            }}>
-            <Icons.AntDesign
-              name="close"
-              size={25}
-              style={tw`bg-primary mr-auto rounded-full p-1`}
-            />
-          </TouchableOpacity>
-
-          <View style={tw` flex-1  justify-center  gap-2`}>
+          <View style={tw` my-auto  gap-2`}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={tw` ml-auto mr-2 `}
+              onPress={() => {
+                setActive(null);
+              }}>
+              <Icons.AntDesign
+                name="close"
+                size={25}
+                style={tw`bg-primary mr-auto rounded-full p-1`}
+              />
+            </TouchableOpacity>
             <Image
               source={{
                 uri: activeImageURI,
               }}
               style={[
-                tw.style(`rounded-lg m-2   `),
+                tw.style(`rounded-lg mx-2   `),
                 {
                   aspectRatio: active?.aspect_ratio,
                 },
               ]}
             />
-            <View>
+            {/* <View>
               <ToggleButton
                 onPress={() => {
                   handleDownload();
@@ -145,7 +151,7 @@ export default function ImageScreen({...props}) {
                 style={tw`mx-auto`}>
                 Download
               </ToggleButton>
-            </View>
+            </View> */}
           </View>
         </View>
       </Modal>

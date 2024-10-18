@@ -28,6 +28,7 @@ import {
   getPosterImageURL,
 } from '../../libs/tmdb';
 import {TMovieDetails} from '../../types/contents/movie.types';
+import ToggleButton from '../../components/ui/ToggleButton';
 
 export default function MovieDetailScreen({
   route,
@@ -65,16 +66,22 @@ export default function MovieDetailScreen({
               {details?.title}
             </TText>
             {/*  */}
-            <Ratings imdbId={details.imdb_id} />
+            {details.status === 'Released' ? (
+              <Ratings imdbId={details.imdb_id} />
+            ) : (
+              <ToggleButton textStyle={tw`text-xs`}>Unreleased</ToggleButton>
+            )}
 
             <TView stack="hStack" gapX={1} alignItems="center">
-              <TView stack="hStack" gap={1} alignItems="center">
-                <Icons.AntDesign style={tw`text-primary`} name="star" />
-                <TText style={tw`text-white text-xs`}>
-                  {Number(details?.vote_average).toFixed(1)}
-                </TText>
-                <Icons.Entypo name="dot-single" color={'white'} />
-              </TView>
+              {details.status === 'Released' && (
+                <TView stack="hStack" gap={1} alignItems="center">
+                  <Icons.AntDesign style={tw`text-primary`} name="star" />
+                  <TText style={tw`text-white text-xs`}>
+                    {Number(details?.vote_average).toFixed(1)}
+                  </TText>
+                  <Icons.Entypo name="dot-single" color={'white'} />
+                </TView>
+              )}
 
               {detailsReq.isSuccess && (
                 <>
@@ -120,12 +127,13 @@ export default function MovieDetailScreen({
         />
       )}
 
+      {/* Image list */}
+      <ContentImageList id={id} contentKind={'movie'} label={details.title} />
+
       {/* Content Info */}
 
       <MovieInfo data={details} isLoading={detailsReq.isLoading} />
 
-      {/* Image list */}
-      <ContentImageList id={id} contentKind={'movie'} label={details.title} />
       {/* Recommended List */}
       <RecommendedList contentId={id} contentKind="movie" />
     </TScrollView>

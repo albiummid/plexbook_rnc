@@ -41,7 +41,9 @@ export function MovieInfo(
         textColor={'white'}
         isLoading={props.isLoading}
         label={'Spoken Language'}
-        value={props.data?.spoken_languages.map(x => x.english_name).join(', ')}
+        value={props.data?.spoken_languages
+          .map(x => x.english_name ?? x.name)
+          .join(', ')}
       />
       <TDivider vertical gap={5} />
 
