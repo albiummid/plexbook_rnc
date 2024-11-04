@@ -8,14 +8,14 @@ import Animated, {
 import TText from '../components/ui/TText';
 import TView from '../components/ui/TView';
 import {colors} from '../constants/colors';
-import {useFirebaseAuth} from '../libs/firebase';
+import {useDynamicLinks, useFirebaseAuth} from '../libs/firebase';
 import {router} from '../libs/navigation/navigator';
 import tw from '../libs/tailwind';
 import {getMS, wait} from '../libs/utils/helpers';
+import {useAuthState} from '../libs/zustand';
 
 export default function SplashScreen() {
-  const {isAuthenticated, isLoading} = useFirebaseAuth();
-  const [spinning, setSpinning] = useState(true);
+  const {isAuthenticated, isLoading, hasDeepLink} = useAuthState();
   const scale = useSharedValue(1);
 
   useEffect(() => {
@@ -32,16 +32,11 @@ export default function SplashScreen() {
   }, []);
 
   useEffect(() => {
-    if (!isLoading) {
-      wait(getMS.second(1.6)).then(() => {
-        if (isAuthenticated) {
-          router.replace('tab_root');
-        } else {
-          router.replace('onboarding');
-        }
-      });
-    }
-  }, [isAuthenticated, isLoading, spinning]);
+    if (hasDeepLink || isLoading) return;
+    wait(getMS.second(3)).then(() => {
+      router.replace(isAuthenticated ? 'tab_root' : 'onboarding');
+    });
+  }, [hasDeepLink, isAuthenticated, isLoading]);
 
   return (
     <TView style={tw`flex-1 bg-black  `}>

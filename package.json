@@ -1,6 +1,7 @@
 {
   "name": "plexbook_rnc",
   "version": "2.1.0",
+  "versionCode": 3,
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -8,18 +9,20 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "signReport": "cd android && ./gradlew signingReport",
+    "signingReport": "cd android && ./gradlew signingReport",
     "buildAndroid": "react-native build-android --mode=release",
     "releaseAPK": "cd android && ./gradlew assembleRelease",
     "bnr": "npm run buildAndroid && npm run releaseAPK",
     "rcStart": "cd android && ./gradlew clean && react-native start --reset-cache"
   },
   "dependencies": {
+    "@notifee/react-native": "^9.1.2",
     "@react-native-clipboard/clipboard": "^1.14.2",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-native-community/progress-bar-android": "^1.0.5",
     "@react-native-firebase/app": "^20.4.0",
     "@react-native-firebase/auth": "^20.4.0",
+    "@react-native-firebase/dynamic-links": "^21.3.0",
     "@react-native-google-signin/google-signin": "^12.2.1",
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/native": "^6.1.18",

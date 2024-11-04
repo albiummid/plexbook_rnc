@@ -17,7 +17,12 @@ export const signInWithGoogle = async () => {
   await GoogleSignin.hasPlayServices();
   const {idToken} = await GoogleSignin.signIn();
   const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-  return await auth().signInWithCredential(googleCredential);
+  const {additionalUserInfo} = await auth().signInWithCredential(
+    googleCredential,
+  );
+  const {accessToken} = await GoogleSignin.getTokens();
+
+  return {accessToken, userInfo: additionalUserInfo?.profile};
 };
 
 export const signOut = async () => {
@@ -155,3 +160,77 @@ export const useFirebaseAuth = () => {
 // import database from '@react-native-firebase/database';
 // import {ToastAndroid} from 'react-native';
 // export const userDB = (userId: string) => database().ref(`/users/${userId}`);
+
+import dynamicLinks, {
+  FirebaseDynamicLinks,
+  FirebaseDynamicLinksTypes,
+} from '@react-native-firebase/dynamic-links';
+import {urlHelper} from './utils/helpers';
+
+export async function createLink(
+  params: Record<string, any>,
+  linkInfo?: {
+    description: string;
+    imageURL: string;
+    title: string;
+  },
+) {
+  let link = `https://github.com/albiummid/plexbook_rnc/releases?${urlHelper.paramObjectToParams(
+    params,
+  )}`;
+  return await dynamicLinks().buildLink({
+    link,
+    android: {
+      minimumVersion: '3',
+      packageName: 'com.plexbook_rnc',
+      fallbackUrl: 'https://github.com/albiummid/plexbook_rnc/releases',
+    },
+    social:
+      linkInfo !== null
+        ? {
+            descriptionText: linkInfo?.description,
+            imageUrl: linkInfo?.imageURL,
+            title: linkInfo?.title,
+          }
+        : undefined,
+    // domainUriPrefix is created in your Firebase console
+    domainUriPrefix: 'https://plexbook.page.link',
+    // optional setup which updates Firebase analytics campaign
+    // "banner". This also needs setting up before hand
+  });
+}
+
+export const useDynamicLinks = ({
+  foregroundHandler = () => {},
+  backgroundOrQuitHandler = () => {},
+}: {
+  foregroundHandler?: (
+    link: FirebaseDynamicLinksTypes.DynamicLink | null,
+  ) => void;
+  backgroundOrQuitHandler?: (
+    link: FirebaseDynamicLinksTypes.DynamicLink | null,
+  ) => void;
+}) => {
+  const [hasBackgroundLink, setHasBackgroundLink] = useState(false);
+  useEffect(() => {
+    // For background / quit events
+    dynamicLinks()
+      .getInitialLink()
+      .then(link => {
+        // ...set initial route as offers screen
+        setHasBackgroundLink(link !== null);
+        backgroundOrQuitHandler(link);
+      });
+
+    // Foreground events
+    const unsubscribe = dynamicLinks().onLink(link => {
+      // Handle dynamic link inside your own application
+      // ...navigate to your offers screen
+      foregroundHandler(link);
+    });
+    return () => unsubscribe();
+  }, []);
+  return {
+    hasBackgroundLink,
+  };
+};

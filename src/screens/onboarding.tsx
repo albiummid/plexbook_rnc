@@ -9,11 +9,12 @@ import Icons from '../components/ui/vector-icons';
 import {api} from '../libs/api';
 import {deviceInfo} from '../libs/device';
 import {signInWithGoogle, useFirebaseAuth} from '../libs/firebase';
-import {localDB} from '../libs/localDB';
+import {ldbValues, localDB} from '../libs/localDB';
 import {router} from '../libs/navigation/navigator';
 import tw from '../libs/tailwind';
 import {hp, wp} from '../libs/utils/Scaling';
-import {useOnboarding} from '../libs/zustand';
+import {logout, useAuthState, useOnboarding} from '../libs/zustand';
+import ToggleButton from '../components/ui/ToggleButton';
 
 export default function OnboardingScreen() {
   const halfPage = {height: wp(80), width: wp(100)};
@@ -159,32 +160,23 @@ const FirstScreen = () => {
 };
 
 const SecondScreen = () => {
-  const {user, isAuthenticated} = useFirebaseAuth();
-  const {
-    setSelectedGenre,
-    setSelectedLanguage,
-    setUserDetails,
-    enableScrolling,
-  } = useOnboarding();
+  const {user, isAuthenticated} = useAuthState();
   const handleGoogleSignIn = async () => {
     try {
-      const res = await signInWithGoogle();
-      const user = await api.post('/auth/signIn/google', {
-        uid: res.user.uid,
-        userInfo: res.additionalUserInfo,
+      const {accessToken} = await signInWithGoogle();
+      const {data} = await api.post('/auth/sign-in/social/google', {
+        accessToken,
         deviceInfo: await deviceInfo(),
       });
-      setUserDetails(user.data.result);
-      setSelectedGenre(user.data.result.userPreference?.genreList ?? []);
-      setSelectedLanguage(user.data.result.userPreference?.languageList ?? []);
-      localDB.set('userId', user.data.result._id);
-      localDB.set('userInfo', JSON.stringify(user.data.result));
-      // ToastAndroid.showWithGravity(
-      //   `Welcome back ${res.user.displayName} !`,
-      //   2000,
-      //   ToastAndroid.TOP,
-      // );
-      // enableScrolling();
+
+      useAuthState.setState({
+        userId: data.result.user._id,
+        user: data.result.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+      ldbValues.setUserId(data.result.user._id);
+      ldbValues.setUserInfo(data.result.user);
     } catch (err) {
       if (String(err?.message) === 'Sign in action cancelled') {
         ToastAndroid.show(`User cancelled`, 1000);
@@ -229,13 +221,20 @@ const SecondScreen = () => {
       {isAuthenticated && (
         <TView style={tw`items-center`}>
           <Image
-            source={{uri: user?.photoURL ?? ''}}
+            source={{uri: user?.picture ?? ''}}
             style={tw`h-26 w-26 rounded-full mb-5`}
           />
           <TText style={tw`text-lg text-white font-semibold`}>
-            {user?.displayName}
+            {user?.name}
           </TText>
           <TText color={'white'}>logged in with {user?.email}</TText>
+          <ToggleButton
+            textStyle={tw`mt-1 w-40 text-center`}
+            onPress={() => {
+              logout();
+            }}>
+            Logout
+          </ToggleButton>
         </TView>
       )}
     </TView>

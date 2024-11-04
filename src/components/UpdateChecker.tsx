@@ -32,7 +32,7 @@ export default function UpdateChecker() {
   const {data: latestVersion} = useQuery({
     queryKey: ['latest-version'],
     queryFn: async () => {
-      let {data} = await api.get('/auth/version/latest');
+      let {data} = await api.get('/app/version/latest');
       return data.result;
     },
   });

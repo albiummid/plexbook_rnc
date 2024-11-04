@@ -7,7 +7,7 @@ import {
   NativeStackNavigationOptions,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import {PropsWithChildren} from 'react';
+import {PropsWithChildren, useEffect} from 'react';
 import Icons from '../../components/ui/vector-icons';
 import {colors} from '../../constants/colors';
 import AdminScreen from '../../screens/admin/AdminScreen';
@@ -31,10 +31,12 @@ import {TMovieListItem} from '../../types/contents/movie.types';
 import {Season, TSeriesListItem} from '../../types/contents/series.types';
 import {ldbValues} from '../localDB';
 import tw from '../tailwind';
-import {RouteName} from './navigator';
+import {NavigationProvider, RouteName, router} from './navigator';
 import CollectionDetails from '../../screens/collection';
 import ImageScreen from '../../screens/ImageScreen';
-import ContentList from '../../screens/content/content-list';
+import ContentList from '../../screens/content/tag-contents';
+import TagContents from '../../screens/content/tag-contents';
+import {Linking} from 'react-native';
 
 type TTabScreenListItem = {
   name: RouteName;
@@ -81,7 +83,7 @@ export type RootStackParamList = {
     contentKind: 'movie' | 'tv';
     topicKind: string;
   };
-  content_list: {
+  tag_contents: {
     tagId: string;
   };
   cast_list: {
@@ -181,7 +183,7 @@ export function BottomTab() {
   );
 }
 
-export const authenticatedStack = [
+export const authStacks = [
   StackScreen('tab_root', BottomTab, {}),
   StackScreen('list', ListScreen),
   StackScreen('topic_list', TopicListScreen),
@@ -193,40 +195,38 @@ export const authenticatedStack = [
   StackScreen('person_details', PersonDetailScreen),
   StackScreen('collection_details', CollectionDetails),
   StackScreen('image_screen', ImageScreen),
-  StackScreen('content_list', ContentList),
+  StackScreen('tag_contents', TagContents),
 ];
 
 export const nonAuthStack = [
   StackScreen('splash', SplashScreen),
   StackScreen('onboarding', Onboarding),
-  StackScreen('login', LoginScreen),
-  // Screen('RegisterScreen', RegisterScreen),
 ];
 
-export const mergedStacks = [...nonAuthStack, ...authenticatedStack];
+export const mergedStacks = [...nonAuthStack, ...authStacks];
 
 export type ScreenProps<T extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, T>;
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
+
 export function RootNavigator() {
   return (
-    <RootStack.Navigator
-      // initialRouteName={
-      //   process.env.NODE_ENV === 'development' ? 'temp' : 'splash'
-      // }
-      screenOptions={{
-        headerShown: false,
-      }}>
-      {mergedStacks.map((item: any, index: number) => {
-        return (
-          <RootStack.Screen
-            key={index}
-            name={item.name}
-            component={item.component}
-          />
-        );
-      })}
-    </RootStack.Navigator>
+    <NavigationProvider>
+      <RootStack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        {mergedStacks.map((item: any, index: number) => {
+          return (
+            <RootStack.Screen
+              key={index}
+              name={item.name}
+              component={item.component}
+            />
+          );
+        })}
+      </RootStack.Navigator>
+    </NavigationProvider>
   );
 }

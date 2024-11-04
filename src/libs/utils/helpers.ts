@@ -20,7 +20,6 @@ export function fisherYatesShuffle(array: any[]) {
   // }
   return clone;
 }
-
 export const wait = (ms: number) =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -60,3 +59,24 @@ export function compareVersions(version1: string, version2: string) {
 
   return 'equal'; // versions are equal
 }
+
+export const urlHelper = {
+  urlToParamObject: (url?: string) => {
+    if (!url || !url.includes('?')) {
+      return null;
+    }
+    const param: any = {};
+    url
+      .split('?')[1]
+      ?.split('&')
+      .forEach(x => {
+        let [key, value] = x.split('=');
+        param[key] = value;
+      });
+    return param;
+  },
+  paramObjectToParams: (object: Record<string, any>) =>
+    Object.entries(object)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&'),
+};

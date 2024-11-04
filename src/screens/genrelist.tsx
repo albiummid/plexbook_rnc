@@ -68,13 +68,13 @@ export default function GenreList(props: ScreenProps<'genre_list'>) {
           renderItem={({item}) => <ContentSkelton />}
         />
       ) : (
-        <FlashList
+        <FlatList
           numColumns={3}
           data={
             contentKind === 'movie' ? movieList.results : seriesList.results
           }
-          estimatedItemSize={40}
-          contentContainerStyle={tw``}
+          contentContainerStyle={tw`mx-auto gap-2`}
+          columnWrapperStyle={tw`gap-2`}
           renderItem={({item, index}: {item: any; index: number}) => {
             return (
               <View style={tw``}>

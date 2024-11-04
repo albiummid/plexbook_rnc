@@ -9,5 +9,7 @@ export const ldb = {
 };
 export const ldbValues = {
   getUserId: () => localDB.getString('userId') ?? '',
-  getUserInfo: () => ldb.getObject('userInfo') ?? null,
+  setUserId: (userId: string) => localDB.set('userId', userId) ?? '',
+  getUserInfo: () => ldb.getObject('user') ?? null,
+  setUserInfo: (user: any) => ldb.setObject('user', user),
 };

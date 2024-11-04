@@ -1,7 +1,10 @@
 import {useQueries} from '@tanstack/react-query';
 import React, {useRef, useState} from 'react';
 import {
+  Alert,
+  Linking,
   ScrollView,
+  Share,
   StyleProp,
   TextInput,
   ToastAndroid,
@@ -12,7 +15,7 @@ import {
 import ActionSheet from 'react-native-actions-sheet';
 import RNBouncyCheckbox from 'react-native-bouncy-checkbox';
 import {colors} from '../../constants/colors';
-import {api} from '../../libs/api';
+import {api, baseURL, localServerURL} from '../../libs/api';
 import {ldbValues} from '../../libs/localDB';
 import tw from '../../libs/tailwind';
 import {labelToValue} from '../../libs/utils/helpers';
@@ -29,39 +32,14 @@ import {
   RNActionSheet,
   sheetIds,
 } from '../sheets/ActionSheet';
+import {createLink} from '../../libs/firebase';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {ActionButton} from './action-button';
 type ActionBarProps = {
   contentKind: ContentKind;
   id: number;
   style?: StyleProp<ViewStyle>;
   data: any;
-};
-
-const ActionButton = ({
-  isLoading,
-  onPress,
-  Icon,
-  iconName,
-  isEnabled,
-}: {
-  isLoading: boolean;
-  onPress: () => void;
-  Icon: any;
-  iconName: string;
-  isEnabled: boolean;
-}) => {
-  return (
-    <TouchableOpacity disabled={isLoading} onPress={onPress}>
-      <Icon
-        name={iconName}
-        size={20}
-        style={tw.style(
-          ` mr-auto p-2 rounded-full`,
-          isEnabled ? 'bg-primary text-white' : 'text-primary bg-white',
-          isLoading && ' opacity-80',
-        )}
-      />
-    </TouchableOpacity>
-  );
 };
 
 export default function ContentActionBar({
@@ -70,6 +48,7 @@ export default function ContentActionBar({
   style,
 }: ActionBarProps) {
   const userId = ldbValues.getUserId();
+
   const sheetRef = useRef(null);
   const [tagInput, setTagInput] = useState('');
 
@@ -164,7 +143,25 @@ export default function ContentActionBar({
   };
 
   const handleShareContent = async () => {
-    // console.log('L');
+    let dynamicLink = await createLink({
+      contentKind,
+      tmdbId: id,
+      type: 'content',
+      sharerId: userId,
+    });
+    const {data} = await api.post('/app/share', {
+      contentKind,
+      tmdbId: id,
+      url: dynamicLink,
+      sharerId: userId,
+    });
+    // console.log(data);
+    const {_id, slug} = data.result;
+    const shareLink = baseURL + `/app/share/${_id}/${contentKind}/${slug}`;
+    Share.share({
+      message: shareLink,
+    });
+    // Linking.openURL(shareLink);
   };
 
   if (!contentKind) return null;
@@ -214,12 +211,13 @@ export default function ContentActionBar({
         </>
       )}
 
-      {/* <ActionButton
+      <ActionButton
+        isLoading={false}
         isEnabled={false}
         onPress={handleShareContent}
         Icon={Icons.Feather}
         iconName="share-2"
-      /> */}
+      />
 
       <RNActionSheet
         onClose={() => {

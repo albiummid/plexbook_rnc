@@ -17,7 +17,7 @@ export const queryClient = new QueryClient({
 });
 export default function ProviderWrapper({children}: PropsWithChildren) {
   return (
-    <NavigationProvider>
+    <>
       <GestureHandlerRootView>
         <PersistQueryClientProvider
           client={queryClient}
@@ -28,6 +28,6 @@ export default function ProviderWrapper({children}: PropsWithChildren) {
         </PersistQueryClientProvider>
       </GestureHandlerRootView>
       <FloatingToast />
-    </NavigationProvider>
+    </>
   );
 }

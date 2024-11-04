@@ -25,7 +25,10 @@ export default function Header({
       <TouchableOpacity
         style={tw`ml-auto`}
         onPress={() => {
-          router.goBack();
+          let backed = router.goBack();
+          if (!backed) {
+            router.push('tab_root');
+          }
         }}>
         <Icons.AntDesign
           name="left"

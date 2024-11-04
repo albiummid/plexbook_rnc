@@ -28,7 +28,7 @@ export default function Versions() {
   const {data: listData, ...vReq} = useQuery({
     queryKey: ['version-list'],
     queryFn: async () => {
-      const {data} = await api.get('/auth/version/list');
+      const {data} = await api.get('/app/version/list');
       return data.result;
     },
   });
@@ -42,7 +42,7 @@ export default function Versions() {
       return Alert.alert('Invalid version', 'Please enter a valid version.');
     }
     await api
-      .post('/auth/version/publish', {version: text})
+      .post('/app/version/publish', {version: text})
       .then(x => {
         vReq.refetch();
         closeSheet('publish-version');
@@ -78,7 +78,7 @@ export default function Versions() {
                   isPreferred: true,
                   onPress: () => {
                     api
-                      .delete('/auth/version/' + item._id)
+                      .delete('/app/version/' + item._id)
                       .then(d => {
                         vReq.refetch();
                       })

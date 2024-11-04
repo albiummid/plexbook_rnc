@@ -4,12 +4,16 @@ import TImage from '../../components/ui/TImage';
 import TText from '../../components/ui/TText';
 import TView from '../../components/ui/TView';
 import Icons from '../../components/ui/vector-icons';
-import {signOut, useFirebaseAuth} from '../../libs/firebase';
-import {router} from '../../libs/navigation/navigator';
 import tw from '../../libs/tailwind';
 import ContentSection from './ContentSection';
+import {LoadingSpinner} from '../../components/ui/Loading';
+import {logout, useAuthState} from '../../libs/zustand';
 export default function ProfileScreen() {
-  const {user} = useFirebaseAuth();
+  const {user, isLoading} = useAuthState();
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <View style={tw`px-2 flex-1 bg-black`}>
@@ -30,9 +34,7 @@ export default function ProfileScreen() {
                   text: 'Logout',
                   style: 'default',
                   onPress: () => {
-                    signOut().then(() => {
-                      router.navigate('onboarding');
-                    });
+                    logout();
                   },
                 },
               ],
@@ -47,7 +49,7 @@ export default function ProfileScreen() {
         <TImage
           source={{
             uri:
-              user?.photoURL ??
+              user?.picture ??
               Image.resolveAssetSource(
                 require('../../assets/images/avatar.webp'),
               ).uri,
@@ -55,9 +57,7 @@ export default function ProfileScreen() {
           style={tw`h-10 w-10 rounded-full`}
         />
         <TView>
-          <TText style={tw`text-base font-bold text-white`}>
-            {user?.displayName}
-          </TText>
+          <TText style={tw`text-base font-bold text-white`}>{user?.name}</TText>
           <TText style={tw`text-white text-xs`}>{user?.email}</TText>
         </TView>
       </TView>

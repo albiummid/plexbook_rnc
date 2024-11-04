@@ -1,6 +1,10 @@
 import {MMKV} from 'react-native-mmkv';
 import {create} from 'zustand';
 import {createJSONStorage, persist, StateStorage} from 'zustand/middleware';
+import {User} from '../types/models';
+import {signOut} from './firebase';
+import {localDB} from './localDB';
+import {router} from './navigation/navigator';
 
 const storage = new MMKV();
 
@@ -152,3 +156,33 @@ export const useContentState = create<ContentState>((set, get) => ({
     });
   },
 }));
+
+interface AuthStore {
+  hasDeepLink: boolean;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  user: null | {
+    name: string;
+    _id: string;
+    picture: string | null;
+    email: string;
+  };
+  userId: string;
+}
+
+const initialState = {
+  hasDeepLink: false,
+  isAuthenticated: false,
+  isLoading: true,
+  user: null,
+  userId: '',
+};
+export const useAuthState = create<AuthStore>((set, get) => initialState);
+
+export const logout = () => {
+  signOut().then(() => {
+    localDB.clearAll();
+    useAuthState.setState(initialState);
+    router.reset('onboarding');
+  });
+};

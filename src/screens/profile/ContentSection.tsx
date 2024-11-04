@@ -1,6 +1,12 @@
 import {FlashList} from '@shopify/flash-list';
 import React, {useMemo} from 'react';
-import {ActivityIndicator, Image, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  Share,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import CreateAndUpdateTagSheet from '../../components/sheets/TagSheet';
 import TImage from '../../components/ui/TImage';
 import TText from '../../components/ui/TText';
@@ -14,6 +20,10 @@ import {getPosterImageURL, getProfileImageURL} from '../../libs/tmdb';
 import {useContentState} from '../../libs/zustand';
 import SelectedActionBar from './SelectedActionBar';
 import TagSection from './TagSection';
+import {ActionButton} from '../../components/content/action-button';
+import Icons from '../../components/ui/vector-icons';
+import {createLink} from '../../libs/firebase';
+import {api, baseURL} from '../../libs/api';
 
 export default function ContentSection() {
   const userId = ldbValues.getUserId();
@@ -48,6 +58,10 @@ export default function ContentSection() {
   );
 
   const {data: tagList, ...tagListReq} = useTagList(userId);
+  let totalItems = useMemo(
+    () => userContentReq.data?.pages[0]?.pagination?.totalItems || 0,
+    [userContentReq],
+  );
 
   return (
     <TView style={tw`mt-5 flex-1 `}>
@@ -85,7 +99,50 @@ export default function ContentSection() {
         renderItem={({item, index}) => {
           return <ContentCard data={item} index={index} />;
         }}
-        ListHeaderComponent={<View style={tw`mt-2`}></View>}
+        ListHeaderComponent={
+          <View style={tw`mt-2 flex-row justify-around`}>
+            <View>
+              <TText>
+                Category -{' '}
+                <TText style={tw`font-semibold`}>
+                  {selectedTag?.label ?? 'All'}
+                </TText>
+              </TText>
+              <TText>
+                Contents - <TText style={tw`font-semibold`}>{totalItems}</TText>
+              </TText>
+            </View>
+            {selectedTag ? (
+              <ActionButton
+                isLoading={false}
+                isEnabled={false}
+                onPress={async () => {
+                  let dynamicLink = await createLink({
+                    tagId: selectedTag._id,
+                    type: 'tagContents',
+                    sharerId: userId,
+                    contentKind: contentType,
+                  });
+                  const {data} = await api.post('/app/share', {
+                    tagId: selectedTag._id,
+                    url: dynamicLink,
+                    sharerId: userId,
+                    contentKind: contentType,
+                  });
+                  // console.log(data);
+                  const {_id, slug} = data.result;
+                  const shareLink =
+                    baseURL + `/app/share/${_id}/category/${slug}`;
+                  Share.share({
+                    message: shareLink,
+                  });
+                }}
+                Icon={Icons.Feather}
+                iconName="share-2"
+              />
+            ) : null}
+          </View>
+        }
         ListFooterComponent={
           <View style={tw`mb-20`}>
             {userContentReq.isFetchingNextPage && <ActivityIndicator />}
